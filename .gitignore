@@ -1,0 +1,31 @@
+/logs
+*.log
+out
+bin/**
+chatApplication/Benchmarking-ChatApp-Protokolldatei
+
+#Eclipse
+#.classpath
+#.project
+.settings/
+
+#IntelliJ
+.idea/
+*.iml
+*.iws
+
+#Misc
+tmp/**
+tmp/**/*
+*.swp
+.loadpath
+.metadata
+.launch
+.buildpath
+
+#Mac OS
+.DS_Store
+/bin
+
+#wildfly logs
+wildfly-13\.0\.0\.Final/standalone/configuration/standalone_xml_history/

@@ -565,8 +565,11 @@
         </outbound-socket-binding>
     </socket-binding-group>
     <deployments>
-        <deployment name="VerteilteChatApp-1.0-SNAPSHOT" runtime-name="VerteilteChatApp-1.0-SNAPSHOT.war" enabled="false">
+        <deployment name="VerteilteChatApp-1.0-SNAPSHOT" runtime-name="VerteilteChatApp-1.0-SNAPSHOT.war">
             <fs-exploded path="/Users/AWesthoff/Documents/Studium/Master/3/Verteilte/VerteilteChatApp/target/VerteilteChatApp-1.0-SNAPSHOT"/>
+        </deployment>
+        <deployment name="server-1.0-SNAPSHOT" runtime-name="server-1.0-SNAPSHOT.war" enabled="false">
+            <fs-exploded path="/Users/AWesthoff/Documents/Studium/Master/3/Verteilte/chat/server/target/server-1.0-SNAPSHOT"/>
         </deployment>
     </deployments>
 </server>
