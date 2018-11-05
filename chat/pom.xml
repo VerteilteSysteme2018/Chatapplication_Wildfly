@@ -5,14 +5,24 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>hm.edu.dako</groupId>
-    <artifactId>chat</artifactId>
+    <artifactId>chatServer</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>server</module>
         <module>common</module>
         <module>client</module>
-        <module>server</module>
     </modules>
 
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.wildfly/wildfly-client-all -->
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-client-all</artifactId>
+            <version>13.0.0.Final</version>
+        </dependency>
+
+    </dependencies>
 
 </project>

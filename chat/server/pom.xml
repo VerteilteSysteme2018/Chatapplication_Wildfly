@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>chat</artifactId>
+        <artifactId>chatServer</artifactId>
         <groupId>hm.edu.dako</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
@@ -17,12 +17,30 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.sonatype.sisu</groupId>
+            <artifactId>sisu-inject-bean</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.jms</groupId>
+            <artifactId>jboss-jms-api_2.0_spec</artifactId>
+            <version>1.0.0.Final</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>hm.edu.dako</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 
 </project>
