@@ -41,9 +41,7 @@ public class ChatProcess implements MessageListener {
             } catch (JMSException e) {
                 e.printStackTrace();
             }
-
         }
-
     }
 
     /**

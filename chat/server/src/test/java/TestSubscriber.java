@@ -116,9 +116,9 @@ public class TestSubscriber {
                 TopicSession session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
                 TopicSubscriber subscriber = session.createSubscriber((Topic) this.topic);
                 try {
-                    TextMessage m = (TextMessage) subscriber.receive(10000);
-                    System.out.print(m.getText());
-                    ObjectMessage objectMessage = (ObjectMessage) subscriber.receive(10000);
+                    //TextMessage m = (TextMessage) subscriber.receive(100000);
+                    //System.out.print(m.getText());
+                    ObjectMessage objectMessage = (ObjectMessage) subscriber.receive(100000);
                     System.out.print(objectMessage.getObject().toString());
                 } catch (JMSException e) {
                     e.printStackTrace();
