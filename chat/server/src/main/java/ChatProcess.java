@@ -31,16 +31,25 @@ public class ChatProcess implements MessageListener {
             //TODO add transaction
             //TODO add check if user is logged in
 
+
             //set server time of the pdu and publish it to the topic
             ObjectMessage objectMessage = (ObjectMessage) message;
             try {
                 ChatMessage chatMessage = (ChatMessage) objectMessage.getObject();
-                //TODO do any db transaction with the message stuff
-                sendMessageToTopic(message);
+                if (userLoggedIn(chatMessage.getUserName())) {
+                    //TODO do any db transaction with the message stuff
+                    sendMessageToTopic(message);
+                }
+
             } catch (JMSException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private boolean userLoggedIn(String userName) {
+        // TODO implement user request to topic
+        return true;
     }
 
     /**

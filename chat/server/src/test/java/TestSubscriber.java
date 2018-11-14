@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 /**
  * Zusammenkopiertes Zeug um ein Topic zu abonnieren.
- * Funktioniert auch noch nicht ;)
  * TODO AWE fix
  */
 public class TestSubscriber {
@@ -20,7 +19,7 @@ public class TestSubscriber {
     private static final String DEFAULT_USERNAME = "user";
     private static final String DEFAULT_PASSWORD = "user";
     private static final String PROVIDER_URL = "http-remoting://127.0.0.1:8080";
-    private static final Logger log = Logger.getLogger(TestClient.class.getName());
+    private static final Logger log = Logger.getLogger(TestSubscriber.class.getName());
 
     //DEFAULTS REST SERVICE
     private static final String REST_SERVICE_URL = "chatServer-web/rest";
@@ -118,8 +117,12 @@ public class TestSubscriber {
                 try {
                     //TextMessage m = (TextMessage) subscriber.receive(100000);
                     //System.out.print(m.getText());
-                    ObjectMessage objectMessage = (ObjectMessage) subscriber.receive(100000);
-                    System.out.print(objectMessage.getObject().toString());
+                    while (true) {
+                        ObjectMessage objectMessage = (ObjectMessage) subscriber.receive(5000);
+                        if(objectMessage != null) {
+                            System.out.print(objectMessage.getObject().toString());
+                        }
+                    }
                 } catch (JMSException e) {
                     e.printStackTrace();
                 }
