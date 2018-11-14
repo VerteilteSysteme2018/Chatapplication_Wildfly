@@ -29,15 +29,14 @@ public class ChatProcess implements MessageListener {
 
         if (message instanceof ObjectMessage) {
             //TODO add transaction
-            //TODO add logged-in check with response pdus (deliver via another topic?)
-            //TODO add db-actions
+            //TODO add check if user is logged in
 
             //set server time of the pdu and publish it to the topic
-            ObjectMessage pduMessage = (ObjectMessage) message;
+            ObjectMessage objectMessage = (ObjectMessage) message;
             try {
-                ChatPDU chatPDU = (ChatPDU) pduMessage.getObject();
-                chatPDU.setServerTime(System.currentTimeMillis());
-                sendMessageToTopic(pduMessage);
+                ChatMessage chatMessage = (ChatMessage) objectMessage.getObject();
+                //TODO do any db transaction with the message stuff
+                sendMessageToTopic(message);
             } catch (JMSException e) {
                 e.printStackTrace();
             }
@@ -100,8 +99,8 @@ public class ChatProcess implements MessageListener {
         if (message instanceof ObjectMessage) {
             ObjectMessage pduMessage = (ObjectMessage) message;
             try {
-                ChatPDU pdu = (ChatPDU) pduMessage.getObject();
-                System.out.println("Die Message aus dem PDU ist weitergeleitet und zwar: " + pdu.getMessage() + " Zeit:"+ new Date(pdu.getServerTime()));
+                ChatMessage chatMessage = (ChatMessage) pduMessage.getObject();
+                System.out.println("Die Message aus dem PDU ist weitergeleitet und zwar: " + chatMessage.getMessage());
             } catch (JMSException e) {
                 e.printStackTrace();
             }

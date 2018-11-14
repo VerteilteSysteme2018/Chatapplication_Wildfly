@@ -110,7 +110,7 @@ public class TestClient {
                     try {
                         ObjectMessage pduMessage =
                                 session.createObjectMessage();
-                        ChatPDU pdu = new ChatPDU();
+                        ChatMessage pdu = new ChatMessage();
                         pdu.setMessage("PDU Test Message");
                         pdu.setUserName("Test User");
                         pduMessage.setObject(pdu);
