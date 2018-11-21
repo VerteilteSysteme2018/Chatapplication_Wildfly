@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  countdb:
+    image: 'bitnami/mariadb:latest'
+    ports:
+      - '3310:3306'
+    environment:
+         - MARIADB_ROOT_PASSWORD=pdw!
+         - MARIADB_USER=countuser
+         - MARIADB_PASSWORD=countuser
+         - MARIADB_DATABASE=countdb
+
+  tracedb:
+      image: 'bitnami/mariadb:latest'
+      ports:
+        - '3306:3306'
+      environment:
+         - MARIADB_ROOT_PASSWORD=pdw!
+         - MARIADB_USER=traceuser
+         - MARIADB_PASSWORD=traceuser
+         - MARIADB_DATABASE=tracedb
