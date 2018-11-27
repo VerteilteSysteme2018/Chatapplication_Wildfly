@@ -1,3 +1,7 @@
+package org.chat.client;
+
+import org.chat.common.ChatMessage;
+
 import javax.jms.*;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -90,12 +94,10 @@ public class Client {
                         //TODO put data from gui here
                         ChatMessage chatMessage = new ChatMessage();
                         chatMessage.setMessage("Test Message");
-                        chatMessage.setUserName("TestUser");
+                        chatMessage.setUserName("RandomUser" + Math.random() * 100);
                         chatObject.setObject(chatMessage);
-                        TextMessage message = session.createTextMessage("Nachricht vom externen Client");
-                        producer.send(message);
                         producer.send(chatObject);
-                        System.out.println("Message an die Queue gesendet");
+                        System.out.println("Message-Objekt an die Queue gesendet");
                     } finally {
                         producer.close();
                     }

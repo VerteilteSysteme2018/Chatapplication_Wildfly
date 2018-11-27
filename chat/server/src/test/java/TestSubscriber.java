@@ -1,3 +1,5 @@
+import org.chat.common.ChatMessage;
+
 import javax.jms.*;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -120,7 +122,10 @@ public class TestSubscriber {
                     while (true) {
                         ObjectMessage objectMessage = (ObjectMessage) subscriber.receive(5000);
                         if(objectMessage != null) {
-                            System.out.print(objectMessage.getObject().toString());
+                            ChatMessage message = (ChatMessage) objectMessage.getObject();
+                            System.out.println(objectMessage.getObject().toString());
+                            System.out.println(message.getUserName() + ":" + message.getMessage());
+
                         }
                     }
                 } catch (JMSException e) {
