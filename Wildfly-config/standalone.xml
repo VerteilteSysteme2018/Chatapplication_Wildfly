@@ -564,7 +564,7 @@
     </socket-binding-group>
     <deployments>
         <deployment name="server-1.0-SNAPSHOT" runtime-name="server-1.0-SNAPSHOT.war">
-            <fs-exploded path="/Users/AWesthoff/Documents/Studium/Master/3/Verteilte/Chatapplication_Wildfly/chatServer/server/target/server-1.0-SNAPSHOT"/>
+            <fs-exploded path="C:\Users\johan\Documents\AA_Master\3. Semester\Verteilte Systeme (MA)\Studenarbeit 1819\Chatapplication_Wildfly\chat\server\target\server-1.0-SNAPSHOT"/>
         </deployment>
     </deployments>
 </server>
