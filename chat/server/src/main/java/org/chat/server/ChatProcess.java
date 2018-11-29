@@ -1,3 +1,7 @@
+package org.chat.server;
+
+import org.chat.common.ChatMessage;
+
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.jms.*;
@@ -22,25 +26,22 @@ public class ChatProcess implements MessageListener {
     @Resource(lookup = "java:/jms/topic/chatTopic")
     Topic chatTopic;
 
-
     @Override
     public void onMessage(Message message) {
-
 
         if (message instanceof ObjectMessage) {
             //TODO add transaction
             //TODO add check if user is logged in
 
-
             //set server time of the pdu and publish it to the topic
             ObjectMessage objectMessage = (ObjectMessage) message;
             try {
                 ChatMessage chatMessage = (ChatMessage) objectMessage.getObject();
+                System.out.println("Queue:" + chatMessage.getMessage() + "von" + chatMessage.getUserName());
                 if (userLoggedIn(chatMessage.getUserName())) {
                     //TODO do any db transaction with the message stuff
                     sendMessageToTopic(message);
                 }
-
             } catch (JMSException e) {
                 e.printStackTrace();
             }
@@ -87,32 +88,6 @@ public class ChatProcess implements MessageListener {
             }
         } catch (JMSException e) {
             e.printStackTrace();
-        }
-
-        //From now on, it's only code to create beautiful log messages to see where the messages get lost all the time
-        //TODO AWE remove later
-        if (message instanceof TextMessage) {
-            TextMessage textMessage = (TextMessage) message;
-
-            try {
-                System.out.println(
-                        String.format(
-                                "Message erfolgreich weitergeleitet: '%s'",
-                                textMessage.getText()
-                        )
-                );
-            } catch (Exception ex) {
-                ex.printStackTrace(System.err);
-            }
-        }
-        if (message instanceof ObjectMessage) {
-            ObjectMessage pduMessage = (ObjectMessage) message;
-            try {
-                ChatMessage chatMessage = (ChatMessage) pduMessage.getObject();
-                System.out.println("Die Message aus dem PDU ist weitergeleitet und zwar: " + chatMessage.getMessage());
-            } catch (JMSException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

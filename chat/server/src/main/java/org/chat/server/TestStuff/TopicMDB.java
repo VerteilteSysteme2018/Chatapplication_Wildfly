@@ -1,3 +1,5 @@
+package org.chat.server.TestStuff;
+
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.jms.Message;

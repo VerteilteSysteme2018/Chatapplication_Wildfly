@@ -1,3 +1,5 @@
+import org.chat.common.ChatMessage;
+
 import javax.annotation.Resource;
 import javax.jms.*;
 import javax.servlet.ServletException;

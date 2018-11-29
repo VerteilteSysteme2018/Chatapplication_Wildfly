@@ -1,3 +1,5 @@
+package org.chat.common;
+
 import java.io.Serializable;
 
 /**
