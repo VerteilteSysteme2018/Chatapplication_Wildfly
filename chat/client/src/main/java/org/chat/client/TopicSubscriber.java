@@ -10,41 +10,39 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 /**
- * Class which handles all the client stuff, including jms connection, log-in, log-out...
- * tbh, at the moment it just creates a queue connection and sends a default message --> TODO
+ * subscribes the chat topic
  */
-public class Client {
-    private static final Logger log = Logger.getLogger(Client.class.getName());
+public class TopicSubscriber {
+
+    private static final Logger log = Logger.getLogger(TopicSubscriber.class.getName());
 
     private static final String USERNAME = "user";
     private static final String PASSWORD = "user";
     private static final String INITIAL_CONTEXT_FACTORY = "org.wildfly.naming.client.WildFlyInitialContextFactory";
     private static final String CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
-    private static final String QUEUE_DESTINATION = "jms/queue/chatQueue";
+
     private static final String TOPIC_DESTINATION = "jms/topic/chatTopic";
 
+    private String userName;
     private final String serverIP;
     private final String serverPort;
     private final String providerURL;
 
     private Context namingContext = null;
     private ConnectionFactory connectionFactory;
-    private Destination queue;
     private Destination topic;
 
-    public Client(String name, String serverIP, String serverPort) {
+    public TopicSubscriber(String userName, String serverIP, String serverPort) {
+        this.userName = userName;
         this.serverIP = serverIP;
         this.serverPort = serverPort;
         this.providerURL = "http-remoting://" + this.serverIP + ":" + this.serverPort;
     }
 
-
     public void initializeConnectionFactory() {
         try {
             String userName = System.getProperty("username", USERNAME);
             String password = System.getProperty("password", PASSWORD);
-
-            // JNDI lookup naming context
             final Properties env = new Properties();
             env.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT_FACTORY);
             env.put(Context.PROVIDER_URL, this.providerURL);
@@ -60,18 +58,7 @@ public class Client {
         }
     }
 
-    public void prepareQueue() {
-        try {
-            String destinationString = System.getProperty("destination", QUEUE_DESTINATION);
-            log.info("Attempting to acquire destination \"" + destinationString + "\"");
-            this.queue = (Destination) this.namingContext.lookup(destinationString);
-            log.info("Found destination \"" + destinationString + "\" in JNDI");
-        } catch (NamingException e) {
-            log.severe(e.getMessage());
-        }
-    }
-
-    public void prepareTopic() {
+    public void lookupTopic() {
         try {
             String destinationString = System.getProperty("destination", TOPIC_DESTINATION);
             log.info("Attempting to acquire destination \"" + destinationString + "\"");
@@ -82,48 +69,31 @@ public class Client {
         }
     }
 
-    public void doStuff() {
+    public void subscribeTopic() {
         try {
-            QueueConnection connection = (QueueConnection) connectionFactory.createConnection("user", "user");
+            TopicConnection connection = (TopicConnection)
+                    this.connectionFactory.createConnection("user", "user");
             try {
-                QueueSession session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
+                connection.start();
+                TopicSession session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+                javax.jms.TopicSubscriber subscriber = session.createSubscriber((Topic) this.topic);
                 try {
-                    MessageProducer producer = session.createProducer(this.queue);
-                    try {
-                        ObjectMessage chatObject = session.createObjectMessage();
-                        //TODO put data from gui here
-                        ChatMessage chatMessage = new ChatMessage();
-                        chatMessage.setMessage("Test Message");
-                        chatMessage.setUserName("RandomUser" + Math.random() * 100);
-                        chatObject.setObject(chatMessage);
-                        producer.send(chatObject);
-                        System.out.println("Message-Objekt an die Queue gesendet");
-                    } finally {
-                        producer.close();
+                    while (true) { //TODO change to log in check
+                        ObjectMessage objectMessage = (ObjectMessage) subscriber.receive(5000); //TODO what's that number?
+                        if(objectMessage != null) {
+                            ChatMessage message = (ChatMessage) objectMessage.getObject();
+                            System.out.println(objectMessage.getObject().toString());
+                            System.out.println(message.getUserName() + ":" + message.getMessage());
+                        }
                     }
-                } finally {
-                    session.close();
+                } catch (JMSException e) {
+                    e.printStackTrace();
                 }
-
-            } finally {
-                connection.close();
+            } catch (JMSException e) {
+                e.printStackTrace();
             }
-
-        } catch (Exception ex) {
-
+        } catch (JMSException e) {
+            e.printStackTrace();
         }
     }
-
-    /**
-     * Main method to test if all that fancy stuff is working
-     * TODO remove when GUI works
-     * @param args
-     */
-    public static void main(String[] args) {
-        Client mq = new Client("test", "localhost", "8080");
-        mq.initializeConnectionFactory();
-        mq.prepareQueue();
-        mq.doStuff();
-    }
-
 }
