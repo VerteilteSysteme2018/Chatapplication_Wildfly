@@ -29,7 +29,7 @@ public class RestController extends Application {
     @Path("/login/{username}")
     public Response login(@PathParam("username") String userName) {
         if (users.contains(userName)) {
-            return Response.status(200).entity("User " + userName + " already logged in").build();
+            return Response.status(201).entity("User " + userName + " already logged in").build();
         } else {
             users.add(userName);
             return Response.status(200).entity("User " + userName + " logged in").build();
@@ -43,7 +43,7 @@ public class RestController extends Application {
             users.remove(userName);
             return Response.status(200).entity("User " + userName + " deleted").build();
         } else {
-            return Response.status(200).entity("User " + userName + " wasn't logged in").build();
+            return Response.status(201).entity("User " + userName + " wasn't logged in").build();
         }
     }
 }
