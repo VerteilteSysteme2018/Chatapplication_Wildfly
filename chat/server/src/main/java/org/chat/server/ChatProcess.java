@@ -62,7 +62,6 @@ public class ChatProcess implements MessageListener {
                     //update countdb
                     System.out.println("update countdb");
                     countRepository.updateCount(chatMessage.getUserName());
-                    System.out.println("successful");
 
                     //send to topic
                     sendMessageToTopic(message);
