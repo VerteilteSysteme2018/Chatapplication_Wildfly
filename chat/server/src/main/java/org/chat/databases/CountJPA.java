@@ -1,6 +1,7 @@
 package org.chat.databases;
 
 import java.util.List;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
@@ -10,7 +11,7 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
 
-@Stateless
+@Stateful
 @TransactionManagement(value = TransactionManagementType.CONTAINER)
 public class CountJPA implements CountRepository {
 

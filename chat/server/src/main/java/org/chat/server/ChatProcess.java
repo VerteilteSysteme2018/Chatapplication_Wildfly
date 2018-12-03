@@ -1,5 +1,6 @@
 package org.chat.server;
 
+import javax.ejb.EJB;
 import org.chat.common.ChatMessage;
 
 import javax.ejb.ActivationConfigProperty;
@@ -7,6 +8,9 @@ import javax.ejb.MessageDriven;
 import javax.jms.*;
 import javax.annotation.Resource;
 import java.util.Date;
+import org.chat.databases.CountRepository;
+import org.chat.databases.Trace;
+import org.chat.databases.TraceRepository;
 
 /**
  * This is the core class of the server where the incoming chat requests come in and all the other stuff has to be done.
@@ -26,6 +30,12 @@ public class ChatProcess implements MessageListener {
     @Resource(lookup = "java:/jms/topic/chatTopic")
     Topic chatTopic;
 
+    @EJB
+    private TraceRepository traceRepository;
+
+    @EJB
+    private CountRepository countRepository;
+
     @Override
     public void onMessage(Message message) {
 
@@ -39,7 +49,22 @@ public class ChatProcess implements MessageListener {
                 ChatMessage chatMessage = (ChatMessage) objectMessage.getObject();
                 System.out.println("Queue:" + chatMessage.getMessage() + "von" + chatMessage.getUserName());
                 if (userLoggedIn(chatMessage.getUserName())) {
+
                     //TODO do any db transaction with the message stuff
+                    // update tracedb
+                    System.out.println("update tracedb");
+                    Trace trace = new Trace();
+                    trace.setClientThread("test");
+                    trace.setUsername(chatMessage.getUserName());
+                    trace.setMessage(chatMessage.getMessage());
+                    traceRepository.create(trace);
+
+                    //update countdb
+                    System.out.println("update countdb");
+                    countRepository.updateCount(chatMessage.getUserName());
+                    System.out.println("successful");
+
+                    //send to topic
                     sendMessageToTopic(message);
                 }
             } catch (JMSException e) {
