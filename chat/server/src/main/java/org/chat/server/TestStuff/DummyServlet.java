@@ -1,3 +1,5 @@
+package org.chat.server.TestStuff;
+
 import org.chat.common.ChatMessage;
 
 import javax.annotation.Resource;
@@ -52,12 +54,6 @@ public class DummyServlet extends HttpServlet {
                         ChatMessage chatMessage = new ChatMessage("User", "TestMessage");
                         ObjectMessage pduMessage =
                                 session.createObjectMessage(chatMessage);
-                        TextMessage message =
-                                session.createTextMessage(
-                                        "Nachricht"
-                                );
-
-                        producer.send(message);
                         producer.send(pduMessage);
 
                         writer.println(

@@ -26,9 +26,9 @@
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <!-- Properties for MariaDB -->
-      <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3310/countdb" />
-      <property name="javax.persistence.jdbc.user" value="root" />
-      <property name="javax.persistence.jdbc.password" value="password" />
+      <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://172.18.0.2:3310/countdb" />
+      <property name="javax.persistence.jdbc.user" value="countuser" />
+      <property name="javax.persistence.jdbc.password" value="countuser" />
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
       <!-- Hibernate properties -->
       <property name="hibernate.show_sql" value="false" />
@@ -43,9 +43,9 @@
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <!-- Properties for MariaDB -->
-      <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/tracedb" />
-      <property name="javax.persistence.jdbc.user" value="root" />
-      <property name="javax.persistence.jdbc.password" value="password" />
+      <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://172.18.0.3:3306/tracedb" />
+      <property name="javax.persistence.jdbc.user" value="traceuser" />
+      <property name="javax.persistence.jdbc.password" value="traceuser" />
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
       <!-- Hibernate properties -->
       <property name="hibernate.show_sql" value="false" />

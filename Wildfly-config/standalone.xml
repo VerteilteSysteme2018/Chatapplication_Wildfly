@@ -153,9 +153,101 @@
                         <password>sa</password>
                     </security>
                 </datasource>
+                <xa-datasource jndi-name="java:/countDS" pool-name="countDS" enabled="true" use-ccm="true">
+                    <xa-datasource-property name="ServerName">
+                        localhost
+                    </xa-datasource-property>
+                    <xa-datasource-property name="PortNumber">
+                        3310
+                    </xa-datasource-property>
+                    <xa-datasource-property name="DatabaseName">
+                        countdb
+                    </xa-datasource-property>
+                    <xa-datasource-class>org.mariadb.jdbc.MariaDbDataSource</xa-datasource-class>
+                    <driver>mariadb</driver>
+                    <xa-pool>
+                        <min-pool-size>0</min-pool-size>
+                        <initial-pool-size>0</initial-pool-size>
+                        <max-pool-size>100</max-pool-size>
+                        <allow-multiple-users>false</allow-multiple-users>
+                        <is-same-rm-override>false</is-same-rm-override>
+                        <interleaving>false</interleaving>
+                        <pad-xid>false</pad-xid>
+                        <wrap-xa-resource>false</wrap-xa-resource>
+                    </xa-pool>
+                    <security>
+                        <user-name>root</user-name>
+                        <password>password</password>
+                    </security>
+                    <validation>
+                        <validate-on-match>false</validate-on-match>
+                        <background-validation>false</background-validation>
+                    </validation>
+                    <timeout>
+                        <set-tx-query-timeout>false</set-tx-query-timeout>
+                        <blocking-timeout-millis>0</blocking-timeout-millis>
+                        <idle-timeout-minutes>0</idle-timeout-minutes>
+                        <query-timeout>0</query-timeout>
+                        <use-try-lock>0</use-try-lock>
+                        <allocation-retry>0</allocation-retry>
+                        <allocation-retry-wait-millis>0</allocation-retry-wait-millis>
+                        <xa-resource-timeout>0</xa-resource-timeout>
+                    </timeout>
+                    <statement>
+                        <share-prepared-statements>false</share-prepared-statements>
+                    </statement>
+                </xa-datasource>
+                <xa-datasource jndi-name="java:/traceDS" pool-name="traceDS" enabled="true" use-ccm="true">
+                    <xa-datasource-property name="ServerName">
+                        localhost
+                    </xa-datasource-property>
+                    <xa-datasource-property name="PortNumber">
+                        3306
+                    </xa-datasource-property>
+                    <xa-datasource-property name="DatabaseName">
+                        tracedb
+                    </xa-datasource-property>
+                    <xa-datasource-class>org.mariadb.jdbc.MariaDbDataSource</xa-datasource-class>
+                    <driver>mariadb</driver>
+                    <xa-pool>
+                        <min-pool-size>0</min-pool-size>
+                        <initial-pool-size>0</initial-pool-size>
+                        <max-pool-size>100</max-pool-size>
+                        <allow-multiple-users>false</allow-multiple-users>
+                        <is-same-rm-override>false</is-same-rm-override>
+                        <interleaving>false</interleaving>
+                        <pad-xid>false</pad-xid>
+                        <wrap-xa-resource>false</wrap-xa-resource>
+                    </xa-pool>
+                    <security>
+                        <user-name>root</user-name>
+                        <password>password</password>
+                    </security>
+                    <validation>
+                        <validate-on-match>false</validate-on-match>
+                        <background-validation>false</background-validation>
+                    </validation>
+                    <timeout>
+                        <set-tx-query-timeout>false</set-tx-query-timeout>
+                        <blocking-timeout-millis>0</blocking-timeout-millis>
+                        <idle-timeout-minutes>0</idle-timeout-minutes>
+                        <query-timeout>0</query-timeout>
+                        <use-try-lock>0</use-try-lock>
+                        <allocation-retry>0</allocation-retry>
+                        <allocation-retry-wait-millis>0</allocation-retry-wait-millis>
+                        <xa-resource-timeout>0</xa-resource-timeout>
+                    </timeout>
+                    <statement>
+                        <share-prepared-statements>false</share-prepared-statements>
+                    </statement>
+                </xa-datasource>
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
+                    </driver>
+                    <driver name="mariadb" module="org.mariadb.jdbc">
+                        <driver-class>org.mariadb.jdbc.Driver</driver-class>
+                        <xa-datasource-class>org.mariadb.jdbc.MariaDbDataSource</xa-datasource-class>
                     </driver>
                 </drivers>
             </datasources>
@@ -442,9 +534,7 @@
                 <jms-queue name="ExpiryQueue" entries="java:/jms/queue/ExpiryQueue"/>
                 <jms-queue name="DLQ" entries="java:/jms/queue/DLQ"/>
                 <jms-queue name="chatQueue" entries="java:/jms/queue/chatQueue java:jboss/exported/jms/queue/chatQueue" durable="true"/>
-                <jms-queue name="activeUserQueue" entries="java:/jms/queue/activeUserQueue java:jboss/exported/jms/queue/activeUserQueue" durable="true"/>
                 <jms-topic name="chatTopic" entries="java:/jms/topic/chatTopic java:jboss/exported/jms/topic/chatTopic"/>
-                <jms-topic name="activeUserTopic" entries="java:jboss/exported/jms/topic/activeUserTopic java:/jms/topic/activeUserTopic"/>
                 <connection-factory name="InVmConnectionFactory" entries="java:/ConnectionFactory" connectors="in-vm"/>
                 <connection-factory name="RemoteConnectionFactory" entries="java:jboss/exported/jms/RemoteConnectionFactory java:/jms/RemoteConnectionFactory" connectors="http-connector"/>
                 <connection-factory name="RemoteConnectionFactory2" entries="java:jboss/exported/jms/RemoteConnectionFactory2" connectors="http-connector"/>
@@ -564,9 +654,4 @@
             <remote-destination host="localhost" port="25"/>
         </outbound-socket-binding>
     </socket-binding-group>
-    <deployments>
-        <deployment name="server-1.0-SNAPSHOT" runtime-name="server-1.0-SNAPSHOT.war">
-            <fs-exploded path="C:\Users\johan\Documents\AA_Master\3. Semester\Verteilte Systeme (MA)\Studenarbeit 1819\Chatapplication_Wildfly\chat\server\target\server-1.0-SNAPSHOT"/>
-        </deployment>
-    </deployments>
 </server>
