@@ -51,7 +51,7 @@ public class DummyServlet extends HttpServlet {
                             session.createProducer(destination);
 
                     try {
-                        ChatMessage chatMessage = new ChatMessage("User", "TestMessage");
+                        ChatMessage chatMessage = new ChatMessage("User", "TestMessage", System.currentTimeMillis());
                         ObjectMessage pduMessage =
                                 session.createObjectMessage(chatMessage);
                         producer.send(pduMessage);

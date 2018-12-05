@@ -56,7 +56,7 @@ public class ClientController {
             QueueSender mq = new QueueSender("test", "localhost", "8080");
             mq.initializeConnectionFactory();
             mq.lookupQueue();
-            mq.sendMessageToQueue(new ChatMessage());
+            mq.sendMessageToQueue(new ChatMessage(System.currentTimeMillis()));
             return true;
         }
         return false;

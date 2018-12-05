@@ -11,13 +11,16 @@ public class ChatMessage implements Serializable {
 
     private String userName;
 
-    public ChatMessage(String user, String message) {
+    private long timestamp;
+
+    public ChatMessage(String user, String message, long timestamp) {
         this.userName = user;
         this.message = message;
+        this.timestamp = timestamp;
     }
 
-    public ChatMessage() {
-
+    public ChatMessage(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     //Getter and Setter
@@ -64,5 +67,13 @@ public class ChatMessage implements Serializable {
                 "message='" + message + '\'' +
                 ", userName='" + userName + '\'' +
                 '}';
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }
