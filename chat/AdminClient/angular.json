@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "chatApp1819": {
+    "AdminClient": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/chatApp1819",
+            "outputPath": "dist/AdminClient",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -61,18 +61,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "chatApp1819:build"
+            "browserTarget": "AdminClient:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "chatApp1819:build:production"
+              "browserTarget": "AdminClient:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "chatApp1819:build"
+            "browserTarget": "AdminClient:build"
           }
         },
         "test": {
@@ -106,7 +106,7 @@
         }
       }
     },
-    "chatApp1819-e2e": {
+    "AdminClient-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -115,11 +115,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "chatApp1819:serve"
+            "devServerTarget": "AdminClient:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "chatApp1819:serve:production"
+              "devServerTarget": "AdminClient:serve:production"
             }
           }
         },
@@ -135,5 +135,5 @@
       }
     }
   },
-  "defaultProject": "chatApp1819"
+  "defaultProject": "AdminClient"
 }

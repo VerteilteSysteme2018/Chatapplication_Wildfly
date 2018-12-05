@@ -1,25 +1,10 @@
-# ChatApp
+# AdminClient
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.6.
 
-# Setup 
+## Development server
 
-Before starting this epic App please make sure you have the following installed on your computer:
-1. Node.js get it [here](https://nodejs.org/en/)
-2. check your version in command prompt: node -v
-3. install angular cli globally: npm install -g @angular/cli
-4. go ahead and happy coding your Jonny boy aka Mr. Knippel
-
-## Development / Start the server
-
-Mit IntelliJ:
-
-1. Npm scripts
-2. Rechtsklick auf package.json 
-3. show npm scripts
-4. start: startet die Anwendung 
-5. Test: startet die Tests
-
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
