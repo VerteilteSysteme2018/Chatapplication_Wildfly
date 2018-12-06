@@ -9,14 +9,19 @@
 *  *Wildfly-config* Konfigurationsdateien für den Wildfly-Server mit Application- und Management-User sowie den benötigten JMS-Einstellungen im Server. Einfach in den Wildfly-Ordner kopieren (vorher backup von standalone.xml anlegen)
 
 ## TO DO 05.12.2018: 
-*  Topic für User                               -> Andi
-*  Benchmariking Clients + Last Test-> Anja    
-*  Kafka                                            -> Flo
-*  GraphQL                                      -> Marvin
-*  Angular Admin Oberfläche           -> Johannes
-* Chat GUI + Login Prozess           -> morgen mit Tutoren besprechen
-* XA Transaktion                             -> Andi
-* Clientthread einbinden                 -> Fragen: Muss das überhaupt in die DB???
-* Serverthread                                 -> ????
-* beide Server laufen                      -> ????
-* Last Test                                        -> ???
+* Topic für User integrieren            -> Andi
+* Benchmariking Clients + Last Test     -> Anja    
+* Kafka                                 -> Flo
+* Angular Admin Oberfläche              -> Johannes
+* Chat GUI + Login Prozess               -> Anja
+* XA Transaktion                         -> Andi
+* Clientthread einbinden                 -> Marvin
+* Serverthread                           -> ????
+* beide Server laufen  + TCP?            -> ????
+* jeder seinen teil schreiben für Ausarbeitung: 
+         Anja: Grundalgen + Login REST
+         Johannes: Angular
+         Andi: Widlfly Config JMS
+         Marvin: DB + GraphQL 
+         fehlt noch: Kafka, XA Transaktion, Benchmark
+          
