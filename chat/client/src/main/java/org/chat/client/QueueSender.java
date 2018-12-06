@@ -21,18 +21,14 @@ public class QueueSender {
     private static final String CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
     private static final String QUEUE_DESTINATION = "jms/queue/chatQueue";
 
-    private final String serverIP;
-    private final String serverPort;
     private final String providerURL;
 
     private Context namingContext = null;
     private ConnectionFactory connectionFactory;
     private Destination queue;
 
-    public QueueSender(String name, String serverIP, String serverPort) {
-        this.serverIP = serverIP;
-        this.serverPort = serverPort;
-        this.providerURL = "http-remoting://" + this.serverIP + ":" + this.serverPort;
+    public QueueSender(String providerURL) {
+        this.providerURL = providerURL;
     }
 
     public void initializeConnectionFactory() {
@@ -65,7 +61,7 @@ public class QueueSender {
         }
     }
 
-    public void sendMessageToQueue(ChatMessage message) {
+    public void sendMessageToQueue(ChatMessage chatMessage) {
         try {
             QueueConnection connection = (QueueConnection) connectionFactory.createConnection("user", "user");
             try {
@@ -74,10 +70,6 @@ public class QueueSender {
                     MessageProducer producer = session.createProducer(this.queue);
                     try {
                         ObjectMessage chatObject = session.createObjectMessage();
-                        //TODO remove dummy data when feeded with real chat messages
-                        ChatMessage chatMessage = new ChatMessage(System.currentTimeMillis());
-                        chatMessage.setMessage("Test Message");
-                        chatMessage.setUserName("RandomUser" + Math.random() * 100);
                         chatObject.setObject(chatMessage);
                         producer.send(chatObject);
                         System.out.println("Message-Objekt an die Queue gesendet");

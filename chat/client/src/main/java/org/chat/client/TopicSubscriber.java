@@ -23,20 +23,15 @@ public class TopicSubscriber {
 
     private static final String TOPIC_DESTINATION = "jms/topic/chatTopic";
 
-    private String userName;
-    private final String serverIP;
-    private final String serverPort;
     private final String providerURL;
 
     private Context namingContext = null;
     private ConnectionFactory connectionFactory;
     private Destination topic;
 
-    public TopicSubscriber(String userName, String serverIP, String serverPort) {
-        this.userName = userName;
-        this.serverIP = serverIP;
-        this.serverPort = serverPort;
-        this.providerURL = "http-remoting://" + this.serverIP + ":" + this.serverPort;
+
+    public TopicSubscriber(String providerURL) {
+        this.providerURL = providerURL;
     }
 
     public void initializeConnectionFactory() {
@@ -72,20 +67,19 @@ public class TopicSubscriber {
     public void subscribeTopic() {
         try {
             TopicConnection connection = (TopicConnection)
-                    this.connectionFactory.createConnection("user", "user");
+                    this.connectionFactory.createConnection(USERNAME, PASSWORD);
             try {
                 connection.start();
                 TopicSession session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
                 javax.jms.TopicSubscriber subscriber = session.createSubscriber((Topic) this.topic);
                 try {
-                    while (true) { //TODO change to log in check
+                   //TODO change to log in check
                         ObjectMessage objectMessage = (ObjectMessage) subscriber.receive(5000); //TODO what's that number?
                         if(objectMessage != null) {
                             ChatMessage message = (ChatMessage) objectMessage.getObject();
                             System.out.println(objectMessage.getObject().toString());
                             System.out.println(message.getUserName() + ":" + message.getMessage());
                         }
-                    }
                 } catch (JMSException e) {
                     e.printStackTrace();
                 }

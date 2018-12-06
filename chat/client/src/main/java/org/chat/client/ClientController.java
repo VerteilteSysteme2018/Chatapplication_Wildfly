@@ -16,6 +16,11 @@ import java.util.ArrayList;
 @Singleton
 public class ClientController {
 
+    private final String name;
+    private final String serverIP;
+    private final String serverPort;
+    private final String providerURL;
+
     private boolean loggedIn = false;
 
     private static final String URI = "http://localhost:8080/server-1.0-SNAPSHOT/rest/users/";
@@ -28,6 +33,7 @@ public class ClientController {
     public static void main(String[] args) throws IOException {
 
         //Teststuff for user interactions
+        /*
         ClientController clientController = new ClientController();
         clientController.getCurrentUsers();
         clientController.login("TestUser");
@@ -37,11 +43,22 @@ public class ClientController {
         clientController.getCurrentUsers();
         clientController.sendMessage();
         clientController.subscribeTopic();
+
+        */
     }
 
-    private boolean subscribeTopic() {
+
+    public ClientController(String name, String serverIP, String serverPort) {
+        this.name = name;
+        this.serverIP = serverIP;
+        this.serverPort = serverPort;
+        this.providerURL = "http-remoting://" + this.serverIP + ":" + this.serverPort;
+    }
+
+
+    public boolean subscribeTopic() {
         if(loggedIn) {
-            TopicSubscriber s = new TopicSubscriber("test", "localhost", "8080");
+            TopicSubscriber s = new TopicSubscriber(this.providerURL);
             s.initializeConnectionFactory();
             s.lookupTopic();
             s.subscribeTopic();
@@ -51,12 +68,13 @@ public class ClientController {
 
     }
 
-    private boolean sendMessage() {
+    public boolean sendMessage(String message) {
         if(loggedIn) {
-            QueueSender mq = new QueueSender("test", "localhost", "8080");
+            QueueSender mq = new QueueSender(this.providerURL);
             mq.initializeConnectionFactory();
             mq.lookupQueue();
-            mq.sendMessageToQueue(new ChatMessage(System.currentTimeMillis()));
+            ChatMessage chatMessage = new ChatMessage(this.name, message, System.currentTimeMillis());
+            mq.sendMessageToQueue(chatMessage);
             return true;
         }
         return false;
@@ -64,7 +82,7 @@ public class ClientController {
 
     // Code von https://www.mkyong.com/java/how-to-send-http-request-getpost-in-java/
     //TODO change String to array after missing json stuff is implemented
-    private ArrayList getCurrentUsers() throws IOException {
+    public ArrayList getCurrentUsers() throws IOException {
         String uri = URI + "currentusers";
         URL url = new URL(uri);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -93,7 +111,7 @@ public class ClientController {
         return javaArrayListFromGSON;
     }
 
-    private boolean login(String userName) throws IOException {
+    public boolean login(String userName) throws IOException {
         String uri = URI + "login/" + userName;
         URL url = new URL(uri);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -110,7 +128,7 @@ public class ClientController {
         }
     }
 
-    private boolean logout(String userName) throws IOException {
+    public boolean logout(String userName) throws IOException {
         if(loggedIn) {
             String uri = URI + "logout/" + userName;
             URL url = new URL(uri);
