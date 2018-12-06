@@ -54,7 +54,7 @@ public class ChatProcess implements MessageListener {
                     // update tracedb
                     System.out.println("update tracedb");
                     Trace trace = new Trace();
-                    trace.setClientThread("test");
+                    trace.setClientThread(chatMessage.getClientThread());
                     trace.setUsername(chatMessage.getUserName());
                     trace.setMessage(chatMessage.getMessage());
                     traceRepository.create(trace);

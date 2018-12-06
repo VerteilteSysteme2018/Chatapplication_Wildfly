@@ -13,10 +13,13 @@ public class ChatMessage implements Serializable {
 
     private long timestamp;
 
-    public ChatMessage(String user, String message, long timestamp) {
+    private String clientThread;
+
+    public ChatMessage(String user, String message, long timestamp, String clientThread) {
         this.userName = user;
         this.message = message;
         this.timestamp = timestamp;
+        this.clientThread = clientThread;
     }
 
     public ChatMessage(long timestamp) {
@@ -75,5 +78,13 @@ public class ChatMessage implements Serializable {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public void setClientThread(String clientThread) {
+        this.clientThread = clientThread;
+    }
+
+    public String getClientThread() {
+        return this.clientThread;
     }
 }
