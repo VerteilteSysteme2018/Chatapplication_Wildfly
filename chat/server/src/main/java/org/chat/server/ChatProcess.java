@@ -1,6 +1,7 @@
 package org.chat.server;
 
 import javax.ejb.EJB;
+import javax.transaction.Transactional;
 import org.chat.common.ChatMessage;
 
 import javax.ejb.ActivationConfigProperty;
@@ -22,6 +23,7 @@ import org.chat.databases.TraceRepository;
                 propertyValue = "java:/jms/queue/chatQueue"
         )
 })
+@Transactional
 public class ChatProcess implements MessageListener {
 
     @Resource(lookup = "java:/jms/RemoteConnectionFactory")
@@ -47,7 +49,8 @@ public class ChatProcess implements MessageListener {
             ObjectMessage objectMessage = (ObjectMessage) message;
             try {
                 ChatMessage chatMessage = (ChatMessage) objectMessage.getObject();
-                System.out.println("Queue:" + chatMessage.getMessage() + "von" + chatMessage.getUserName());
+                System.out.println("Queue:" + chatMessage.getMessage()
+                    + "von" + chatMessage.getUserName());
                 if (userLoggedIn(chatMessage.getUserName())) {
 
                     //TODO do any db transaction with the message stuff

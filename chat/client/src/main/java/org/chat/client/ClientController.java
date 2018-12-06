@@ -73,7 +73,9 @@ public class ClientController {
             QueueSender mq = new QueueSender(this.providerURL);
             mq.initializeConnectionFactory();
             mq.lookupQueue();
-            ChatMessage chatMessage = new ChatMessage(this.name, message, System.currentTimeMillis(), Thread.currentThread().toString());
+            ChatMessage chatMessage =
+                new ChatMessage(this.name, message, System.currentTimeMillis(),
+                    Thread.currentThread().toString());
             mq.sendMessageToQueue(chatMessage);
             return true;
         }
