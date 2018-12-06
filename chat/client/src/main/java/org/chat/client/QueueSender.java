@@ -75,7 +75,7 @@ public class QueueSender {
                     try {
                         ObjectMessage chatObject = session.createObjectMessage();
                         //TODO remove dummy data when feeded with real chat messages
-                        ChatMessage chatMessage = new ChatMessage();
+                        ChatMessage chatMessage = new ChatMessage(System.currentTimeMillis());
                         chatMessage.setMessage("Test Message");
                         chatMessage.setUserName("RandomUser" + Math.random() * 100);
                         chatObject.setObject(chatMessage);

@@ -22,7 +22,7 @@ public class CountJPA implements CountRepository {
   @Override
   public int clear(){
     int countDelete;
-    System.out.println("Clear Counts");
+    System.out.println("Clear Count");
     countDelete = entityManager.createQuery("DELETE from Count").executeUpdate();
     return countDelete;
   }
@@ -47,6 +47,9 @@ public class CountJPA implements CountRepository {
     final Query query = entityManager.createQuery("SELECT c FROM Count c");
     final List<Count> result;
     result = query.getResultList();
+    if (result.isEmpty()) {
+      System.out.println("no count found");
+    }
     return result;
   }
 
