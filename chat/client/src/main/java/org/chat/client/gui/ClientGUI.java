@@ -3,10 +3,6 @@ package org.chat.client.gui;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.chat.client.ClientController;
-import org.chat.client.QueueSender;
-import org.chat.client.TopicSubscriber;
-import org.chat.common.ChatMessage;
-import org.chat.server.ChatProcess;
 
 import javax.jms.Destination;
 import javax.jms.JMSConsumer;
@@ -36,8 +32,7 @@ public class ClientGUI implements Runnable {
     private boolean clientLoggedOut;
 
     //CLIENT MANAGER
-    private ClientManager clientManager;
-    private ChatProcess chatProcess;
+    private ClientController clientController;
 
     //BOOLEAN - CURSOR
     private boolean cursor;
@@ -264,24 +259,26 @@ public class ClientGUI implements Runnable {
             serverIP = tfServerIP.getText();
             serverPort = tfServerPort.getText();
 
-            clientManager = new ClientManager(username, serverIP, serverPort);
+            clientController = new ClientController(username, serverIP, serverPort);
 
-                if (clientManager.login(username)) {
+            try {
+                if (clientController.login(username)) {
                     taUserList.setText("Login successfull!");
                     enableGui();
-                    mainFrame.setTitle("M E S S E N G E R   of   " + username);
+                    mainFrame.setTitle("M E S S E N G E R   OF   " + "### " + username + " ###");
 
                     clientLoggedOut = false;
-                    startUserListListener();
+                    //startUserListListener();
 
-                    clientManager.initializeConnectionFactory();
-                    clientManager.prepareQueue();
-                    clientManager.prepareTopic();
+                    clientController.subscribeTopic();
                     //receiveAndDisplayMessages();
                 } else {
                     taUserList.setText("Login failed. Please try again!");
                 }
-            } else {
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
                 taUserList.append("\nLogin failed. Please insert valid data");
         }
         changeCursor();
@@ -306,8 +303,12 @@ public class ClientGUI implements Runnable {
             taUserList.setText("Thank you " + username + " for using Messenger");
             disableGui();
 
-            clientManager.logout();
-            clientLoggedOut = true;
+        try {
+            clientController.logout(username);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        clientLoggedOut = true;
     }
 
     private void disableGui() {
@@ -328,8 +329,13 @@ public class ClientGUI implements Runnable {
                         break;
                     }
 
-                    String userList = clientManager.getCurrentUsers();
-                    String[] names = getNamesFromJson(userList);
+                    ArrayList names = null;
+                    try {
+                        names = clientController.getCurrentUsers();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    //String[] names = getNamesFromJson(userList);
                     StringBuilder sb = new StringBuilder();
 
                     for (Object s : names) {
@@ -362,11 +368,8 @@ public class ClientGUI implements Runnable {
     private void sendMessage() {
             if (!taChatMessage.getText().trim().equals("")) {
                 String message = taChatMessage.getText();
-                clientManager.sendMessage(message);
+                clientController.sendMessage(message);
                 taChatMessage.setText("");
-
-                chatProcess = new ChatProcess();
-
 
 
             } else {
@@ -375,7 +378,7 @@ public class ClientGUI implements Runnable {
             }
         }
 
-    private void receiveAndDisplayMessages() {
+    /*private void receiveAndDisplayMessages() {
         Thread t1 = new Thread(() -> {
             JMSContext context = clientManager.getJMSContext();
             Destination topic = clientManager.getTopic();
@@ -417,6 +420,8 @@ public class ClientGUI implements Runnable {
         });
         t1.start();
     }
+
+    */
 
 
     @Override
