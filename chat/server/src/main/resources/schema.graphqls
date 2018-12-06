@@ -1,0 +1,28 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    allCount: [CountTO]
+    allTrace: [TraceTO]
+}
+
+type CountTO {
+    id: ID!
+    counting: Int
+    username: String
+}
+
+type TraceTO {
+    id: ID!
+    username: String
+    clientthread: String
+    message: String
+}
+
+
+type Mutation{
+    clearTrace: Int
+    clearCount: Boolean
+}

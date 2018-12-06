@@ -25,14 +25,14 @@ public class TraceJPA implements TraceRepository {
     final Query q = entityManager.createQuery("SELECT t FROM Trace t");
     List<Trace> traces = q.getResultList();
     if (traces.isEmpty()) {
-      System.out.println("no trace are found");
+      System.out.println("no trace found");
     }
     return traces;
   }
 
   @Override
   public int clear() {
-    System.out.println("Clear Traces");
+    System.out.println("Clear Trace");
     return entityManager.createQuery("DELETE FROM Trace").executeUpdate();
   }
 
