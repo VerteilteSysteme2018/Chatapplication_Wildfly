@@ -6,7 +6,6 @@ import org.chat.client.ClientController;
 import org.chat.client.QueueSender;
 import org.chat.client.TopicSubscriber;
 import org.chat.common.ChatMessage;
-import org.chat.server.ChatProcess;
 
 import javax.jms.Destination;
 import javax.jms.JMSConsumer;
@@ -37,7 +36,6 @@ public class ClientGUI implements Runnable {
 
     //CLIENT MANAGER
     private ClientManager clientManager;
-    private ChatProcess chatProcess;
 
     //BOOLEAN - CURSOR
     private boolean cursor;
@@ -364,8 +362,6 @@ public class ClientGUI implements Runnable {
                 String message = taChatMessage.getText();
                 clientManager.sendMessage(message);
                 taChatMessage.setText("");
-
-                chatProcess = new ChatProcess();
 
 
 
