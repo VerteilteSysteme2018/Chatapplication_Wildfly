@@ -75,7 +75,7 @@ public class ClientController {
             mq.lookupQueue();
             ChatMessage chatMessage =
                 new ChatMessage(this.name, message, System.currentTimeMillis(),
-                    Thread.currentThread().toString());
+                    Thread.currentThread().toString(), "Wildfly");
             mq.sendMessageToQueue(chatMessage);
             return true;
         }

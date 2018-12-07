@@ -27,6 +27,9 @@ public class Trace {
   @Column(name = "message")
   private String message;
 
+  @Column(name = "serverthread")
+  private String serverthread;
+
   public int getId() {
     return this.id;
   }
@@ -57,6 +60,14 @@ public class Trace {
 
   public void setMessage(String message) {
     this.message = message;
+  }
+
+  public String getServerthread() {
+    return this.serverthread;
+  }
+
+  public void setServerthread(String serverthread) {
+    this.serverthread = serverthread;
   }
 
   @Override

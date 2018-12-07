@@ -15,11 +15,15 @@ public class ChatMessage implements Serializable {
 
     private String clientThread;
 
-    public ChatMessage(String user, String message, long timestamp, String clientThread) {
+    private String serverthread;
+
+    public ChatMessage(String user, String message, long timestamp,
+        String clientThread, String serverthread) {
         this.userName = user;
         this.message = message;
         this.timestamp = timestamp;
         this.clientThread = clientThread;
+        this.serverthread = serverthread;
     }
 
     public ChatMessage(long timestamp) {
@@ -86,5 +90,13 @@ public class ChatMessage implements Serializable {
 
     public String getClientThread() {
         return this.clientThread;
+    }
+
+    public void setServerthread(String serverthread) {
+        this.serverthread = serverthread;
+    }
+
+    public String getServerthread() {
+        return this.serverthread;
     }
 }

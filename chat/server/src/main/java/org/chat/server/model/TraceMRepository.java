@@ -24,6 +24,7 @@ public class TraceMRepository {
         tm.setClientthread(t.getClientThread());
         tm.setMessage(t.getMessage());
         tm.setUsername(t.getUserName());
+        tm.setServerthread(t.getServerthread());
         resutlist.add(tm);
       }
     }

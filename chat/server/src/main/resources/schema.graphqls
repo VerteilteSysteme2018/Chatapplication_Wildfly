@@ -19,6 +19,7 @@ type TraceTO {
     username: String
     clientthread: String
     message: String
+    serverthread: String
 }
 
 

@@ -6,6 +6,7 @@ public class TraceMapper {
   private String username;
   private String clientthread;
   private String message;
+  private String serverthread;
 
   public int getId() {
     return id;
@@ -37,5 +38,13 @@ public class TraceMapper {
 
   public void setMessage(String message) {
     this.message = message;
+  }
+
+  public String getServerthread() {
+    return this.serverthread;
+  }
+
+  public void setServerthread(String serverthread) {
+    this.serverthread = serverthread;
   }
 }
