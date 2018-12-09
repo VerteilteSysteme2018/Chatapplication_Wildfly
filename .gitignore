@@ -6,6 +6,7 @@ chatApplication/Benchmarking-ChatApp-Protokolldatei
 */target/*
 target/
 
+
 #Eclipse
 #.classpath
 #.project
@@ -31,3 +32,5 @@ tmp/**/*
 
 #wildfly logs
 wildfly-13\.0\.0\.Final/standalone/configuration/standalone_xml_history/
+chat/server/target/
+chatApplication/
