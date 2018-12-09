@@ -30,7 +30,7 @@ export class TraceDBComponent implements OnInit, OnChanges {
 
   loadTraces() {
     console.log("Load all Traces");
-    const query = "query={allTrace{id username clientthread message}}";
+    const query = "query={allTrace{id username clientthread message serverthread}}";
     this.http.get<TraceResponse>(this.url + "?" + encodeURI(query))
       .subscribe(res => {
       this.traceList = res.data.allTrace;

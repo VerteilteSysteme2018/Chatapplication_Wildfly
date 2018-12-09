@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'ngx-footer',
   styleUrls: ['./footer.component.scss'],
   template: `
-    <span class="created-by">Die Wanderer 2018</span>
+    <span class="created-by">Der Wandertrip Verteilte Systeme 2018 @Pro. Mandl</span>
     <div class="socials">
       <!--<a href="https://github.com/Johannes-Knippel" target="_blank" class="ion ion-social-github"></a>
       <a href="https://facebook.com" target="_blank" class="ion ion-social-facebook"></a>

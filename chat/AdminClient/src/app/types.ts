@@ -9,6 +9,7 @@ export class Trace {
   username?: string;
   clientthread?: string;
   message?: string;
+  serverthread?: string;
 }
 
 export class ChatUser {
