@@ -23,8 +23,6 @@ public class Count {
   @Column(name = "counting")
   private int counting;
 
-  @Column(name = "clientThread")
-  private String clientThread;
 
   public int getId() {
     return id;
@@ -48,14 +46,6 @@ public class Count {
 
   public void setCounting(int counting) {
     this.counting = counting;
-  }
-
-  public String getClientThread() {
-    return this.clientThread;
-  }
-
-  public void setClientThread(String clientThread) {
-    this.clientThread = clientThread;
   }
 
   @Override
