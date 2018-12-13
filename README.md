@@ -13,12 +13,10 @@
 * Topic für User integrieren            -> Andi
 * Benchmariking Clients + Last Test     -> Anja    
 * Kafka                                 -> Flo
-* Angular Admin Oberfläche              -> Johannes (erledigt)
-* Chat GUI + Login Prozess               -> Anja
-* XA Transaktion                         -> Andi
-* Clientthread einbinden                 -> Marvin
-* Serverthread                           -> ????
+* Serverthread + Timestamp               -> Andi
 * beide Server laufen  + TCP?            -> ????
+* Update README.md für Configuration		--> Jeder
+* Ordnerstruktur updaten
 * jeder seinen teil schreiben für Ausarbeitung:
          Anja: Grundalgen + Login REST
          Johannes: Angular

@@ -173,7 +173,7 @@ public class ClientManager {
 
     public void sendMessage(String message) {
         // Prepare content
-        ChatMessage chatMessage = new ChatMessage(this.name, message, System.currentTimeMillis(), Thread.currentThread().toString(), "Willdfly");
+        ChatMessage chatMessage = new ChatMessage(this.name, message, System.currentTimeMillis(), Thread.currentThread().toString(), "JMS");
         Gson gson = new Gson();
         String content = gson.toJson(chatMessage);
 

@@ -189,13 +189,18 @@ public class ClientController {
                     try {
                         MessageProducer producer = session.createProducer(this.queue);
                         try {
-                            ObjectMessage chatObject = session.createObjectMessage();
-                            ChatMessage chatMessage =
-                                    new ChatMessage(this.name, message, System.currentTimeMillis(),
-                                            Thread.currentThread().toString(), "Wildfly");
-                            chatObject.setObject(chatMessage);
-                            producer.send(chatObject);
-                            System.out.println("Message-Objekt an die Queue gesendet");
+                            MessageProducer producer = session.createProducer(this.queue);
+                            try {
+                                ObjectMessage chatObject = session.createObjectMessage();
+                                ChatMessage chatMessage =
+                                        new ChatMessage(this.name, message, System.currentTimeMillis(),
+                                                Thread.currentThread().toString(), "JMS");
+                                chatObject.setObject(chatMessage);
+                                producer.send(chatObject);
+                                System.out.println("Message-Objekt an die Queue gesendet");
+                            } finally {
+                                producer.close();
+                            }
                         } finally {
                             producer.close();
                         }
