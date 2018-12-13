@@ -188,8 +188,7 @@ public class ClientController {
                     QueueSession session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
                     try {
                         MessageProducer producer = session.createProducer(this.queue);
-                        try {
-                            MessageProducer producer = session.createProducer(this.queue);
+
                             try {
                                 ObjectMessage chatObject = session.createObjectMessage();
                                 ChatMessage chatMessage =
@@ -201,9 +200,7 @@ public class ClientController {
                             } finally {
                                 producer.close();
                             }
-                        } finally {
-                            producer.close();
-                        }
+
                     } finally {
                         session.close();
                     }
