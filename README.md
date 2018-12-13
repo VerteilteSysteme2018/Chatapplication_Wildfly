@@ -16,8 +16,8 @@ ________________________________________________________________________________
 ## TO DO 05.12.2018:
 * Benchmariking Clients + Last Test     -> Anja    
 * Kafka                                 -> Flo
-* Serverthread                           -> ????
-* beide Server laufen  + TCP?            -> ????
+* Serverthread            + Timestamp    -> Andi
+* Docker Container
 * Update README.md für Configuration
 * Ordnerstruktur updaten
 * jeder seinen teil schreiben für Ausarbeitung:
