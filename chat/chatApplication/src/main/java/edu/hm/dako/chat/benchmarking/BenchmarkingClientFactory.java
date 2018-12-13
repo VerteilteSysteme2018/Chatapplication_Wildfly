@@ -1,5 +1,6 @@
 package edu.hm.dako.chat.benchmarking;
 
+import edu.hm.dako.chat.benchmarking_jms.BenchmarkingClientJmsImpl;
 import edu.hm.dako.chat.client.ClientUserInterface;
 import edu.hm.dako.chat.common.SharedClientStatistics;
 import edu.hm.dako.chat.connection.ConnectionFactory;
