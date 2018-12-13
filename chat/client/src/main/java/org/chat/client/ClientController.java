@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 @Singleton
 public class ClientController {
 
-    private static final Logger log = Logger.getLogger(TopicSubscriber.class.getName());
+    private static final Logger log = Logger.getLogger(ClientController.class.getName());
 
     // JMS
     private static final String USERNAME = "user";
@@ -48,8 +48,6 @@ public class ClientController {
     private final String providerURL;
     private final String URL;
 
-
-    ObjectMessage objectMessage;
 
 
     private boolean loggedIn = false;
@@ -183,32 +181,32 @@ public class ClientController {
 
 
     public boolean sendMessageToQueue(String message) {
-        if(loggedIn) {
+        if (loggedIn) {
+            try {
+                QueueConnection connection = (QueueConnection) connectionFactory.createConnection("user", "user");
                 try {
-                    QueueConnection connection = (QueueConnection) connectionFactory.createConnection("user", "user");
+                    QueueSession session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
                     try {
-                        QueueSession session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
+                        MessageProducer producer = session.createProducer(this.queue);
                         try {
-                            MessageProducer producer = session.createProducer(this.queue);
-                            try {
-                                ObjectMessage chatObject = session.createObjectMessage();
-                                ChatMessage chatMessage =
-                                        new ChatMessage(this.name, message, System.currentTimeMillis(),
-                                                Thread.currentThread().toString(), "Wildfly");
-                                chatObject.setObject(chatMessage);
-                                producer.send(chatObject);
-                                System.out.println("Message-Objekt an die Queue gesendet");
-                            } finally {
-                                producer.close();
-                            }
+                            ObjectMessage chatObject = session.createObjectMessage();
+                            ChatMessage chatMessage =
+                                    new ChatMessage(this.name, message, System.currentTimeMillis(),
+                                            Thread.currentThread().toString(), "Wildfly");
+                            chatObject.setObject(chatMessage);
+                            producer.send(chatObject);
+                            System.out.println("Message-Objekt an die Queue gesendet");
                         } finally {
-                            session.close();
+                            producer.close();
                         }
                     } finally {
-                        connection.close();
+                        session.close();
                     }
-                } catch (Exception ex) {
+                } finally {
+                    connection.close();
                 }
+            } catch (Exception ex) {
+            }
             return true;
         }
         return false;
@@ -216,7 +214,7 @@ public class ClientController {
 
 
     public boolean logout(String userName) throws IOException {
-        if(loggedIn) {
+        if (loggedIn) {
             String uri = URL + REST + "logout/" + userName;
             URL url = new URL(uri);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -245,56 +243,15 @@ public class ClientController {
             return (TopicConnection) this.connectionFactory.createConnection(USERNAME, PASSWORD);
         } catch (JMSException e) {
             e.printStackTrace();
-        } return null;
+        }
+        return null;
     }
 
-    public Destination getTopic() { return this.topic; }
+    public Destination getTopic() {
+        return this.topic;
+    }
 
-
-    /*public JMSConsumer subscribeTopic() {
-        if(loggedIn) {
-            TopicSubscriber s = new TopicSubscriber(this.providerURL);
-            s.initializeConnectionFactory();
-            s.lookupTopic();
-            this.topic = s.getTopic();
-
-            JMSContext context = s.getJMSContext();
-            return context.createConsumer(topic);
-
-            /*Thread t1 = new Thread(() -> {
-                while (true) {
-                        if (clientLoggedOut) {
-                            break;
-                        }
-                            try {
-                                connection.start();
-                                TopicSession session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
-                                javax.jms.TopicSubscriber subscriber = session.createSubscriber((Topic) this.topic);
-                                try {
-                                    //TODO change to log in check
-                                    ObjectMessage objectMessage = (ObjectMessage) subscriber.receive(5000); //TODO what's that number?
-                                    if (objectMessage != null) {
-                                        ChatMessage message = (ChatMessage) objectMessage.getObject();
-                                        System.out.println(objectMessage.getObject().toString());
-                                        System.out.println(message.getUserName() + ":" + message.getMessage());
-                                    }
-                                } catch (JMSException e) {
-                                    e.printStackTrace();
-                                }
-                            } catch (JMSException e) {
-                                e.printStackTrace();
-                            }
-                        } catch (JMSException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                t1.start();
-            }
-            return true;
-        }
-        return false;
-        */
+    public boolean isUserLoggedIn() { return this.loggedIn; }
 
 
 }
