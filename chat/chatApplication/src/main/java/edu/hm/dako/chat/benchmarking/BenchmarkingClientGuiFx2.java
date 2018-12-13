@@ -1,15 +1,5 @@
 package edu.hm.dako.chat.benchmarking;
 
-import java.awt.*;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Formatter;
-import java.util.regex.Pattern;
-
-import javax.swing.JProgressBar;
-
-import org.apache.log4j.PropertyConfigurator;
-
 import edu.hm.dako.chat.common.SystemConstants;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -26,30 +16,30 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.apache.log4j.PropertyConfigurator;
+
+import javax.swing.*;
+import java.awt.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Formatter;
+import java.util.regex.Pattern;
 
 /**
  * GUI fuer den Benchmarking-Client in JavaFX-GUI-Technologie
- * 
+ *
  * Hinweis: Um die Groesse der Objekte einheitlich zu gestalten, wird jedes
  * Objekt durch eine eigene Methode erstellt, in der die Groesse festgelegt wird
- * 
+ *
  * @author Paul Mandl
  */
 
@@ -84,7 +74,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	// Auswahl fuer Comboboxen
 	ObservableList<String> implTypeOptions = FXCollections.observableArrayList(
-			SystemConstants.IMPL_TCP_SIMPLE);
+			SystemConstants.IMPL_TCP_SIMPLE, SystemConstants.IMPL_JMS);
 	ObservableList<String> measureTypeOptions = FXCollections
 			.observableArrayList("Variable Threads", "Variable Length");
 
@@ -171,7 +161,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	/**
 	 * Start der GUI
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -227,7 +217,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	/**
 	 * Pane fuer das Layout der GUI erzeugen
-	 * 
+	 *
 	 * @return pane
 	 */
 	private Pane createGuiPane() {
@@ -254,7 +244,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	/**
 	 * Pane fuer die Eingabeparameter erstellen
-	 * 
+	 *
 	 * @return inputPane
 	 */
 	private Pane createInputPane() {
@@ -324,7 +314,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	/**
 	 * Pane fuer die Laufzeitdaten erstellen
-	 * 
+	 *
 	 * @return runTimePane
 	 */
 	private Pane createRunTimePane() {
@@ -386,7 +376,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	/**
 	 * Pane fuer die Messergebnisse erstellen
-	 * 
+	 *
 	 * @return resultPane
 	 */
 	private Pane createResultPane() {
@@ -453,7 +443,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	/**
 	 * Pane fuer Buttons erzeugen
-	 * 
+	 *
 	 * @return buttonPane
 	 */
 	private HBox createButtonPane() {
@@ -495,7 +485,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	/**
 	 * Fortschrittsbalken mit Fortschrittsanzeige erstellen
-	 * 
+	 *
 	 * @return gridPane
 	 */
 	private StackPane createProgressPane() {
@@ -508,7 +498,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	/**
 	 * Label erstellen
-	 * 
+	 *
 	 * @param value
 	 *
 	 * @return label
@@ -532,7 +522,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	/**
 	 * Erstellung eines Progressbars
-	 * 
+	 *
 	 * @return Progressbar
 	 */
 	private ProgressBar createProgressbar() {
@@ -545,14 +535,14 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	/**
 	 * Erstellung nicht editierbarer Textfelder
-	 * 
+	 *
 	 * @param pane
 	 * @param columnIndex
 	 * @param rowIndex
 	 * @return textField
 	 */
 	private TextField createNotEditableTextfield(GridPane pane, int columnIndex,
-			int rowIndex) {
+												 int rowIndex) {
 		TextField textField = new TextField();
 		pane.add(textField, columnIndex, rowIndex);
 		textField.setMaxSize(155, 28);
@@ -570,7 +560,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	/**
 	 * Erstellung editierbarer Textfelder Erstellung nicht editierbarer Textfelder
-	 * 
+	 *
 	 * @param pane
 	 * @param columnIndex
 	 * @param rowIndex
@@ -578,7 +568,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 	 * @return textField
 	 */
 	private TextField createEditableTextfield(GridPane pane, int columnIndex, int rowIndex,
-			String value) {
+											  String value) {
 		TextField textField = new TextField(value);
 		pane.add(textField, columnIndex, rowIndex);
 		textField.setMaxSize(155, 28);
@@ -596,7 +586,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	/**
 	 * Erstellung einses Seperators mit einem Label
-	 * 
+	 *
 	 * @param value
 	 * @return labeledSeparator
 	 *
@@ -628,7 +618,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	/**
 	 * Erstellung von Comboboxen
-	 * 
+	 *
 	 * @param options
 	 * @return comboBox
 	 */
@@ -648,7 +638,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	/**
 	 * Erstellung einer MessageArea in einem Scrollpane
-	 * 
+	 *
 	 * @return scrollPane
 	 */
 	private ScrollPane createScrollPane() {
@@ -665,7 +655,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 		box.heightProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue,
-					Number newValue) {
+								Number newValue) {
 				scrollPane.setVvalue((Double) newValue);
 			}
 		});
@@ -677,7 +667,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 	/**
 	 * Es wird ein Task erstellt, der bei Erhoehung des progressCounter den
 	 * Progressbar aktualisiert
-	 * 
+	 *
 	 * @return Task
 	 */
 	private Task<Boolean> progressTask() {
@@ -709,7 +699,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 				task.progressProperty().addListener(new ChangeListener<Number>() {
 					@Override
 					public void changed(ObservableValue<? extends Number> observable,
-							Number oldValue, Number newValue) {
+										Number oldValue, Number newValue) {
 						labelString.setValue(format.format(newValue));
 					}
 				});
@@ -731,9 +721,9 @@ public class BenchmarkingClientGuiFx2 extends Application
 	 */
 	private synchronized void reactOnStartButton() {
 
-		startButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+		startButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(javafx.event.ActionEvent event) {
+			public void handle(ActionEvent event) {
 				abortButton.setDisable(false);
 				newButton.setDisable(true);
 				startButton.setDisable(true);
@@ -1035,6 +1025,10 @@ public class BenchmarkingClientGuiFx2 extends Application
 			iParam.setImplementationType(
 					edu.hm.dako.chat.common.ImplementationType.TCPSimpleImplementation);
 			implType.setTextFill(Color.web(SystemConstants.BLACK_COLOR));
+		} else if (item.equals(SystemConstants.IMPL_JMS)) {
+			iParam.setImplementationType(
+					edu.hm.dako.chat.common.ImplementationType.JMSSimpleImplementation);
+			implType.setTextFill(Color.web(SystemConstants.BLACK_COLOR));
 		} else {
 			setAlert("Kein Implementierungstyp ausgew\u00c4hlt!");
 			startable = false;
@@ -1054,7 +1048,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 	/**
 	 * Oeffnen eines Dialogfensters, wenn ein Fehler bei der Eingabe auftritt
-	 * 
+	 *
 	 * @param message
 	 */
 	private void setAlert(String message) {
@@ -1106,7 +1100,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 		textFieldRetriedEvents.setText("");
 		/*
 		 * scrollPane.setContent(null);
-		 * 
+		 *
 		 * box.getChildren().clear();
 		 */
 

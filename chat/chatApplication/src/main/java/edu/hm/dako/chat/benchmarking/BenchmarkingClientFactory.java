@@ -15,38 +15,54 @@ import edu.hm.dako.chat.tcp.TcpConnectionFactory;
  */
 public final class BenchmarkingClientFactory {
 
-	private BenchmarkingClientFactory() {
-	}
+    private BenchmarkingClientFactory() {
+    }
 
-	public static Runnable getClient(ClientUserInterface userInterface,
-			UserInterfaceInputParameters param, int numberOfClient,
-			SharedClientStatistics sharedData,
-			BenchmarkingClientUserInterface benchmarkingGui) {
-		try {
+    public static Runnable getClient(ClientUserInterface userInterface,
+                                     UserInterfaceInputParameters param, int numberOfClient,
+                                     SharedClientStatistics sharedData,
+                                     BenchmarkingClientUserInterface benchmarkingGui) {
+        try {
 
-			switch (param.getImplementationType()) {
+            switch (param.getImplementationType()) {
 
-			case TCPSimpleImplementation:
+                case TCPSimpleImplementation:
 
-				BenchmarkingClientImpl impl = new BenchmarkingClientImpl(userInterface,
-						benchmarkingGui, param.getImplementationType(), param.getRemoteServerPort(),
-						param.getRemoteServerAddress(), numberOfClient, param.getMessageLength(),
-						param.getNumberOfMessages(), param.getClientThinkTime(),
-						param.getNumberOfRetries(), param.getResponseTimeout(), sharedData,
-						getDecoratedFactory(new TcpConnectionFactory()));
-				return impl;
+                    BenchmarkingClientImpl impl = new BenchmarkingClientImpl(userInterface,
+                            benchmarkingGui, param.getImplementationType(), param.getRemoteServerPort(),
+                            param.getRemoteServerAddress(), numberOfClient, param.getMessageLength(),
+                            param.getNumberOfMessages(), param.getClientThinkTime(),
+                            param.getNumberOfRetries(), param.getResponseTimeout(), sharedData,
+                            getDecoratedFactory(new TcpConnectionFactory()));
 
-			default:
-				throw new RuntimeException(
-						"Unbekannter Implementierungstyp: " + param.getImplementationType());
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+                    return impl;
 
-	public static ConnectionFactory getDecoratedFactory(
-			ConnectionFactory connectionFactory) {
-		return new DecoratingConnectionFactory(connectionFactory);
-	}
+                case JMSSimpleImplementation:
+
+                    String threadName = "Client-Thread-" + (numberOfClient + 1);
+
+                    BenchmarkingClientJmsImpl jmsimpl = new BenchmarkingClientJmsImpl(userInterface,
+                            benchmarkingGui, param.getImplementationType(), param.getRemoteServerPort(),
+                            param.getRemoteServerAddress(), numberOfClient, threadName, param.getMessageLength(),
+                            param.getNumberOfMessages(), param.getClientThinkTime(),
+                            param.getNumberOfRetries(), param.getResponseTimeout(), sharedData);
+
+                    return jmsimpl;
+
+
+                default:
+                    throw new RuntimeException(
+                            "Unbekannter Implementierungstyp: " + param.getImplementationType());
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static ConnectionFactory getDecoratedFactory(
+            ConnectionFactory connectionFactory) {
+        return new DecoratingConnectionFactory(connectionFactory);
+    }
 }
+
