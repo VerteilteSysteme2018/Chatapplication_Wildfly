@@ -73,6 +73,9 @@ public class ChatMessage implements Serializable {
         return "ChatMessage{" +
                 "message='" + message + '\'' +
                 ", userName='" + userName + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                ", clientThread='" + clientThread + '\'' +
+                ", serverthread='" + serverthread + '\'' +
                 '}';
     }
 

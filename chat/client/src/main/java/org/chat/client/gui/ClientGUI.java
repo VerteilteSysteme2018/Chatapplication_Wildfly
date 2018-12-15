@@ -1,7 +1,11 @@
 package org.chat.client.gui;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.chat.client.ClientController;
 import org.chat.common.ChatMessage;
+import org.jgroups.demos.Chat;
 
 import javax.jms.*;
 import javax.swing.*;
@@ -10,6 +14,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 public class ClientGUI implements Runnable {
     private final int fHeight = 430;
@@ -318,6 +324,7 @@ public class ClientGUI implements Runnable {
     private void sendMessage() {
         if (!textareaChatMessage.getText().equals("")) {
             String message = textareaChatMessage.getText();
+            //TODO kafka option here
             clientController.sendMessageToQueue(message);
             textareaChatMessage.setText("");
 
@@ -372,6 +379,46 @@ public class ClientGUI implements Runnable {
         });
         t1.start();
 
+        //get Kafka Topic
+        Properties properties = new Properties();
+        properties.put("bootstrap.servers", "localhost:9092");
+        properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        properties.put("value.deserializer", "org.chat.common.ChatMessageDeserializer");
+        properties.put("group.id", "test-group");
+        KafkaConsumer kafkaConsumer = new KafkaConsumer(properties);
+        List topics = new ArrayList();
+        topics.add("requestTopic");
+        kafkaConsumer.subscribe(topics);
+        Thread thread = new Thread(() -> {
+            try {
+
+                while (true) {
+                    ConsumerRecords<String, ChatMessage> messages = kafkaConsumer.poll(100);
+                    for (ConsumerRecord<String, ChatMessage> omessage : messages) {
+                        System.out.println("Message received " + omessage.value().toString());
+                        ChatMessage message = omessage.value();
+                        String chatName = message.getUserName();
+                        String chatMessage = message.getMessage();
+
+                        StringBuilder sb = new StringBuilder();
+
+                        if (chatName.equals(username)) {
+                            sb.append("*** YOU ***");
+                        } else {
+                            sb.append(chatName);
+                        }
+                        sb.append(":\t" + chatMessage + "\n");
+
+                        textareaChat.append(sb.toString());
+
+                        System.out.println(message.getUserName() + ":" + message.getMessage());
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
     }
 
 

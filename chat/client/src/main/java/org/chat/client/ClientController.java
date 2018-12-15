@@ -3,6 +3,8 @@ package org.chat.client;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.chat.common.ChatMessage;
 
 import javax.ejb.Singleton;
@@ -181,7 +183,32 @@ public class ClientController {
 
 
     public boolean sendMessageToQueue(String message) {
-        if (loggedIn) {
+        //todo remove when kafka option works
+        if (loggedIn && message.contains("kafka")) {
+            Properties properties = new Properties();
+            properties.put("bootstrap.servers", "localhost:9092");
+            properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+            properties.put("value.serializer", "org.chat.common.ChatMessageSerializer");
+            //properties.put("group.id", "test-group");
+
+            KafkaProducer kafkaProducer = new KafkaProducer<String, ChatMessage>(properties);
+
+            try {
+                System.out.println(message);
+                ChatMessage chatMessage =
+                        new ChatMessage(this.name, message, System.currentTimeMillis(),
+                                Thread.currentThread().toString(), "Kafka");
+                kafkaProducer.send(new ProducerRecord<String, ChatMessage>("requestTopic", chatMessage));
+                System.out.println("MESSAGE GESENDET "+ new ProducerRecord<>("requestTopic", chatMessage).toString());
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                kafkaProducer.close();
+            }
+            return false;
+
+        } else if (loggedIn) {
             try {
                 QueueConnection connection = (QueueConnection) connectionFactory.createConnection("user", "user");
                 try {

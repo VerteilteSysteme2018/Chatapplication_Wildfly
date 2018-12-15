@@ -1,17 +1,17 @@
 package org.chat.common;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.kafka.common.header.Headers;
 
 import java.util.Map;
 
-public class ChatMessageSerializer implements KafkaSerializer {
+public class ChatMessageSerializer implements org.apache.kafka.common.serialization.Serializer { //TODO add <ChatMessage> to serializer
 
-    @Override public void configure(Map<String, ?> map, boolean b) {
-
+    @Override
+    public void configure(Map map, boolean b) {
     }
 
-    @Override public byte[] serialize(String arg0, ChatMessage arg1) {
+    @Override public byte[] serialize(String arg0, Object arg1) {
         byte[] retVal = null;
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -22,8 +22,7 @@ public class ChatMessageSerializer implements KafkaSerializer {
         return retVal;
     }
 
-    @Override public void close() {
-
+    @Override
+    public void close() {
     }
-
 }

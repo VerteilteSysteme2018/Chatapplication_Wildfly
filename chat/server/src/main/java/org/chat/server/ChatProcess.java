@@ -2,6 +2,9 @@ package org.chat.server;
 
 import javax.ejb.EJB;
 import javax.transaction.Transactional;
+
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.chat.common.ChatMessage;
 
 import javax.ejb.ActivationConfigProperty;
@@ -9,6 +12,8 @@ import javax.ejb.MessageDriven;
 import javax.jms.*;
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.Properties;
+
 import org.chat.databases.CountRepository;
 import org.chat.databases.Trace;
 import org.chat.databases.TraceRepository;
@@ -68,13 +73,35 @@ public class ChatProcess implements MessageListener {
                     countRepository.updateCount(chatMessage.getUserName());
 
                     //send to topic
-                    sendMessageToTopic(message);
+                    if (chatMessage.getServerthread().equals("JMS")) {
+                        sendMessageToTopic(message);
+                    } else if (chatMessage.getServerthread().equals("Kafka")) {
+                       sendMessageToKafkaTopic(chatMessage);
+                    }
+
                 }
             } catch (JMSException e) {
                 e.printStackTrace();
             }
         }
     }
+
+    private void sendMessageToKafkaTopic(ChatMessage message) {
+        Properties properties = new Properties();
+        properties.put("bootstrap.servers", "localhost:9092");
+        properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        properties.put("value.serializer", "org.chat.common.ChatMessageSerializer");
+        KafkaProducer kafkaProducer = new KafkaProducer<String, String>(properties);
+        try {
+            System.out.println(message.toString());
+            kafkaProducer.send(new ProducerRecord<>("responseTopic", message.getUserName(), message));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            kafkaProducer.close();
+        }
+    }
+
 
     private boolean userLoggedIn(String userName) {
         // TODO implement user request to topic

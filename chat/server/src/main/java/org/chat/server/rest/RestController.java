@@ -2,6 +2,7 @@ package org.chat.server.rest;
 
 import com.google.gson.Gson;
 import org.chat.common.ChatMessage;
+import org.chat.server.KafkaChatProcess;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,6 +32,11 @@ public class RestController extends Application {
         if (users.contains(userName)) {
             return Response.status(201).entity("User " + userName + " already logged in").build();
         } else {
+            if (KafkaChatProcess.getInstance() == null) {
+                KafkaChatProcess kCP = new KafkaChatProcess();
+                kCP.initializeConsumer();
+                kCP.startRecievingMessages();
+            }
             users.add(userName);
             return Response.status(200).entity("User " + userName + " logged in").build();
         }

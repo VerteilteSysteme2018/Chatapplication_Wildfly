@@ -1,6 +1,6 @@
 package edu.hm.dako.chat.benchmarking;
 
-import edu.hm.dako.chat.benchmarking_jms.BenchmarkingClientJmsImpl;
+//import edu.hm.dako.chat.benchmarking_jms.BenchmarkingClientJmsImpl;
 import edu.hm.dako.chat.client.ClientUserInterface;
 import edu.hm.dako.chat.common.SharedClientStatistics;
 import edu.hm.dako.chat.connection.ConnectionFactory;
@@ -10,7 +10,7 @@ import edu.hm.dako.chat.tcp.TcpConnectionFactory;
 /**
  * Uebernimmt die Konfiguration und die Erzeugung bestimmter Client-Typen fuer
  * das Benchmarking. Siehe
- * {@link edu.hm.dako.chat.benchmarking.NioImplementationType.benchmarking.UserInterfaceInputParameters.ImplementationType}
+ * {@link //edu.hm.dako.chat.benchmarking.//NioImplementationType.benchmarking.UserInterfaceInputParameters.ImplementationType}
  * Dies beinhaltet die {@link ConnectionFactory}, die Adressen, Ports, Denkzeit
  * etc.
  */
@@ -38,7 +38,7 @@ public final class BenchmarkingClientFactory {
 
                     return impl;
 
-                case JMSSimpleImplementation:
+                /**case JMSSimpleImplementation:
 
                     String threadName = "Client-Thread-" + (numberOfClient + 1);
 
@@ -50,7 +50,7 @@ public final class BenchmarkingClientFactory {
 
                     return jmsimpl;
 
-
+*/
                 default:
                     throw new RuntimeException(
                             "Unbekannter Implementierungstyp: " + param.getImplementationType());
