@@ -593,10 +593,10 @@
 % journal papers have the author affiliations above the "Manuscript
 % received ..."  text while in non-compsoc journals this is reversed. Sigh.
 
-\author{Andi,
-        Marvin,
-        Anja~Wolf
-        und~Johannes~Knippel}
+\author{Johannes Knippel, 
+		Marvin Staudt,
+        Andreas Westhoff
+        und Anja Wolf}
 
 % note the % following the last \IEEEmembership and also \thanks - 
 % these prevent an unwanted space from occurring between the last author name
@@ -688,12 +688,12 @@
 % in the abstract or keywords.
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-Aufbau einer Chat Applikation unter Einsatz einer Message-Oriented-Middleware -- Praktikum Verteilte Systeme.
+Aufbau einer Chat Applikation unter Einsatz einer Message Oriented Middleware und deren Anwendung.
 \end{abstract}
 
 % Note that keywords are not normally used for peerreview papers.
 \begin{IEEEkeywords}
-Verteilte Systeme, MOM, Wildfly, JMS, JavaEE, Transactions, JPA, Docker, Angular, GraphQL, ReST
+Verteilte Systeme, JMS, Wildfly, MOM, JavaEE, JPA, Kafka, Docker, Angular, GraphQL, ReST
 \end{IEEEkeywords}}
 
 
@@ -756,7 +756,10 @@ Verteilte Systeme, MOM, Wildfly, JMS, JavaEE, Transactions, JPA, Docker, Angular
 %
 % Here we have the typical use of a "T" for an initial drop letter
 % and "HIS" in caps to complete the first word.
-\IEEEPARstart{D}{iese} Studienarbeit beschreibt die Chat-Applikation, die im Rahmen des Praktikums im Fach \textit{Verteilte Systeme} im Wintersemester 2017/2018. 
+\IEEEPARstart Noch neu Schreiben
+
+
+{D}{iese} Studienarbeit beschreibt die Chat-Applikation, die im Rahmen des Praktikums im Fach \textit{Verteilte Systeme} im Wintersemester 2017/2018. 
 
 Ziel der Studienarbeit ist, es innovative Lösungsansätze und Konzepte im Umfeld der verteilten Systeme zu erforschen, zu erproben und diese zu bewerten. 
 
@@ -764,75 +767,109 @@ Im Fokus der Arbeit steht eine einfache Chat-Anwendung, die dazu dient, die Entw
 
 Im Folgenden wird die Konzeption der Anwendung sowie die benötigte Infrastruktur erläutert. Anschließend wird die Umsetzung und die damit verbundene Konfiguration der einzelnen Komponenten der Anwendung näher beschrieben. Abschließend folgt ein Fazit. 
 
-\hfill 23. Dezember, 2017
+\hfill 21. Dezember, 2018
+
+\section{Konzeption}
+Schönes Fazit
+\begin{itemize}
+	\item Fitzli
+\end{itemize}
 
 
+\section{Infrastruktur}
+Github, Wildfly 13, DBs in Docker
+\begin{itemize}
+	\item Fitzli
+\end{itemize}
 
+\section{Umsetzung}
+Einleitung
+\subsection{Aufbau Server}
+\subsection{Aufbau Client}
+\subsection{JMS Konfiguration}
+\subsection{Kafka Konfiguration}
+\subsection{Login über ReST}
+\subsection{Chat Prozess}
+\subsubsection{JMS Message}
+\subsubsection{Kafka}
+\subsubsection{Persistieren der Informationen in den Datenbanken Trace und Count}
+Während des \textit{Chat Process} werden mit Hilfe der beiden Datenbankprozesse \textbf{Count} und \textbf{Trace} die benötigten Informationen zu den Nachrichten der \textit{chatuser} in die jeweilige Datenbank gespeichert und protokolliert. Hierfür werden zwei Datenbanksysteme benötigt, welche unabhängig voneinander ausgeführt werden können. Um dies zu gewährleisten wurde jeweils eine Datenbank in einem Docker-Container ausgeführt. Zum einen persistiert die Datenbank \textbf{Trace} alle gewünschten Informationen zu einer Chatnachricht. Die \textbf{Count} Datenbank dient zum ermitteln der Anzahl der versendeten Nachrichten eines \textit{chatusers}. Dementsprechend wird sobald ein \textit{chatuser} die erste Nachricht versendet ein Eintrag erstellt. Bei jeder weiteren Nachricht wird dieser automatisch mit einem Zähler inkrementiert. 
 
+Die Count-Datenbankinstanz erzeugt zur Laufzeit eine Tabelle mit dem Namen \textit{countdata}. Die Struktur besteht dabei aus den folgenden fünf Attributen: \textit{ID, username, clientthread, serverthread und message}. (Vgl. Tabelle \ref{tab:count})
 
+Die Trace-Datenbankinstanz erzeugt zur Laufzeit eine Tabelle mit dem Namen \textit{trace}. Die Struktur besteht dabei aus den folgenden drei Attributen: \textit{ID, username und counting}. (Vgl. Tabelle \ref{tab:trace})
 
 \begin{table}[h!]
-	\caption{Aufbau der Trace-Tabelle.}
-	\label{tab:trace}
-	\def\arraystretch{1} % vertical stretch factor, 1.25 for more spacing
+	\caption{Struktur der Count-Tabelle.}
+	\label{tab:count}
+	\def\arraystretch{1,2} % vertical stretch factor, 1.25 for more spacing
 	\centering
-	\begin{tabular}{||c|c||}\hline
-		\textbf{Spaltenname}  & \textbf{Funktion} \\ \hline \hline
-		\lstinline|id|           & Eindeutige Id             \\ \hline
+	\begin{tabular}{|c||c|}\hline
+		\textbf{Attribut}  & \textbf{Funktion} \\\hline \hline
+		\lstinline|ID|           & Eindeutige Id             \\ \hline
+		\lstinline|username|       & Chat-Nutzer Name             \\ \hline
+		\lstinline|counting|        & Zähler der gesendeten Nachrichten             \\\hline
+	\end{tabular} 
+\end{table}
+\begin{table}[h!]
+	\caption{Struktur der Trace-Tabelle.}
+	\label{tab:trace}
+	\def\arraystretch{1,2} % vertical stretch factor, 1.25 for more spacing
+	\centering
+	\begin{tabular}{|c||c|}\hline
+		\textbf{Attribut}  & \textbf{Funktion} \\ \hline \hline
+		\lstinline|ID|           & Eindeutige Id             \\ \hline
 		\lstinline|username|       & Chat-Nutzer Name             \\ \hline
 		\lstinline|clientthread|        & Thread-Name des Clients             \\ \hline
-		\lstinline|message|        & Die gesendete Nachricht             \\\hline 
+		\lstinline|serverthread|        & Identifikation des Servers           \\ \hline
+		\lstinline|message|        & Die versendete Nachricht             \\\hline 
 	\end{tabular} 
 \end{table}
 
-\begin{table}[h!]
-	\caption{Aufbau der Count-Tabelle.}
-	\label{tab:count}
-	\def\arraystretch{1} % vertical stretch factor, 1.25 for more spacing
-	\centering
-	\begin{tabular}{||c|c||}\hline
-		\textbf{Spaltenname}  & \textbf{Funktion} \\\hline \hline
-		\lstinline|id|           & Eindeutige Id             \\ \hline
-		\lstinline|username|       & Chat-Nutzer Name             \\ \hline
-		\lstinline|counter|        & Zähler der gesendeten Nachrichten             \\\hline
-	\end{tabular} 
-\end{table}
 
-%\begin{table}[h!]
-%	\centering
-%	\begin{tabular}{||c|c||}\hline
-%		\textbf{Spaltenname}  & \textbf{Funktion} \\ \hline \hline
-%		id           & Eindeutige Id             \\ \hline
-%		username       & Chat-Nutzer Name             \\ \hline
-%		clientthread        & Thread-Name des Clients             \\ \hline
-%		message        & Die gesendete Nachricht             \\\hline 
-%	\end{tabular}
-%	\label{tbl:TraceSpalten}
-%	\caption{Spalten der Trace-Tabelle}
-%\end{table}
+Um im ersten Schritt einen Zugriff von wildfly auf die in den beiden Docker-Containern ausgeführten Datenbanken zu erhalten muss die Konfigurationsdatei des Applikations-Servers \textit{standalone.xml} um die beiden Datenbankinstanzen erweitert werden. Hierbei werden zwei \textit{XA-Datasources} eingetragen. Diese Art von Datenbanken erlaubt es mehrere \textit{Datasources} gleichzeitig innerhalb einer Transaktion verwenden zu können. Folgende Informationen wurden hierbei hinterlegt: \textit{IP-Adresse, Port, User} und \textit{Passwort}. 
+Wichtig ist hierbei die Verwendung der richtigen Syntax der jeweiligen wildfly-Version, da andernfalls die Verbindung zwischen Applikationsserver und Datenbank nicht erfolgreich hergestllt werden kann. 
 
-%\begin{table}[h!]
-%	\centering
-%\begin{tabular}{||c|c||}\hline
-%		\textbf{Spaltenname}  & \textbf{Funktion} \\\hline \hline
-%		id           & Eindeutige Id             \\ \hline
-%		username       & Chat-Nutzer Name             \\ \hline
-%		counter        & Zähler der gesendeten Nachrichten             \\\hline
-%	\end{tabular}
-%	\label{tbl:CountSpalten}
-%		\caption{Spalten der Counter-Tabelle}	
-%\end{table}
+Um nun im Folgenden die Daten in die jeweiligen Tabellen persisitieren zu können wurde die \textit{Java Persistence API} \textbf{(JPA)} verwendet. Dies vereinfacht den Prozess der Zuordnung und Auslieferung der Objekte zu den richtigen Einträgen in den Datenbankinstanzen.  Dabei bilden die zwei Persistence Entities der Klassen \textbf{Trace.java} und \textbf{Count.java} aus dem Package \textit{databases} die Tabellen \textit{countdata} und \textit{trace} ab. Die Objekte der Klassen werden automatisch erkannt und die Struktur der Tabellen festgelegt. 
+
+In dieser Studienarbeit wurde der Ansatz der \textit{Enterprise JavaBean} \textbf{(EJB)} mit einer container-verwalteten Transaktion verwendet. Dementsprechend wurden beide Datenbanken als \textit{persistence-unit} in dem \textit{persistence.xml}-file angegeben. Weiterhin wurden hier die IP-Adressen, welche \textit{Docker} vergeben hat, zusammen mit den jeweiligen Ports hinterlegt. Zusätzlich wurde der \textit{User} und das \textit{Passwort} angegeben, um einen Zugang zur Datenbank zu ermöglichen. Wichtig hierbei ist auch die Angabe der Klasse, welche die \textit{Entity} auf eine die jeweilige Datenbanktabelle wiederspiegeln soll. 
+
+Mit Hilfe von Hibernate, welches ebenfalls in der \textit{persisstence.xml} mit den entsprechenden Eigenschaften definiert wurde, wird die Schnittstelle für den Zugriff auf die Datenbanken festgelegt. Dadurch wird es möglich, Datenbankverbindungen aufzubauen und diese entsprechend zu verwalten. Dabei werden \textit{Structured Query Language} \textbf{(SQL)} Abfragen weitergeleitet und nach Ausführung dem Applikationsserver wieder zur Verfügung gestellt. 
+
+In dieser Studienarbeit wurden zwei \textbf{JPA}-Implementierungen eingebunden. Dementsprechend werden für beide zur Laufzeit jeweils automatisch ein \textit{Entity-Manager} erstellt. Dieser dient als Komponente zur erfolgreichen Persistierung von Daten in die Datenbank zur Verfügung. Daraus ergeben sich Methoden, wie z. B. das Speichern, das Finden oder Bearbeiten bereits gespeicherter Daten oder das Löschen eines Datensatzes. Dies wird automatisch unter Verwendung der richtigen Annotationen zur Laufzzeit durchgeführt. 
+
+Dementsprechend wird es ermöglicht eine einheitliche Schnittstelle für den \textit{ChatProcess} zur Verfügung zu stellen. Mit den Methoden \textit{updateCount(Count count)} und \textit{create(Trace trace)}, welche der \textit{ChatProcess} aufruft, werden Daten in die beiden Datenbankinstanzen gespeichert bzw. aktualisiert.
+
+Auch werden hierbei die Methoden zum Abfragen und zum Zurücksetzen der Datenbanken für den Admin Client (vgl. Kapitel \ref{sub:admin})bereitgestellt. Die beiden Methoden \textit{List<Count> findAll()} und \textit{List<Trace> findAll()} geben jeweils den gesamten Inhalt der in den Datenbanken gespeicherten Informationen aus. Die Methode \textit{clear()} ermöglicht das separate Löschen aller Daten aus den beiden Datenbanken. 
+
+Im Folgenden Kapitel \ref{sub:transactions} werden die Transaktionsverwaltung und der Zusammenhang des Persistieren dieser Informationen in die beiden Datenbankinstanzen genauer erläutert. 
+\subsection{Transaktionsverwaltung}
+\label{sub:transactions}
+\subsection{Benchmark-Client}
+Ergebnisse etc. 
+\subsection{GraphQL}
+\subsubsection{Was ist GraphQL?}
+\subsubsection{Die implementierte GraphQL-Schnittstelle}
+evtl Herausforderung
+\subsubsection{GraphQL vs. ReST}
+\subsection{Admin-Client}
+\label{sub:admin}
+\begin{itemize}
+	\item Fitzli
+\end{itemize}
+
+
 
 
 \begin{lstlisting}
 {"data":
  {"allTraces":[
+	{"userName":"Marvin",
+	 "message":"Hallo Andreas"},
+	{"userName":"Andreas",
+	 "message":"Hallo Marvin"},
 	{"userName":"Alexandra",
-	 "message":"Hallo Fabi"},
-	{"userName":"Fabi",
-	 "message":"Hey, na alles klar?"},
-	{"userName":"Alexandra",
-	 "message":"Ja passt schon und bei dir?"}]
+	 "message":"Wie geht es dir?"}]
  }
 }
 \end{lstlisting}
@@ -844,12 +881,12 @@ Im Folgenden wird die Konzeption der Anwendung sowie die benötigte Infrastruktu
 \ac{ReST} 
 
 
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.30]{Bilder/AdminClient_User.JPG}
-	\caption{Chat-Nutzer-Verwaltung des Admin-Clients.}
-	\label{fig:adminClientUser}
-\end{figure}
+%\begin{figure}
+%	\centering
+%	\includegraphics[scale=0.30]{Bilder/AdminClient_User.JPG}
+%	\caption{Chat-Nutzer-Verwaltung des Admin-Clients.}
+%	\label{fig:adminClientUser}
+%\end{figure}
 
 \lstinline|application/JSON|  
 

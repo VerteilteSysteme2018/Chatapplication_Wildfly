@@ -30,7 +30,6 @@ edu/hm/dako/chat/connection/ConnectionFactory.class
 edu/hm/dako/chat/benchmarking/BenchmarkingClientGuiFx2$4.class
 edu/hm/dako/chat/server/ChatServerGUI$5.class
 edu/hm/dako/chat/tcp/TcpServerSocket.class
-edu/hm/dako/chat/common/ClientListEntry.class
 edu/hm/dako/chat/benchmarking/BenchmarkingClientGuiFx2$5.class
 edu/hm/dako/chat/client/ClientFxGUI$3.class
 edu/hm/dako/chat/common/SystemConstants.class
@@ -42,9 +41,7 @@ edu/hm/dako/chat/server/ChatServerGUI$6.class
 edu/hm/dako/chat/benchmarking/BenchmarkingClientGuiFx2$3$1.class
 edu/hm/dako/chat/common/PduType.class
 edu/hm/dako/chat/tcp/TcpConnection.class
-edu/hm/dako/chat/common/ClientConversationStatus.class
 edu/hm/dako/chat/common/SharedClientStatistics$ClientStatistics.class
-edu/hm/dako/chat/client/ClientUserInterface.class
 edu/hm/dako/chat/client/ClientFxGUI$4.class
 edu/hm/dako/chat/client/ClientImpl.class
 edu/hm/dako/chat/server/ChatServerInterface.class
@@ -52,7 +49,6 @@ edu/hm/dako/chat/common/DistributionMetrics.class
 edu/hm/dako/chat/server/SharedServerCounter.class
 edu/hm/dako/chat/common/ExceptionHandler.class
 edu/hm/dako/chat/connection/ConnectionTimeoutException.class
-edu/hm/dako/chat/client/ClientCommunication.class
 edu/hm/dako/chat/client/ClientFxGUI$5.class
 edu/hm/dako/chat/benchmarking/BenchmarkingClientGuiFx2$2.class
 edu/hm/dako/chat/connection/Connection.class
@@ -79,8 +75,6 @@ edu/hm/dako/chat/benchmarking/BenchmarkingUserInterfaceSimulation.class
 edu/hm/dako/chat/server/ChatServerGUI$2.class
 edu/hm/dako/chat/server/SimpleChatServerImpl.class
 edu/hm/dako/chat/benchmarking/BenchmarkingClientImpl$1.class
-edu/hm/dako/chat/client/SharedClientData.class
-edu/hm/dako/chat/common/CpuUtilisationWatch.class
 edu/hm/dako/chat/benchmarking_jms/BenchmarkingClientJmsImpl.class
 edu/hm/dako/chat/server/AbstractChatServer.class
 edu/hm/dako/chat/server/SimpleChatWorkerThreadImpl.class
@@ -88,7 +82,6 @@ edu/hm/dako/chat/client/SimpleMessageListenerThreadImpl.class
 edu/hm/dako/chat/client/ClientModel.class
 edu/hm/dako/chat/connection/EndOfFileException.class
 edu/hm/dako/chat/benchmarking/BenchmarkingClientGuiFx2$7.class
-edu/hm/dako/chat/benchmarking_jms/JmsChatClient.class
 edu/hm/dako/chat/benchmarking/BenchmarkingClientGuiFx2.class
 edu/hm/dako/chat/common/ImplementationType.class
 edu/hm/dako/chat/benchmarking/UserInterfaceResultData.class
