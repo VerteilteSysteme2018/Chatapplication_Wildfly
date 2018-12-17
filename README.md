@@ -2,33 +2,37 @@
 ## vorgelegt von Johannes Knippel | Marvin Staudt | Andreas Westhoff | Anja Wolf
 
 ## Ordnerstruktur:
-*  *chatApplikation* Chat-Vorlage Dako
-*  *chat* Projekt für die Anwendung. Enthält:
-    * *AdminClient* Enthält den AdminClient in Form eines Angular-Projekts. Holt sich LiveDaten vom Server und Chatverlauf
-    * *client* Modul für die Implementierung des Chatclients
-    * *common* Modul für gemeinsame Dateien wie z.B. die Chat-PDUs
-    * *server* Modul für die Implementierung des Servers
-*  *Wildfly-config* Konfigurationsdateien für den Wildfly-Server mit Application- und Management-User sowie den benötigten JMS-Einstellungen im Server. Einfach in den Wildfly-Ordner kopieren (vorher backup von standalone.xml anlegen)
+*  **chat** Projekt für die Anwendung. Enthält:
+    * **AdminClient** Enthält den AdminClient in Form eines Angular-Projekts. Holt sich LiveDaten vom Server und stellt diese dar.
+    * **chatApplication** enthält die Vorlage inkl. unserer Erweiterungen. Wurde in ein Maven-Projekt umgewandelt.
+    * **client** Modul für die Implementierung des Chatclients
+    * **common** Modul für gemeinsame Dateien wie z.B. die Chat-PDUs
+    * **lib** Libraries 
+    * **server** Modul für die Implementierung des Servers. Enthält: 
+      * Datenbanken
+      * ReST
+      * GraphQL
+      * ChatProcess JMS & Kafka
+*  **Docs** beinhaltet die Ausarbeitung als pdf
+*  **README** beschreibt die Konfiguration von Widlfly, Kafka, JMS und die Datenbankanbindung
+*  **Wildfly-config** Konfigurationsdateien für den Wildfly-Server mit Application- und Management-User sowie den benötigten JMS-Einstellungen im Server. Einfach in den Wildfly-Ordner kopieren (vorher backup von standalone.xml anlegen)
 
 _______________________________________________________________________________________________________
-_______________________________________________________________________________________________________
 
-## TO DO 05.12.2018:
+## TO DO 17.12.2018:
 * Benchmariking Clients + Last Test     -> Anja    
 * Kafka                                 -> Flo
-* Serverthread            + Timestamp    -> Andi
+* Serverthread            + Timestamp  
 * Docker Container
 * Update README.md für Configuration
 * Ordnerstruktur updaten
 * jeder seinen teil schreiben für Ausarbeitung:
-** Anja: Grundalgen + Login REST
-** Johannes: Angular
-** Andi: Widlfly Config JMS
-** Marvin: DB + GraphQL
-** fehlt noch: Kafka, XA Transaktion, Benchmark
+  * Anja: Grundalgen + Login REST
+  * Johannes: Angular
+  * Andi: Widlfly Config JMS
+  * Marvin: DB + GraphQL
+  * fehlt noch: Kafka, XA Transaktion, Benchmark
 
-_______________________________________________________________________________________________________
-_______________________________________________________________________________________________________
 _______________________________________________________________________________________________________
 
 ## Setup local Wildfly 13.0.0.Final, DB Anbindung, JMS & Kafka
