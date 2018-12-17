@@ -35,7 +35,7 @@ ________________________________________________________________________________
 
 _______________________________________________________________________________________________________
 
-## Setup local Wildfly 13.0.0.Final, DB Anbindung, JMS & Kafka
+## Setup local Wildfly 13.0.0.Final, DB Anbindung, JMS, Kafka, Angular AdminClient & die Nutzung mehrerer localhosts
 
 ## 1. Application Server in IDE einrichten (Wir haben mit InteliJ gearbeitet, als Projektstruktur wurde Maven verwendet) 
 
@@ -100,3 +100,13 @@ Die tracedb läuft auf dem Port 3306 und countdb auf dem Port 3310. Dies wurde j
  `bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic requestTopic`
  `bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic responseTopic`      
 
+## 5. Angular AdminClient
+* Für die Nutzung von Angular muss zunächst sichergestellt sein, dass Node.js und der AngularCLI auf dem Rechner global installiert sind. Node.js: https://nodejs.org/en/
+* Für den AngularCLI nun in der Windows-Console folgenden Befehl ausführen: `npm install -g @angular/cli`
+* In den Projektordner `../AdminClient/` wechseln und `npm install` ausführen, um die notwendigen node_modules (Dependencies) zu installieren
+* bei eventuellen `vulnerabilities` folgenden Befehl ausführen `npm audit fix -force`
+* `npm start` um den Client unter http://localhost:4200/ aufzurufen
+
+## 6. Nutzung mehrerer localhosts
+* Unter den Brwoserherstellern ist es üblich gleichzeitige Verbindungen von localhosts zu unterbinden, um Sicherheitslücken zu präventieren
+* Damit die Kommunikation zwischen dem Backend (ChatApplication) und dem Frontend (AdminClient) zu ermöglichen, muss unter Wondows eine ungesicherte Instanz des Browsers gestartet werden. Unter Windows und Chrome funktioniert dies so: `Windows+R` drücken und folgenden Befehl ausführen `chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security`
