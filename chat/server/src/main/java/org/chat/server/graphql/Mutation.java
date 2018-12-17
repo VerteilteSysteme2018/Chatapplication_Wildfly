@@ -19,7 +19,8 @@ public class Mutation implements GraphQLMutationResolver {
     return true;
   }
 
-  public int clearTrace() {
-    return traceMRepository.clear();
+  public boolean clearTrace() {
+    traceMRepository.clear();
+    return true;
   }
 }

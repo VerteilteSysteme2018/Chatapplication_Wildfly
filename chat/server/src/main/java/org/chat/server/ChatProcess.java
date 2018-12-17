@@ -1,6 +1,7 @@
 package org.chat.server;
 
 import javax.ejb.EJB;
+import javax.ejb.MessageDrivenContext;
 import javax.transaction.Transactional;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -43,6 +44,9 @@ public class ChatProcess implements MessageListener {
     @EJB
     private CountRepository countRepository;
 
+    @Resource
+    private MessageDrivenContext messageDrivenContext;
+
     @Override
     public void onMessage(Message message) {
 
@@ -58,7 +62,6 @@ public class ChatProcess implements MessageListener {
                     + "von" + chatMessage.getUserName());
                 if (userLoggedIn(chatMessage.getUserName())) {
 
-                    //TODO do any db transaction with the message stuff
                     // update tracedb
                     System.out.println("update tracedb");
                     Trace trace = new Trace();
@@ -82,6 +85,7 @@ public class ChatProcess implements MessageListener {
                 }
             } catch (JMSException e) {
                 e.printStackTrace();
+                messageDrivenContext.setRollbackOnly();
             }
         }
     }

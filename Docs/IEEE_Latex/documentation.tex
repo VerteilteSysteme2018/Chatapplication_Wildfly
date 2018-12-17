@@ -806,9 +806,9 @@ Die Trace-Datenbankinstanz erzeugt zur Laufzeit eine Tabelle mit dem Namen \text
 	\centering
 	\begin{tabular}{|c||c|}\hline
 		\textbf{Attribut}  & \textbf{Funktion} \\\hline \hline
-		\lstinline|ID|           & Eindeutige Id             \\ \hline
-		\lstinline|username|       & Chat-Nutzer Name             \\ \hline
-		\lstinline|counting|        & Zähler der gesendeten Nachrichten             \\\hline
+		\lstinline|ID|           & Eindeutige ID             \\ \hline
+		\lstinline|username|       & Nutzername             \\ \hline
+		\lstinline|counting|        & Anzahl der gesendeten Nachrichten             \\\hline
 	\end{tabular} 
 \end{table}
 \begin{table}[h!]
@@ -818,11 +818,11 @@ Die Trace-Datenbankinstanz erzeugt zur Laufzeit eine Tabelle mit dem Namen \text
 	\centering
 	\begin{tabular}{|c||c|}\hline
 		\textbf{Attribut}  & \textbf{Funktion} \\ \hline \hline
-		\lstinline|ID|           & Eindeutige Id             \\ \hline
-		\lstinline|username|       & Chat-Nutzer Name             \\ \hline
-		\lstinline|clientthread|        & Thread-Name des Clients             \\ \hline
+		\lstinline|ID|           & Eindeutige ID             \\ \hline
+		\lstinline|username|       & Nutzername             \\ \hline
+		\lstinline|clientthread|        & Identifikation des clients             \\ \hline
 		\lstinline|serverthread|        & Identifikation des Servers           \\ \hline
-		\lstinline|message|        & Die versendete Nachricht             \\\hline 
+		\lstinline|message|        & versendete Nachricht             \\\hline 
 	\end{tabular} 
 \end{table}
 
@@ -845,38 +845,113 @@ Auch werden hierbei die Methoden zum Abfragen und zum Zurücksetzen der Datenban
 Im Folgenden Kapitel \ref{sub:transactions} werden die Transaktionsverwaltung und der Zusammenhang des Persistieren dieser Informationen in die beiden Datenbankinstanzen genauer erläutert. 
 \subsection{Transaktionsverwaltung}
 \label{sub:transactions}
+Um eine übergreifende XA-Transaktion unter Einbeziehung der Zugriff auf die JMS-Queue, das Topic sowie auf die Datenbanken zu realisieren übernimmt das \textit{Transactions subsystem} des Wildfly Application Servers die komplette Transaktionsverwaltung. Die beiden MariaDB-Container, welche im Docker ausgeführt werden, unterstützen den Prozess der XA-Transaktionen. Auch wurden die beiden Datenbanken als \textit{XA-Datasources} in der Konfigurationsdatei \textit{standalone.xml} des Application Servers definiert. 
+
+Dementsprechend wird ein Transaktionsmanager mit dem \textit{TransactionsManagementType.CONTAINER} vorgeschaltet. Das Starten, Zurückrollen oder Abschließen einer Transaktion wird direkt unter dessen Verwaltung gestellt. Hierfür sind die Annotationen \textit{@Transactional} vor die jeweiligen Methoden bzw. Klassen gesetzt. 
+
+Ein aktives Eingreifen ist aus diesem Grund nicht notwendig. Wird eine Methode ohne Komplikationen durchlaufen, schließt der Transaktionsmanager die Transaktion automatisch mit \textit{COMMIT} ab. Wird jedoch ein Fehler geworfen, werden alle darin enthaltenen Methoden mit einem \textit{ROLLBACK} zurückgerollt.
+
+Beispeilsweise wird beim unerwarteten Abbruch während des Schreibvorgangs von Daten in einer der beiden Datenbanken eine Exception nötig, die automatisch alle Änderungen mit einem \textit{ROLLBACK} rückgängig macht. Werden zum Beispiel erfolgreich Daten in die erste Datenbank geschrieben und ein unerwarteter Fehler tritt beim Einfügen der Daten in die zweite Datenbank auf, muss mittels einer Exception durch den Transaktionsmanager ein Zurückrollen der beiden Schreibvorgänge durchgeführt werden. Im Anschluss sollte ein erneuter Zustellversuch dieser Nachricht die Folge sein. 
+
+Auch ein aktives Auslösen eines Rollbacks im \textit{ChatProcess} ist mit der Methode \textit{setRollbackOnly()} des \textit{MessageDrivenContext} der Message Driven Bean ist im Falle einer \textit{JMSException} möglich. 
+
+Im Falle eines Sendeversuchs einer \textit{Message}, welche von einem nicht eingeloggten \textit{user} versendet wird, ist diese Exception allerdings nicht notwendig. Dies ist darauf zurückzuführen, dass in der Klasse \textit{ChatProcess} im Vorfeld überpüft wird, ob der \textit{user} eingeolgt ist. Ist dieser nicht eingeloggt, wird kein Sendeprozess durchgeführt und somit findet kein Schreiben in die Datenbank statt. 
 \subsection{Benchmark-Client}
 Ergebnisse etc. 
 \subsection{GraphQL}
+Im Folgenden Abschnitt wird die GraphQL-Schnittstelle  und die Vorgehensweise der Implementierung mit den aufgetretenen Herausforderungen in diesem Projekt erläutert. Abschließend werden mittels eines Vergleichs die Vor- bzw. Nachteile von \textit{ReST} und \textit{GraphQL} diskutiert.
 \subsubsection{Was ist GraphQL?}
+\textit{GraphQL} bietet mit Hilfe eines neuen API Standards eine effiziente und leistungsfähige Alternative zu \textit{ReST} an. \textit{GraphQL} ist eine Abfragesprache \textit{(Query Language)}, welche über die API angesprochen werden kann. Dabei ermöglicht es das Ausführen von Abfragen mit Hilfe eines Typsystems, welches im Vorfeld definiert wurde, zur Laufzeit des Servers. Zusätzlich stellt \textit{GraphQL} Spezifikationen und Werkezeuge, welche lediglich über einen HTTP-Endpunkt angesprochen werden, zur Verfügung. \cite{GraphQL:Introduction}
+
+Die im Folgenden beschriebenen drei Schritte dienen der Erklärung des Grundkonzepts, welches hinter \textit{GraphQL} steht, am Beispiel der Implementierung in diesem Projekt.
+\begin{itemize}
+	\item[1.]
+	Da \textit{GraphQL} ein eigenes Typsystem hat, welches das Schema der API definiert, muss dieses im ersten Schritt festgelegt werden. Hierfür wird die \textit{Schema Definition Language} \textbf{(SDL)} verwendet. Hier ein Beispiel, welches im Rahmen dieser Studienarbeit angewendet wurde, um den einfachen Typ \textit{Trace} zu definieren. 
+	
+\begin{lstlisting}
+type query {
+	allTrace: [TraceTO]
+	allCount: [CountTO]
+}
+
+type TraceTO {	
+	id: ID!
+	username: String
+	clientthread: String
+	message: String
+	serverthread: String
+}
+\end{lstlisting}
+	Ein \textit{GraphQL-Service} wird erstellt, indem Typen und Felder für diesen Typen definiert werden, um im Anschluss für jedes Feld bzw. für jeden Typen Funktionen festlegen zu können.
+	\item[2.]
+	Der \textit{GraphQL-Service} kann nun mit der folgenden Query vom Client ausgeführt werden. \cite{GraphQL:howtoGraphQL}
+\begin{lstlisting}
+query = {
+	allTrace {
+		id
+		username
+		clientthread
+		message
+		serverthread
+	}
+}
+\end{lstlisting}
+	Dabei kann der Client direkt festlegen welche Attribute ausgegeben werden sollen bzw. entsprechende auch weglassen. Es müssen dementsprechend nicht alle Attribute, welche im zuvor festgelegten Schema definiert wurden, auch wieder abgerufen werden. Die hinterlegte Methode zu dieser Abfrage wird in dem Mapper-Repository der Klasse \textit{TraceMRepository} mit der Methode \textit{public List<TraceMapper> findAll()} definiert.  Diese Methode wird in der Klasse \textit{Query} mit der folgenden Methode aufgerufen und ausgeführt. \cite{GraphQL:howtoGraphQL}
+\begin{lstlisting}
+public List<TraceMapper> findAll() {
+  return TraceMRepository.findAll();
+}
+\end{lstlisting}
+	\end{itemize}
+Der Server gibt die angefragten Daten im Anschluss durch eines JSON-Body wie folgt zurück. 
+\begin{lstlisting}
+{
+ "data": {
+  "allTrace": [
+   {
+    "id": "1",
+    "username": "Marvin",
+    "clientthread": 
+       "Thread[AWT-EventQueue-0,6,main]",
+    "message": "Hallo, wie geht's?",
+    "serverthread": "JMS"
+   }
+  ]
+ }
+}
+\end{lstlisting}
 \subsubsection{Die implementierte GraphQL-Schnittstelle}
-evtl Herausforderung
+Die im Zuge dieser Studienarbeit implementierte \textit{GraphQL-Schnittstelle} ist auf die  Bibliothek \textit{com.graphql-java} in der Version \textit{3.0.0} aufgebaut. Die Bibliothek ist in der \textit{pom.xml}-Datei des Maven-Projets hinterlegt. Um einen GraphQL Endpunkt mit der folgenden \textit{URL} erreichbar zu machen wurde eine Klasse mit dem Namen \textit{GraphQLEndpoint} im Package \textit{graphql} erstellt. Diese erweitert die Klasse \textit{SimpleGraphQLServlet}.
+\begin{lstlisting}
+localhost:8080/server-1.0-SNAPSHOT/graphql
+\end{lstlisting}
+Diese Klasse beschreibt von welchem Schema dieser \textit{GraphQL}-Service definiert wird. Das Schema hierzu muss im folgenden Verzeichnis hinterlegt werden. 
+\begin{lstlisting}
+chat/server/src/main/resources/schema.graphqls
+\end{lstlisting}
+Das Schema wird einführend wie folgt definiert:
+\begin{lstlisting}
+schema {
+	query: Query
+	mutation: Mutation
+}
+\end{lstlisting}
+In der Klasse \textit{Query} werden die Methoden definiert, die alle Daten aus den beiden Datenbanken \textit{Count} und \textit{Trace} ausgeben. In der Klasse \textit{Mutation} werden die Methoden definiert, welche der Admin-Client im Anschluss ausführen kann, um die beiden Datenbanken zu entleeren. \textit{Query} und \textit{Mutation} müssen beide jeweils im Schema als Typen definiert werden. Im Anschluss müssen die jeweiligen Methoden in den beiden Klassen definiert werden. 
+
+In diesen Methoden wurde gesamte Logik der Abfrage bzw. Manipulieren der Daten hinterlegt. Die beiden \textit{GET-Methoden}, die alle Daten aus den Datenbanken ausgebenw werden als \textit{GET-Reqeust} auf den Server abgesetzt. Die beiden Methoden, welche zum Löschen der Datenbanken aufgerufen werden können, wurden in der Klasse \textit{Mutation} definiert. Dabei muss ein \textit{POST-Request} abgesetzt werden. Zusätzlich wird ein \textbf{JSON-Body} mit dem folgenden Inhalt übergeben.
+\begin{lstlisting}
+{"query":"mutation{clearCount}"}
+\end{lstlisting}
+Der abgebildete \textit{JSON-Body} entleert die \textit{Count-Datenbank}. Als Rückmeldung wird ein \textit{Boolean-Wert} vom Applikationsserver zurückgegeben. War das Zurücksetzen der Datenbank erfolgreich wird \textit{true} ausgeben.
+
+
+noch HErausforderungen und Vergleich von graphql und rest
 \subsubsection{GraphQL vs. ReST}
 \subsection{Admin-Client}
 \label{sub:admin}
 \begin{itemize}
 	\item Fitzli
 \end{itemize}
-
-
-
-
-\begin{lstlisting}
-{"data":
- {"allTraces":[
-	{"userName":"Marvin",
-	 "message":"Hallo Andreas"},
-	{"userName":"Andreas",
-	 "message":"Hallo Marvin"},
-	{"userName":"Alexandra",
-	 "message":"Wie geht es dir?"}]
- }
-}
-\end{lstlisting}
-
-
-
-
 
 \ac{ReST} 
 
@@ -1071,9 +1146,13 @@ Blbalalb
 % (used to reserve space for the reference number labels box)
 \begin{thebibliography}{1}
   
-\bibitem{GraphQL:howtographql}
-\emph{Basic Tutorial: Introduction}
-\url{https://www.howtographql.com/basics/0-introduction/}
+\bibitem{GraphQL:Introduction}
+\emph{Introduction to GraphQL}
+\url{https://graphql.org/learn/}
+  
+\bibitem{GraphQL:howtoGraphQL}
+\emph{The Fullstack Tutorial for GraphQL}
+\url{https://www.howtographql.com}
 
 \bibitem{GraphQL:graphglvsrest}
 \emph{GraphQL is the better REST}
