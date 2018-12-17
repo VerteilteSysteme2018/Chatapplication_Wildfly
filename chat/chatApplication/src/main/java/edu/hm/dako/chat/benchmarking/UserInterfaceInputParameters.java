@@ -48,6 +48,17 @@ public class UserInterfaceInputParameters {
 		measurementType = MeasurementType.VarThreads;
 	}
 
+	public UserInterfaceInputParameters(int numberOfClients, int numberOfMessages) {
+		this.numberOfClients = numberOfClients;
+		clientThinkTime = 1;
+		messageLength = 10;
+		this.numberOfMessages = numberOfMessages;
+		remoteServerPort = 8080;
+		remoteServerAddress = "localhost";
+		implementationType = ImplementationType.JMSSimpleImplementation;
+		measurementType = MeasurementType.VarThreads;
+	}
+
 	/**
 	 * Abbildung der Implementierungstypen auf Strings
 	 *

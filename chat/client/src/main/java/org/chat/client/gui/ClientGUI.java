@@ -5,7 +5,6 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.chat.client.ClientController;
 import org.chat.common.ChatMessage;
-import org.jgroups.demos.Chat;
 
 import javax.jms.*;
 import javax.swing.*;
@@ -325,7 +324,7 @@ public class ClientGUI implements Runnable {
         if (!textareaChatMessage.getText().equals("")) {
             String message = textareaChatMessage.getText();
             //TODO kafka option here
-            clientController.sendMessageToQueue(message);
+            clientController.sendMessage(message);
             textareaChatMessage.setText("");
 
 

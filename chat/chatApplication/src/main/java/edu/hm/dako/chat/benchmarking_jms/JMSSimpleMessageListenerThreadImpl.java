@@ -6,7 +6,6 @@ import edu.hm.dako.chat.client.SharedClientData;
 import edu.hm.dako.chat.common.ChatPDU;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.chat.client.ClientController;
 
 public class JMSSimpleMessageListenerThreadImpl extends AbstractMessageListenerThread {
 
@@ -29,8 +28,32 @@ public class JMSSimpleMessageListenerThreadImpl extends AbstractMessageListenerT
 
     public void run() {
 
-        JmsChatClient client = new JmsChatClient(userInterface, this.threadName, this.serverIP, this.serverPort);
-        ClientController clientController = client.getClientController();
+        JmsChatClient client = new JmsChatClient(userInterface, "jms", this.serverIP, this.serverPort);
+        //ClientController clientController = client.getClientController();
+
+        /*JMSContext context = client.getJMSContext();
+        Destination topic = client.getTopic();
+        JMSConsumer consumer = context.createConsumer(topic);
+
+        boolean messageCheck = true;
+        while(messageCheck == true) {
+
+            String messages = consumer.receiveBody(String.class, 5000);
+
+            if (messages != null) {
+
+
+                Gson gson = new Gson();
+                JsonObject json = gson.fromJson(messages, JsonObject.class);
+
+                String name = json.get("userName").getAsString();
+                String message = json.get("message").getAsString();
+
+                chatMessageEventAction(name);
+                chatMessageResponseAction(name);
+            }
+        }
+        */
 /*
         TopicConnection topicConnection = clientController.subscribeTopic();
         Destination topic = clientController.getTopic();

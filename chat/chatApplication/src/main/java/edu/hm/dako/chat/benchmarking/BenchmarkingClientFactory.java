@@ -1,6 +1,8 @@
 package edu.hm.dako.chat.benchmarking;
 
 //import edu.hm.dako.chat.benchmarking_jms.BenchmarkingClientJmsImpl;
+
+import edu.hm.dako.chat.benchmarking_jms.BenchmarkingClientJmsImpl;
 import edu.hm.dako.chat.client.ClientUserInterface;
 import edu.hm.dako.chat.common.SharedClientStatistics;
 import edu.hm.dako.chat.connection.ConnectionFactory;
@@ -38,19 +40,16 @@ public final class BenchmarkingClientFactory {
 
                     return impl;
 
-                /**case JMSSimpleImplementation:
+                case JMSSimpleImplementation:
 
-                    String threadName = "Client-Thread-" + (numberOfClient + 1);
-
-                    BenchmarkingClientJmsImpl jmsimpl = new BenchmarkingClientJmsImpl(userInterface,
+                    BenchmarkingClientJmsImpl jmsImpl = new BenchmarkingClientJmsImpl(userInterface,
                             benchmarkingGui, param.getImplementationType(), param.getRemoteServerPort(),
-                            param.getRemoteServerAddress(), numberOfClient, threadName, param.getMessageLength(),
+                            param.getRemoteServerAddress(), numberOfClient, param.getMessageLength(),
                             param.getNumberOfMessages(), param.getClientThinkTime(),
                             param.getNumberOfRetries(), param.getResponseTimeout(), sharedData);
 
-                    return jmsimpl;
+                    return jmsImpl;
 
-*/
                 default:
                     throw new RuntimeException(
                             "Unbekannter Implementierungstyp: " + param.getImplementationType());
