@@ -73,32 +73,11 @@ public class ChatProcess implements MessageListener {
                     countRepository.updateCount(chatMessage.getUserName());
 
                     //send to topic
-                    if (chatMessage.getServerthread().equals("JMS")) {
-                        sendMessageToTopic(message);
-                    } else if (chatMessage.getServerthread().equals("Kafka")) {
-                       sendMessageToKafkaTopic(chatMessage);
-                    }
-
+                    sendMessageToTopic(message);
                 }
             } catch (JMSException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    private void sendMessageToKafkaTopic(ChatMessage message) {
-        Properties properties = new Properties();
-        properties.put("bootstrap.servers", "localhost:9092");
-        properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        properties.put("value.serializer", "org.chat.common.ChatMessageSerializer");
-        KafkaProducer kafkaProducer = new KafkaProducer<String, String>(properties);
-        try {
-            System.out.println(message.toString());
-            kafkaProducer.send(new ProducerRecord<>("responseTopic", message.getUserName(), message));
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            kafkaProducer.close();
         }
     }
 

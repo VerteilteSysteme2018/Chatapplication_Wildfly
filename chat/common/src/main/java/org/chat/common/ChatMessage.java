@@ -30,6 +30,10 @@ public class ChatMessage implements Serializable {
         this.timestamp = timestamp;
     }
 
+    public ChatMessage() {
+
+    }
+
     //Getter and Setter
 
     public String getMessage() {
