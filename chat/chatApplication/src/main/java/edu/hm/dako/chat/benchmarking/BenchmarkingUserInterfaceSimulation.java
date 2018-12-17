@@ -1,13 +1,11 @@
 package edu.hm.dako.chat.benchmarking;
 
-import javafx.scene.control.ProgressBar;
-
-import javax.swing.JProgressBar;
-
-import org.apache.log4j.PropertyConfigurator;
-
 import edu.hm.dako.chat.server.ChatServerGuiInterface;
 import edu.hm.dako.chat.server.ServerStartData;
+import javafx.scene.control.ProgressBar;
+import org.apache.log4j.PropertyConfigurator;
+
+import javax.swing.*;
 
 /**
  * Diese Klasse simuliert eine Benutzeroberflaeche.
@@ -103,7 +101,9 @@ public class BenchmarkingUserInterfaceSimulation implements
 
   public void doWork() {
     // Input-parameter aus GUI
-    UserInterfaceInputParameters parm = new UserInterfaceInputParameters();
+    int numberOfClients = 2;
+    int numberOfMessages = 10;
+    UserInterfaceInputParameters parm = new UserInterfaceInputParameters(numberOfClients, numberOfMessages);
 
     // GUI sammmelt Eingabedaten ...
 

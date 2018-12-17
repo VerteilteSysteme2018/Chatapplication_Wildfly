@@ -90,10 +90,10 @@ public class BenchmarkingClientJmsImpl extends JmsChatClient
     public BenchmarkingClientJmsImpl(ClientUserInterface userInterface,
                                   BenchmarkingClientUserInterface benchmarkingGui,
                                   ImplementationType implementationType, int serverPort, String serverIP,
-                                  int numberOfClient, String threadName, int messageLength, int numberOfMessages, int clientThinkTime,
+                                  int numberOfClient, int messageLength, int numberOfMessages, int clientThinkTime,
                                   int numberOfRetries, int responseTimeout, SharedClientStatistics sharedStatistics) {
 
-        super(userInterface, threadName, serverIP, serverPort);
+        super(userInterface, "jms", serverIP, serverPort);
 
         this.benchmarkingGui = benchmarkingGui;
         this.implementationType = implementationType;
@@ -104,17 +104,18 @@ public class BenchmarkingClientJmsImpl extends JmsChatClient
         this.nrOfRetries = numberOfRetries;
         this.responseTimeout = responseTimeout;
         this.sharedStatistics = sharedStatistics;
-        this.threadName = threadName;
         startMessageListenerThread();
     }
 
     private void startMessageListenerThread() {
 
+        this.threadName = "Client-Thread-" + (this.clientNumber + 1);
         messageListenerThread = new JMSSimpleMessageListenerThreadImpl(this, sharedClientData, this.threadName, numberOfMessagesToSend, this.serverIP, this.serverPort);
         messageListenerThread.start();
 
-        messageListenerThread.setName("MessageListener-Thread-" + clientNumber);
-        log.debug("Message-Processing-Thread gestartet: " + messageListenerThread.getName());
+        Thread.currentThread().setName("Client-Thread-" + String.valueOf(clientNumber + 1));
+        threadName = Thread.currentThread().getName();
+        messageListenerThread.setName("MessageListener-Thread-" + String.valueOf(clientNumber + 1));
 
 
     }
@@ -261,10 +262,11 @@ public class BenchmarkingClientJmsImpl extends JmsChatClient
             // RTT-Startzeit ermitteln
             long rttStartTime = System.nanoTime();
             tell(this.threadName, chatMessage);
+            System.out.print("Message" + i + "gesendet." + "\n");
 
             // Warten, bis Chat-Response empfangen wurde, dann erst naechsten
             // Chat Request senden
-            waitUntilChatResponseReceived();
+            //waitUntilChatResponseReceived();
 
             // Response in Statistik aufnehmen
             long rtt = System.nanoTime() - rttStartTime;

@@ -75,11 +75,11 @@ public class JmsChatClient implements ClientCommunication {
     @Override
     public void login(String userName) throws IOException {
 
-        sharedClientData.userName = this.name;
+        sharedClientData.userName = userName;
 
         sharedClientData.status = ClientConversationStatus.REGISTERING;
 
-        clientController.login(this.name);
+        clientController.login(userName);
 
         sharedClientData.status = ClientConversationStatus.REGISTERED;
 
@@ -90,7 +90,7 @@ public class JmsChatClient implements ClientCommunication {
 
         sharedClientData.status = ClientConversationStatus.UNREGISTERING;
 
-        clientController.logout(this.name);
+        clientController.logout(userName);
 
         isLoggedOut();
     }
@@ -99,7 +99,20 @@ public class JmsChatClient implements ClientCommunication {
     public void tell(String name, String text) throws IOException {
         ChatMessage chatMessage = new ChatMessage(this.name, text, System.currentTimeMillis(), Thread.currentThread().toString(), "Wildfly");
 
-        clientController.sendMessageToQueue(text);
+
+        try {
+
+            //System.out.print(chatMessage);
+
+            clientController.sendMessageToQueue(name, text);
+
+            //clientController.sendMessage(text);
+
+
+        } catch (Exception e) {
+            log.debug("Senden der Chat-Nachricht nicht moeglich");
+            throw new IOException();
+        }
 
         sharedClientData.confirmCounter.incrementAndGet();
         sharedClientData.messageCounter.incrementAndGet();
