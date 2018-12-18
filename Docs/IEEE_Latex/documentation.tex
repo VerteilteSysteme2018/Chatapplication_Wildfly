@@ -921,7 +921,7 @@ Der Server gibt die angefragten Daten im Anschluss durch eines JSON-Body wie fol
 }
 \end{lstlisting}
 \subsubsection{Die implementierte GraphQL-Schnittstelle}
-Die im Zuge dieser Studienarbeit implementierte \textit{GraphQL-Schnittstelle} ist auf die  Bibliothek \textit{com.graphql-java} in der Version \textit{3.0.0} aufgebaut. Die Bibliothek ist in der \textit{pom.xml}-Datei des Maven-Projets hinterlegt. Um einen GraphQL Endpunkt mit der folgenden \textit{URL} erreichbar zu machen wurde eine Klasse mit dem Namen \textit{GraphQLEndpoint} im Package \textit{graphql} erstellt. Diese erweitert die Klasse \textit{SimpleGraphQLServlet}.
+Die im Zuge dieser Studienarbeit implementierte \textit{GraphQL-Schnittstelle} ist auf die  Bibliothek \textit{com.graphql-java} in der Version \textit{3.0.0} aufgebaut. Die Bibliothek ist in der \textit{pom.xml}-Datei des Maven-Projekts hinterlegt. Um einen GraphQL Endpunkt mit der folgenden \textit{URL} erreichbar zu machen wurde eine Klasse mit dem Namen \textit{GraphQLEndpoint} im Package \textit{graphql} erstellt. Diese erweitert die Klasse \textit{SimpleGraphQLServlet}.
 \begin{lstlisting}
 localhost:8080/server-1.0-SNAPSHOT/graphql
 \end{lstlisting}
@@ -936,17 +936,20 @@ schema {
 	mutation: Mutation
 }
 \end{lstlisting}
-In der Klasse \textit{Query} werden die Methoden definiert, die alle Daten aus den beiden Datenbanken \textit{Count} und \textit{Trace} ausgeben. In der Klasse \textit{Mutation} werden die Methoden definiert, welche der Admin-Client im Anschluss ausführen kann, um die beiden Datenbanken zu entleeren. \textit{Query} und \textit{Mutation} müssen beide jeweils im Schema als Typen definiert werden. Im Anschluss müssen die jeweiligen Methoden in den beiden Klassen definiert werden. 
-
-In diesen Methoden wurde gesamte Logik der Abfrage bzw. Manipulieren der Daten hinterlegt. Die beiden \textit{GET-Methoden}, die alle Daten aus den Datenbanken ausgebenw werden als \textit{GET-Reqeust} auf den Server abgesetzt. Die beiden Methoden, welche zum Löschen der Datenbanken aufgerufen werden können, wurden in der Klasse \textit{Mutation} definiert. Dabei muss ein \textit{POST-Request} abgesetzt werden. Zusätzlich wird ein \textbf{JSON-Body} mit dem folgenden Inhalt übergeben.
+In der Klasse \textit{Query} werden die Methoden definiert, die alle Daten aus den beiden Datenbanken \textit{Count} und \textit{Trace} ausgeben. In der Klasse \textit{Mutation} werden die Methoden definiert, welche der Admin-Client im Anschluss ausführen kann, um die beiden Datenbanken zu entleeren. \textit{Query} und \textit{Mutation} müssen beide jeweils im Schema als Typen definiert werden. Im Anschluss müssen die jeweiligen Methoden in den beiden Klassen definiert werden. \\
+In diesen Methoden wurde die gesamte Logik der Abfrage bzw. das Manipulieren der Daten hinterlegt. Die beiden \textit{GET-Methoden}, die alle Daten aus den Datenbanken ausgebenw werden als \textit{GET-Reqeust} auf den Server abgesetzt. Die beiden Methoden, welche zum Löschen der Datenbanken aufgerufen werden können, wurden in der Klasse \textit{Mutation} definiert. Dabei muss ein \textit{POST-Request} abgesetzt werden. Zusätzlich wird ein \textbf{JSON-Body} mit dem folgenden Inhalt übergeben.
 \begin{lstlisting}
 {"query":"mutation{clearCount}"}
 \end{lstlisting}
-Der abgebildete \textit{JSON-Body} entleert die \textit{Count-Datenbank}. Als Rückmeldung wird ein \textit{Boolean-Wert} vom Applikationsserver zurückgegeben. War das Zurücksetzen der Datenbank erfolgreich wird \textit{true} ausgeben.
-
-
-noch HErausforderungen und Vergleich von graphql und rest
+Der abgebildete \textit{JSON-Body} entleert die \textit{Count-Datenbank}. Als Rückmeldung wird ein \textit{Boolean-Wert} vom Applikationsserver zurückgegeben. War das Zurücksetzen der Datenbank erfolgreich wird \textit{true} ausgeben. Das Vorgehen für die \textit{Trace-Datenbank} ist identisch.\\
+evtl. noch Herausforderungn
 \subsubsection{GraphQL vs. ReST}
+\textbf{ReST} ist ein Architekturkonzept für netzwerkbasierte Software und gilt als Bindeglied, um eine Kommunikation zwischen Client und Server zu ermöglichen. Der Fokus liegt dabei darauf, eine \textit{API} über längere Zeit "haltbar" zu machen, anstatt die Leistung hier zu optimieren. Ziel dieser Architektur ist es, eine vereinfachte Architektur der entkoppelten Schnittstelle zu ermöglichen und eine erhöhte Visibilität der Interaktionen zu erreichen. Darunter leidet selbstverständlich die Effizienz, da Informationen lediglich in einem standardisierten Format abgerufen werden können und nicht auf die speziellen Bedürfnisse angepasst werden können. \\
+%Auch werden bei einer \textbf{ReST}-\textit{API} 
+\textbf{GraphQL} ist im Gegensatz dazu eine Abfragesprache, eine Spezifikation und eine Sammlung von Tools, die über einen einzigen Endpunkt mittels \textit{HTTP} ausgeführt werden können. Der große Fokus liegt hierbei auf der Optimierung von Leistung und Flexibilität.\\
+Ein Grundprinzip von \textbf{ReST} beruht sich darauf, dass einheitliche Schnittstellen der Protokolle, wie z. B. \textit{HTTP-Inhaltstypen} oder \textit{Statuscodes}, verwendet werden. \textbf{GraphQL} definiert hingegen seine eigenen Konventionen. GraphQL gibt beispielsweise zu jeder Anfrage den Response Status-Code \textit{200 OK} zurück. ReST verwendet meist den \textit{HTTP Response Status}. \\
+Ein weiterer Unterschied besteht darin, dass bei GraphQL zu Beginn ein Schema definiert werden muss, welches nach den jeweiligen Bedürfnissen direkt angepasst werden kann. Dieses Schema definiert die Art der Daten, welche bei clientseitiger Abfrage ausgegeben werden. Dementsprechend ist die gegenseitige Unabhängigkeit des Servers und des Clients sichergestellt. \\
+Zusammenfassend kann nicht ohne eine Bedarfsanalyse des jeweiligen Projektes zu einer der beiden Technologien geraten werden. GraphQL kann einige Schwachstellen von ReST beheben, allerdings müssen die Anforderungen der Anwendung genau geprüft werden, um eine endgültige Aussage treffen zu können. Dementsprechend kann nicht pauschal gesagt werden, welche der beiden Technologien bevorzugt werden soll.
 \subsection{Admin-Client}
 \label{sub:admin}
 \begin{itemize}
@@ -970,12 +973,8 @@ noch HErausforderungen und Vergleich von graphql und rest
 \section{Fazit}
 Schönes Fazit
 \begin{itemize}
-	\item Fitzli
+	\item evtl Herausforderungen
 \end{itemize}
-
-Blbalalb
-
-
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -1154,17 +1153,25 @@ Blbalalb
 \emph{The Fullstack Tutorial for GraphQL}
 \url{https://www.howtographql.com}
 
-\bibitem{GraphQL:graphglvsrest}
-\emph{GraphQL is the better REST}
-\url{https://www.howtographql.com/basics/1-graphql-is-the-better-rest/}
-
-\bibitem{GraphQL:restvsGraphQL}
-Blogpost: \emph{REST versus GraphQL}, E. Chimezie, 2017
-\url{https://blog.pusher.com/rest-versus-graphql/}
-
-\bibitem{GraphQL:GvR:Overview}
-Blogpost: \emph{GraphQL vs Rest: Overview}, P. Sturgeon, 2017
+\bibitem{GraphQL: ReST}
+\emph{GraphQL vs ReSt: Overview}
 \url{https://philsturgeon.uk/api/2017/01/24/graphql-vs-rest-overview/}
+
+\bibitem{ReST: GraphQL}
+\emph{ReST vs. GraphQL: Critical Review}
+\url{https://blog.goodapi.co/rest-vs-graphql-a-critical-review-5f77392658e7}
+
+%\bibitem{GraphQL:graphglvsrest}
+%\emph{GraphQL is the better REST}
+%\url{https://www.howtographql.com/basics/1-graphql-is-the-better-rest/}
+
+%\bibitem{GraphQL:restvsGraphQL}
+%Blogpost: \emph{REST versus GraphQL}, E. Chimezie, 2017
+%\url{https://blog.pusher.com/rest-versus-graphql/}
+
+%\bibitem{GraphQL:GvR:Overview}
+%Blogpost: \emph{GraphQL vs Rest: Overview}, P. Sturgeon, 2017
+%\url{https://philsturgeon.uk/api/2017/01/24/graphql-vs-rest-overview/}
 
 \end{thebibliography}
 

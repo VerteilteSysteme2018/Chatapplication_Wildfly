@@ -1,5 +1,5 @@
 # Verteilte Systeme | Studienarbeit WS18/19
-## vorgelegt von Johannes Knippel | Marvin Staudt | Andreas Westhoff | Anja Wolf
+ vorgelegt von Johannes Knippel | Marvin Staudt | Andreas Westhoff | Anja Wolf
 
 ## Ordnerstruktur:
 *  **chat** Projekt für die Anwendung. Enthält:
@@ -73,12 +73,21 @@ standalone.xml, mgmt-groups.properties, mgmt-users.properties, application-roles
 
 ## 2. Datenbanken aufsetzen & anbinden
 
-### 2.1 MariaDB Config Dateien aus dem Directory `../Wildfly-config/main` in `../wildfly-13.0.0.Final/modules/system/layers/base/org/mariadb/jdbc/main`einfügen (Ordner mariadb muss erstellt werden)
+### 2.1 MariaDB 
+Config Dateien aus dem Directory 
+
+`../Wildfly-config/main` 
+
+in
+ 
+`../wildfly-13.0.0.Final/modules/system/layers/base/org/mariadb/jdbc/main`
+
+einfügen (Ordner mariadb muss erstellt werden)
 
 ### 2.2 Es wurden 2 Datenbanken verwendet: Countdb und Tracedb
 * Diese wurden mit den jeweiligen IP-Adressen und Ports in der `standalone.xml` und der `persistence.xml` Datei hinterlegt
 * Um die beiden Docker Container zu starten muss Docker installiert werden (Docker Desktop -v 2.0.0.0-mac81 Community)
-* in das folgende Verzeichnis navigieren im Terminal : `../wildfly-13.0.0.Final/modules/system/layers/base/org/mariadb/jdbc/main` und den Befehl `docker-compose up`ausführen. Dies startet die beiden Dockercontainer. Nun muss noch der Remote Access in den beiden DBs aktiviert werden. 
+* in das folgende Verzeichnis navigieren im Terminal : `../wildfly-13.0.0.Final/modules/system/layers/base/org/mariadb/jdbc/main` und den Befehl `docker-compose up` ausführen. Dies startet die beiden Dockercontainer. Nun muss noch der Remote Access in den beiden DBs aktiviert werden. 
 mit dem Befehl  `docker ps` kann dies überprüft werden:
 CONTAINER ID        IMAGE                    COMMAND                  CREATED             STATUS              PORTS                    NAMES
 c3b81170daca        bitnami/mariadb:latest   "/entrypoint.sh /run…"   2 weeks ago         Up 16 seconds       0.0.0.0:3306->3306/tcp   main_tracedb_1_968bdbafc000
