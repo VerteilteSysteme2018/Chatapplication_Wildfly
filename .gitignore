@@ -5,6 +5,7 @@ bin/**
 chatApplication/Benchmarking-ChatApp-Protokolldatei
 */target/*
 target/
+*.class
 
 
 #Eclipse
