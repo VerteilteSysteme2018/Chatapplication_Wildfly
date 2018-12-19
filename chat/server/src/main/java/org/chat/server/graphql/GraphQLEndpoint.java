@@ -7,6 +7,13 @@ import javax.servlet.annotation.WebServlet;
 import org.chat.server.model.CountMRepository;
 import org.chat.server.model.TraceMRepository;
 
+import graphql.ExceptionWhileDataFetching;
+import graphql.GraphQLError;
+
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 @WebServlet(urlPatterns = "/graphql")
 public class GraphQLEndpoint extends SimpleGraphQLServlet {
 
@@ -25,6 +32,14 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
             Mutation(countMRepository, traceMRepository))
         .build()
         .makeExecutableSchema());
+  }
+
+  @Override
+  protected List<GraphQLError> filterGraphQLErrors(List<GraphQLError> errors) {
+    return errors.stream()
+        .filter(e -> e instanceof ExceptionWhileDataFetching || super.isClientError(e))
+        .map(e -> e instanceof ExceptionWhileDataFetching ? new SanitizedError((ExceptionWhileDataFetching) e) : e)
+        .collect(Collectors.toList());
   }
 
 }

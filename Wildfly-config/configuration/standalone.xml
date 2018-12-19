@@ -176,8 +176,8 @@
                         <wrap-xa-resource>false</wrap-xa-resource>
                     </xa-pool>
                     <security>
-                        <user-name>root</user-name>
-                        <password>password</password>
+                        <user-name>countuser</user-name>
+                        <password>countuser</password>
                     </security>
                     <validation>
                         <validate-on-match>false</validate-on-match>
@@ -220,8 +220,8 @@
                         <wrap-xa-resource>false</wrap-xa-resource>
                     </xa-pool>
                     <security>
-                        <user-name>root</user-name>
-                        <password>password</password>
+                        <user-name>traceuser</user-name>
+                        <password>traceuser</password>
                     </security>
                     <validation>
                         <validate-on-match>false</validate-on-match>

@@ -44,7 +44,7 @@ public class ClientController {
 
 
     // Individual data of client
-    private final String name;
+    private String name;
     private final String serverIP;
     private final String serverPort;
     private final String providerURL;
@@ -133,7 +133,8 @@ public class ClientController {
     }
 
     public boolean login(String userName) throws IOException {
-        String uri = this.URL + REST + "login/" + userName;
+        this.name = userName;
+        String uri = this.URL + REST + "login/" + this.name;
         URL url = new URL(uri);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -182,7 +183,7 @@ public class ClientController {
     }
 
 
-    public boolean sendMessageToQueue(String message) {
+    public boolean sendMessageToQueue(String user, String message) {
         //todo remove when kafka option works
         if (loggedIn && message.contains("kafka")) {
             Properties properties = new Properties();
@@ -196,7 +197,7 @@ public class ClientController {
             try {
                 System.out.println(message);
                 ChatMessage chatMessage =
-                        new ChatMessage(this.name, message, System.currentTimeMillis(),
+                        new ChatMessage(user, message, System.currentTimeMillis(),
                                 Thread.currentThread().toString(), "Kafka");
                 kafkaProducer.send(new ProducerRecord<String, ChatMessage>("requestTopic", chatMessage));
                 System.out.println("MESSAGE GESENDET "+ new ProducerRecord<>("requestTopic", chatMessage).toString());
@@ -219,8 +220,9 @@ public class ClientController {
                             try {
                                 ObjectMessage chatObject = session.createObjectMessage();
                                 ChatMessage chatMessage =
-                                        new ChatMessage(this.name, message, System.currentTimeMillis(),
+                                        new ChatMessage(user, message, System.currentTimeMillis(),
                                                 Thread.currentThread().toString(), "JMS");
+                                System.out.print(chatMessage);
                                 chatObject.setObject(chatMessage);
                                 producer.send(chatObject);
                                 System.out.println("Message-Objekt an die Queue gesendet");
@@ -235,6 +237,7 @@ public class ClientController {
                     connection.close();
                 }
             } catch (Exception ex) {
+                log.severe(ex.getMessage());
             }
             return true;
         }
@@ -244,7 +247,8 @@ public class ClientController {
 
     public boolean logout(String userName) throws IOException {
         if (loggedIn) {
-            String uri = URL + REST + "logout/" + userName;
+            this.name = userName;
+            String uri = URL + REST + "logout/" + this.name;
             URL url = new URL(uri);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("DELETE");
@@ -276,11 +280,63 @@ public class ClientController {
         return null;
     }
 
+
+    public JMSContext getJMSContext() {
+        try {
+            JMSContext context = this.connectionFactory.createContext(System.getProperty("username", USERNAME), System.getProperty("password", PASSWORD));
+            return context;
+        } catch (Exception e) {
+            log.severe(e.getMessage());
+            return null;
+        }
+    }
+
+
     public Destination getTopic() {
         return this.topic;
     }
 
+    private String result(HttpURLConnection conn) {
+        String result = null;
+        BufferedReader br;
+        try {
+            br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+            String temp = null;
+            StringBuilder sb = new StringBuilder();
+
+            while ((temp = br.readLine()) != null) {
+                sb.append(temp).append(" ");
+            }
+
+            result = sb.toString();
+            br.close();
+
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public boolean isUserLoggedIn() { return this.loggedIn; }
+
+    public void sendMessage(String message) {
+        // Prepare content
+        ChatMessage chatMessage = new ChatMessage(this.name, message, System.currentTimeMillis(), Thread.currentThread().toString(), "Wildfly");
+        Gson gson = new Gson();
+        String content = gson.toJson(chatMessage);
+        System.out.print(content);
+
+        try (JMSContext context = this.connectionFactory.createContext(System.getProperty("username", USERNAME), System.getProperty("password", PASSWORD))) {
+            log.info("Sending message with content: " + content);
+            // Send the specified message
+            context.createProducer().setProperty("userName", this.name).send(this.queue, content);
+        } catch (Exception e) {
+            log.severe(e.getMessage());
+
+
+        }
+    }
 
 
 }

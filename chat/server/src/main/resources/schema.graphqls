@@ -24,6 +24,6 @@ type TraceTO {
 
 
 type Mutation{
-    clearTrace: Int
+    clearTrace: Boolean
     clearCount: Boolean
 }

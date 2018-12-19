@@ -79,3 +79,4 @@ Export-Package: com.jgoodies.common.base,
  org.junit.runner.notification,
  org.junit.runners,
  org.junit.runners.model
+Import-Package: com.google.gson
