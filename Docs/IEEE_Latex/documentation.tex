@@ -942,7 +942,16 @@ In diesen Methoden wurde die gesamte Logik der Abfrage bzw. das Manipulieren der
 {"query":"mutation{clearCount}"}
 \end{lstlisting}
 Der abgebildete \textit{JSON-Body} entleert die \textit{Count-Datenbank}. Als Rückmeldung wird ein \textit{Boolean-Wert} vom Applikationsserver zurückgegeben. War das Zurücksetzen der Datenbank erfolgreich wird \textit{true} ausgeben. Das Vorgehen für die \textit{Trace-Datenbank} ist identisch.\\
-evtl. noch Herausforderungn
+\textbf{Herausforderungen im Laufe der Implementierung:}
+\begin{itemize}
+	\item Sehr wichtig bei der Implementierung einer \textit{GraphQL-Schnittstelle} ist es Typen, Felder und Methoden strikt so zu benennen, wie es in der Datei \textit{schema.graphqls} definiert wurde. Andernfalls werden diese nicht erkannt und es wird eine Exception beim Abfragen geworfen. 
+\end{itemize}
+\begin{itemize}
+	\item Fehlermeldungen werden bei \textit{GraphQL} nicht wie bei \textit{ReST} mittels HTTP-Statuscodes ausgegeben. Tritt eine Exception auf, wird diese im Body zurückgegeben.  
+\end{itemize}
+\begin{itemize}
+	\item Die bereits integrierten \textit{JPA-Klassen}, welche zur Persistierung der Daten in die Datenbanken benötigt werden, konnten durch den GraphQL-Endpunkt in unserem Fall nicht mit der Annotation \textit{@EJB} angesprochen werden. Daher mussten zusätzlich \textit{Mapper-Klassen} für \textit{Count} und\textit{Trace} implementiert werden. Die beiden Mapper stellten dementsprechend die Schnittstelle zu den Datenbanken und  \textit{GraphQL}, um einen Datenaustausch zu ermöglichen.
+\end{itemize}
 \subsubsection{GraphQL vs. ReST}
 \textbf{ReST} ist ein Architekturkonzept für netzwerkbasierte Software und gilt als Bindeglied, um eine Kommunikation zwischen Client und Server zu ermöglichen. Der Fokus liegt dabei darauf, eine \textit{API} über längere Zeit "haltbar" zu machen, anstatt die Leistung hier zu optimieren. Ziel dieser Architektur ist es, eine vereinfachte Architektur der entkoppelten Schnittstelle zu ermöglichen und eine erhöhte Visibilität der Interaktionen zu erreichen. Darunter leidet selbstverständlich die Effizienz, da Informationen lediglich in einem standardisierten Format abgerufen werden können und nicht auf die speziellen Bedürfnisse angepasst werden können. \cite{GraphQL: ReST} \\
 %Auch werden bei einer \textbf{ReST}-\textit{API} 
