@@ -102,7 +102,7 @@ Die tracedb läuft auf dem Port 3306 und countdb auf dem Port 3310. Dies wurde j
 * Um Kafka nutzen zu können muss sowohl ein ZooKeeper- als auch ein Kafka-Server laufen, beides erhältlich unter: https://kafka.apache.org/downloads
 * Nach dem entpacken in der Konsole in den Kafka Ordner wechseln
 * Zookeeper und Kafka installieren (z.B. per Homebrew)
-* bei Bedarf dafür Gradle installieren und `./gradlew jar -PscalaVersion=2.11.12` im Kafka-ordner ausführen
+* bei Bedarf dafür Gradle installieren und `./gradlew jar -PscalaVersion=2.11.12` im Kafka-ordner ausführen (gradle jar -PscalaVersion=2.11.12 für Mac)
 * ZooKeeper mit `bin/zookeeper-server-start.sh config/zookeepeproperties` starten
 * Kafka mit `bin/kafka-server-start.sh config/server.properties` starten
 * Kafka-Topics anlegen (auch aus dem Kafka-Ordner) per: 
