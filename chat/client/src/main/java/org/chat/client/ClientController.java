@@ -183,9 +183,9 @@ public class ClientController {
     }
 
 
-    public boolean sendMessageToQueue(String user, String message) {
+    public boolean sendMessageToQueue(String user, String message, String type) {
         //todo remove when kafka option works
-        if (loggedIn && message.contains("kafka")) {
+        if (loggedIn && type.equals("Kafka")) {
             Properties properties = new Properties();
             properties.put("bootstrap.servers", "localhost:9092");
             properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
@@ -209,7 +209,7 @@ public class ClientController {
             }
             return false;
 
-        } else if (loggedIn) {
+        } else if (loggedIn && type.equals("JMS")) {
             try {
                 QueueConnection connection = (QueueConnection) connectionFactory.createConnection("user", "user");
                 try {

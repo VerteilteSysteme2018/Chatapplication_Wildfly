@@ -45,6 +45,7 @@ public class ClientGUI implements Runnable {
     private JTextField textfieldUserName;
     private JTextField textfieldServerIP;
     private JTextField textfieldServerPort;
+    private JComboBox comboBoxMessageBroker;
 
     private JButton buttonLogin;
     private JButton buttonLogout;
@@ -150,6 +151,13 @@ public class ClientGUI implements Runnable {
         chatFrame.getContentPane().add(textfieldServerPort);
         textfieldServerPort.setColumns(10);
 
+        //Textfield message broker
+        comboBoxMessageBroker = new JComboBox<String>();
+        comboBoxMessageBroker.addItem("JMS");
+        comboBoxMessageBroker.addItem("Kafka");
+        comboBoxMessageBroker.setBounds(577, 293, 134, 28);
+
+        chatFrame.getContentPane().add(comboBoxMessageBroker);
 
         //Button Send Chat Message
         buttonSendMessage = new JButton("Send");
@@ -164,7 +172,7 @@ public class ClientGUI implements Runnable {
         buttonLogin.setBackground(Color.LIGHT_GRAY);
         buttonLogin.setForeground(Color.BLACK);
         buttonLogin.addActionListener(e -> loginUser());
-        buttonLogin.setBounds(586, 310, 60, 60);
+        buttonLogin.setBounds(586, 340, 60, 60);
         chatFrame.getContentPane().add(buttonLogin);
 
         //Button Logout
@@ -172,7 +180,7 @@ public class ClientGUI implements Runnable {
         buttonLogout.setBackground(Color.LIGHT_GRAY);
         buttonLogout.setForeground(Color.RED);
         buttonLogout.addActionListener(e -> logoutUser());
-        buttonLogout.setBounds(650, 310, 60, 60);
+        buttonLogout.setBounds(650, 340, 60, 60);
         chatFrame.getContentPane().add(buttonLogout);
 
 
@@ -323,8 +331,7 @@ public class ClientGUI implements Runnable {
     private void sendMessage() {
         if (!textareaChatMessage.getText().equals("")) {
             String message = textareaChatMessage.getText();
-            //TODO kafka option here
-            clientController.sendMessage(message);
+            clientController.sendMessageToQueue(username, message, comboBoxMessageBroker.getSelectedItem().toString());
             textareaChatMessage.setText("");
 
 
