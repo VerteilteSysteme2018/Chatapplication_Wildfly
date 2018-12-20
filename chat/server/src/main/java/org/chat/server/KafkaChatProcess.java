@@ -10,13 +10,7 @@ import org.chat.databases.CountRepository;
 import org.chat.databases.Trace;
 import org.chat.databases.TraceRepository;
 
-import javax.ejb.*;
-import javax.servlet.*;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import javax.ejb.EJB;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -100,7 +94,7 @@ public class KafkaChatProcess {
         trace.setClientThread(chatMessage.getClientThread());
         trace.setUsername(chatMessage.getUserName());
         trace.setMessage(chatMessage.getMessage());
-        trace.setServerthread(chatMessage.getServerthread());
+        trace.setServerthread(chatMessage.getServerThread());
         //traceRepository.create(trace); //TODO Marvin
 
         //update countdb

@@ -89,7 +89,7 @@ public class ChatProcess implements MessageListener {
             trace.setClientThread(chatMessage.getClientThread());
             trace.setUsername(chatMessage.getUserName());
             trace.setMessage(chatMessage.getMessage());
-            trace.setServerthread(chatMessage.getServerthread());
+            trace.setServerthread(chatMessage.getServerThread());
             traceRepository.create(trace);
 
             //update countdb
