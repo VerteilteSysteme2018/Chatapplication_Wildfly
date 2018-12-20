@@ -32,11 +32,11 @@ public class RestController extends Application {
         if (users.contains(userName)) {
             return Response.status(201).entity("User " + userName + " already logged in").build();
         } else {
-            if (KafkaChatProcess.getInstance() == null) {
+       //     if (KafkaChatProcess.getInstance() == null) {
                 KafkaChatProcess kCP = new KafkaChatProcess();
                 kCP.initializeConsumer();
                 kCP.startRecievingMessages();
-            }
+       //     }
             users.add(userName);
             return Response.status(200).entity("User " + userName + " logged in").build();
         }

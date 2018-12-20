@@ -198,7 +198,7 @@ public class ClientController {
                 System.out.println(message);
                 ChatMessage chatMessage =
                         new ChatMessage(user, message, System.currentTimeMillis(),
-                                Thread.currentThread().toString(), "Kafka");
+                                Thread.currentThread().toString(), type);
                 kafkaProducer.send(new ProducerRecord<String, ChatMessage>("requestTopic", chatMessage));
                 System.out.println("MESSAGE GESENDET "+ new ProducerRecord<>("requestTopic", chatMessage).toString());
                 return true;
@@ -221,7 +221,7 @@ public class ClientController {
                                 ObjectMessage chatObject = session.createObjectMessage();
                                 ChatMessage chatMessage =
                                         new ChatMessage(user, message, System.currentTimeMillis(),
-                                                Thread.currentThread().toString(), "JMS");
+                                                Thread.currentThread().toString(), type);
                                 System.out.print(chatMessage);
                                 chatObject.setObject(chatMessage);
                                 producer.send(chatObject);
