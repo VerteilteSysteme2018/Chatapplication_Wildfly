@@ -190,7 +190,7 @@ public class ClientController {
             properties.put("bootstrap.servers", "localhost:9092");
             properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
             properties.put("value.serializer", "org.chat.common.ChatMessageSerializer");
-            //properties.put("group.id", "test-group");
+            properties.put("group.id", user);
 
             KafkaProducer kafkaProducer = new KafkaProducer<String, ChatMessage>(properties);
 
@@ -199,8 +199,9 @@ public class ClientController {
                 ChatMessage chatMessage =
                         new ChatMessage(user, message, System.currentTimeMillis(),
                                 Thread.currentThread().toString(), type);
-                kafkaProducer.send(new ProducerRecord<String, ChatMessage>("requestTopic", chatMessage));
-                System.out.println("MESSAGE GESENDET "+ new ProducerRecord<>("requestTopic", chatMessage).toString());
+                ProducerRecord<String, ChatMessage> pR = new ProducerRecord<String, ChatMessage>("requestTopic", chatMessage);
+                kafkaProducer.send(pR);
+                System.out.println("MESSAGE GESENDET "+ pR.toString());
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
