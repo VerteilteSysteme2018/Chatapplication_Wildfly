@@ -1,23 +1,22 @@
 package org.chat.server;
 
-import javax.ejb.EJB;
-import javax.ejb.MessageDrivenContext;
-import javax.transaction.Transactional;
-
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.chat.common.ChatMessage;
-
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.MessageDriven;
-import javax.jms.*;
-import javax.annotation.Resource;
-import java.util.Date;
-import java.util.Properties;
-
 import org.chat.databases.CountRepository;
 import org.chat.databases.Trace;
 import org.chat.databases.TraceRepository;
+
+import javax.annotation.Resource;
+import javax.ejb.ActivationConfigProperty;
+import javax.ejb.EJB;
+import javax.ejb.MessageDriven;
+import javax.inject.Inject;
+import javax.jms.*;
+import javax.transaction.Transactional;
+import java.util.Properties;
 
 /**
  * This is the core class of the server where the incoming chat requests come in and all the other stuff has to be done.
@@ -38,50 +37,90 @@ public class ChatProcess implements MessageListener {
     @Resource(lookup = "java:/jms/topic/chatTopic")
     Topic chatTopic;
 
+
+    /////////
+    @Resource(mappedName = "java:/jms/queue/response")
+    private Queue responseQueue;
+    @Inject
+    private JMSContext context;
+    ////////
+
     @EJB
     private TraceRepository traceRepository;
 
     @EJB
     private CountRepository countRepository;
 
-    @Resource
-    private MessageDrivenContext messageDrivenContext;
-
     @Override
     public void onMessage(Message message) {
+        ChatMessage chatMessage = null;
 
+        if (message instanceof TextMessage) {
+            System.out.println("TextMessage empfangen");
+            Gson gson = new GsonBuilder().create();
+            try {
+                chatMessage = gson.fromJson(((TextMessage) message).getText(), ChatMessage.class);
+            } catch (JMSException e) {
+                System.out.println("Fehler beim nachricht entpacken");
+                e.printStackTrace();
+            }
+        }
         if (message instanceof ObjectMessage) {
-            //TODO add transaction
-            //TODO add check if user is logged in
-
-            //set server time of the pdu and publish it to the topic
+            System.out.println("ObjectMessage empfangen");
             ObjectMessage objectMessage = (ObjectMessage) message;
             try {
-                ChatMessage chatMessage = (ChatMessage) objectMessage.getObject();
-                System.out.println("Queue:" + chatMessage.getMessage()
-                    + "von" + chatMessage.getUserName());
-                if (userLoggedIn(chatMessage.getUserName())) {
-
-                    // update tracedb
-                    System.out.println("update tracedb");
-                    Trace trace = new Trace();
-                    trace.setClientThread(chatMessage.getClientThread());
-                    trace.setUsername(chatMessage.getUserName());
-                    trace.setMessage(chatMessage.getMessage());
-                    trace.setServerthread(chatMessage.getServerthread());
-                    traceRepository.create(trace);
-
-                    //update countdb
-                    System.out.println("update countdb");
-                    countRepository.updateCount(chatMessage.getUserName());
-
-                    //send to topic
-                    sendMessageToTopic(message);
-                }
+                chatMessage = (ChatMessage) objectMessage.getObject();
+                System.out.println("Queue:" + chatMessage.getMessage() + "von" + chatMessage.getUserName());
             } catch (JMSException e) {
+                System.out.println("fehler beim nachricht entpacken");
                 e.printStackTrace();
-                messageDrivenContext.setRollbackOnly();
             }
+        }
+        //TODO add transaction
+        //TODO add check if user is logged in
+
+
+        if (userLoggedIn(chatMessage.getUserName())) {
+
+            //TODO do any db transaction with the message stuff
+            // update tracedb
+            System.out.println("update tracedb");
+            Trace trace = new Trace();
+            trace.setClientThread(chatMessage.getClientThread());
+            trace.setUsername(chatMessage.getUserName());
+            trace.setMessage(chatMessage.getMessage());
+            trace.setServerthread(chatMessage.getServerthread());
+            traceRepository.create(trace);
+
+            //update countdb
+            System.out.println("update countdb");
+            countRepository.updateCount(chatMessage.getUserName());
+
+            //send to topic
+            //sendMessageToTopic(message);
+            context.createProducer().send(chatTopic, message);
+
+            // Send success response to queue/response
+            context.createProducer().setProperty("userName", chatMessage.getUserName()).setProperty("success", true)
+                    .send(responseQueue, String.format("User '%s' is logged in, processed message.", chatMessage.getUserName()));
+
+
+        }
+    }
+
+    private void sendMessageToKafkaTopic(ChatMessage message) {
+        Properties properties = new Properties();
+        properties.put("bootstrap.servers", "localhost:9092");
+        properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        properties.put("value.serializer", "org.chat.common.ChatMessageSerializer");
+        KafkaProducer kafkaProducer = new KafkaProducer<String, String>(properties);
+        try {
+            System.out.println(message.toString());
+            kafkaProducer.send(new ProducerRecord<>("responseTopic", message.getUserName(), message));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            kafkaProducer.close();
         }
     }
 
@@ -120,8 +159,7 @@ public class ChatProcess implements MessageListener {
                 } finally {
                     session.close();
                 }
-            }
-            finally {
+            } finally {
                 connection.close();
             }
         } catch (JMSException e) {
