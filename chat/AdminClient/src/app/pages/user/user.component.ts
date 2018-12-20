@@ -43,7 +43,8 @@ export class UserComponent implements OnInit, OnChanges {
   loadCounts() {
     console.log("Loading Users");
     this.path = 'currentusers';
-    this.http.get<ChatUserResponse>((this.url+this.path)).subscribe(data => {
+    this.http.get<ChatUserResponse>((this.url+this.path))
+      .subscribe(data => {
        this.chatUserList = data;
     });
     console.log("END Loading Users"+this.chatUserList);
