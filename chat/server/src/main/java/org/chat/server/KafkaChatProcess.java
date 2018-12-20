@@ -1,5 +1,7 @@
 package org.chat.server;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -24,12 +26,8 @@ import java.util.Properties;
 
 public class KafkaChatProcess {
 
-    @EJB
-    private TraceRepository traceRepository;
-
-    @EJB
-    private CountRepository countRepository;
-
+    private TraceRepository traceRepository = null;
+    private CountRepository countRepository = null;
     private static KafkaChatProcess kCP = null;
 
     public static KafkaChatProcess getInstance() {
@@ -38,13 +36,6 @@ public class KafkaChatProcess {
 
     KafkaConsumer kafkaConsumer;
     ChatMessage m;
-
-    public static void main(String[] args) {
-        KafkaChatProcess kRC = new KafkaChatProcess();
-        kRC.initializeConsumer();
-        kRC.startRecievingMessages();
-
-    }
 
     public void initializeConsumer() {
         Properties properties = new Properties();
@@ -94,26 +85,38 @@ public class KafkaChatProcess {
         thread.start();
     }
 
-    private void initiateServerProcess(ChatMessage chatMessage) {
+    private void initiateServerProcess(ChatMessage chatMessage) throws NamingException {
         System.out.println("update tracedb");
         Trace trace = new Trace();
         trace.setClientThread(chatMessage.getClientThread());
         trace.setUsername(chatMessage.getUserName());
         trace.setMessage(chatMessage.getMessage());
         trace.setServerthread(chatMessage.getServerthread());
-        //traceRepository.create(trace); //TODO Marvin
+        connect();
+
+        //update tracedb
+        System.out.println("update tracedb");
+        traceRepository.create(trace);
+
 
         //update countdb
         System.out.println("update countdb");
-        //countRepository.updateCount(chatMessage.getUserName());
+        countRepository.updateCount(chatMessage.getUserName());
 
         //send to topic
         sendMessageToKafkaTopic(chatMessage);
 
     }
 
+  private void connect() throws NamingException {
+    InitialContext ic = new InitialContext();
+    this.traceRepository = (TraceRepository) ic.lookup("java:global/server-1.0-SNAPSHOT/TraceJPA!org.chat.databases.TraceRepository");
+    this.countRepository = (CountRepository) ic.lookup("java:global/server-1.0-SNAPSHOT/CountJPA!org.chat.databases.CountRepository");
+  }
 
-private void sendMessageToKafkaTopic(ChatMessage message) {
+
+
+  private void sendMessageToKafkaTopic(ChatMessage message) {
         Properties properties = new Properties();
         properties.put("bootstrap.servers", "localhost:9092");
         properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
