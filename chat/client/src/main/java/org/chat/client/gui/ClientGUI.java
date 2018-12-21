@@ -390,16 +390,16 @@ public class ClientGUI implements Runnable {
         properties.put("bootstrap.servers", "localhost:9092");
         properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         properties.put("value.deserializer", "org.chat.common.ChatMessageDeserializer");
-        properties.put("group.id", "test-group");
+        properties.put("group.id", username);//"test-group");
         KafkaConsumer kafkaConsumer = new KafkaConsumer(properties);
         List topics = new ArrayList();
-        topics.add("requestTopic");
+        topics.add("responseTopic");
         kafkaConsumer.subscribe(topics);
         Thread thread = new Thread(() -> {
             try {
 
                 while (true) {
-                    ConsumerRecords<String, ChatMessage> messages = kafkaConsumer.poll(100);
+                    ConsumerRecords<String, ChatMessage> messages = kafkaConsumer.poll(1000);
                     for (ConsumerRecord<String, ChatMessage> omessage : messages) {
                         System.out.println("Message received " + omessage.value().toString());
                         ChatMessage message = omessage.value();

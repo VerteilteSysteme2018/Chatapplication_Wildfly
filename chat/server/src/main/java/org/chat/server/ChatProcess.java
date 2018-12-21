@@ -2,6 +2,7 @@ package org.chat.server;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import javax.ejb.MessageDrivenContext;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.chat.common.ChatMessage;
@@ -37,13 +38,13 @@ public class ChatProcess implements MessageListener {
     @Resource(lookup = "java:/jms/topic/chatTopic")
     Topic chatTopic;
 
-
-    /////////
     @Resource(mappedName = "java:/jms/queue/response")
     private Queue responseQueue;
     @Inject
     private JMSContext context;
-    ////////
+
+    @Resource
+    private MessageDrivenContext messageDrivenContext;
 
     @EJB
     private TraceRepository traceRepository;
@@ -63,6 +64,7 @@ public class ChatProcess implements MessageListener {
             } catch (JMSException e) {
                 System.out.println("Fehler beim nachricht entpacken");
                 e.printStackTrace();
+                messageDrivenContext.setRollbackOnly();
             }
         }
         if (message instanceof ObjectMessage) {
@@ -74,6 +76,7 @@ public class ChatProcess implements MessageListener {
             } catch (JMSException e) {
                 System.out.println("fehler beim nachricht entpacken");
                 e.printStackTrace();
+                messageDrivenContext.setRollbackOnly();
             }
         }
         //TODO add transaction
