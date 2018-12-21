@@ -49,7 +49,7 @@
 % http://www.michaelshell.org/tex/testflow/
 
 
-% IEEEtran V1.7 and later provides for these CLASSINPUT macros to allow the
+% i IEEEtran V1.7 and later provides for these CLASSINPUT macros to allow the
 % user to reprogram some IEEEtran.cls defaults if needed. These settings
 % override the internal defaults of IEEEtran.cls regardless of which class
 % options are used. Do not use these unless you have good reason to do so as
@@ -271,7 +271,7 @@
 % http://www.ctan.org/pkg/mdwtools
 
 
-% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% i IEEEtran contains the IEEEeqnarray family of commands that can be used to
 % generate multiline equations as well as matrices, tables, etc., of high
 % quality.
 
@@ -363,7 +363,7 @@
 %\fi
 % endfloat.sty was written by James Darrell McCauley, Jeff Goldberg and 
 % Axel Sommerfeldt. This package may be useful when used in conjunction with 
-% IEEEtran.cls'  captionsoff option. Some IEEE journals/societies require that
+% i IEEEtran.cls'  captionsoff option. Some IEEE journals/societies require that
 % submissions have lists of figures/tables at the end of the paper and that
 % figures/tables without any captions are placed on a page by themselves at
 % the end of the document. If needed, the draftcls IEEEtran class option or
@@ -374,7 +374,7 @@
 % that suggested by in the endfloat docs (section 8.4.1) to ensure that
 % the full captions always appear in the list of figures/tables - even if
 % the user used the short optional argument of \caption[]{}.
-% IEEE papers do not typically make use of \caption[]'s optional argument,
+% i IEEE papers do not typically make use of \caption[]'s optional argument,
 % so this should not be an issue. A similar trick can be used to disable
 % captions of packages such as subfig.sty that lack options to turn off
 % the subcaptions:
@@ -408,7 +408,7 @@
 % Basically, \url{my_url_here}.
 
 
-% NOTE: PDF thumbnail features are not required in IEEE papers
+% i NOTE: PDF thumbnail features are not required in IEEE papers
 %       and their use requires extra complexity and work.
 %\ifCLASSINFOpdf
 %  \usepackage[pdftex]{thumbpdf}
@@ -448,7 +448,7 @@
 % http://www.ctan.org/pkg/thumbpdf
 
 
-% NOTE: PDF hyperlink and bookmark features are not required in IEEE
+% i NOTE: PDF hyperlink and bookmark features are not required in IEEE
 %       papers and their use requires extra complexity and work.
 % *** IF USING HYPERREF BE SURE AND CHANGE THE EXAMPLE PDF ***
 % *** TITLE/SUBJECT/AUTHOR/KEYWORDS INFO BELOW!!           ***
@@ -458,7 +458,7 @@
 	pdftitle={Verteilte Systeme: Chat Applikation unter Einsatz einer Message-Oriented-Middleware},%<!CHANGE!
 	pdfsubject={Typesetting},%<!CHANGE!
 	pdfauthor={Johannes Knippel},%<!CHANGE!
-	pdfkeywords={Verteilte Systeme, MOM, Wildfly, JMS, JavaEE, Transactions, Angular, GraphQL}}%<^!CHANGE!
+	pdfkeywords={Verteilte Systeme, MOM, Wildfly, JMS, JavaEE, Transactions, Angular, GraphQL, Kafka}}%<^!CHANGE!
 %\ifCLASSINFOpdf
 %\usepackage[\MYhyperrefoptions,pdftex]{hyperref}
 %\else
@@ -469,7 +469,7 @@
 % LaTeX compiler cannot break URLs across lines or pages as can be done
 % under pdfLaTeX's PDF output via the hyperref pdftex driver. This is
 % probably the single most important capability distinction between the
-% DVI and PDF output. Perhaps surprisingly, all the other PDF features
+% i DVI and PDF output. Perhaps surprisingly, all the other PDF features
 % (PDF bookmarks, thumbnails, etc.) can be preserved in
 % .tex->.dvi->.ps->.pdf workflow if the respective packages/scripts are
 % loaded/invoked with the correct driver options (dvips, etc.). 
@@ -479,7 +479,7 @@
 % That said, Vilar Camara Neto created his breakurl.sty package which
 % permits hyperref to easily break URLs even in dvi mode.
 % Note that breakurl, unlike most other packages, must be loaded
-% AFTER hyperref. The latest version of breakurl and its documentation can
+% i AFTER hyperref. The latest version of breakurl and its documentation can
 % be obtained at:
 % http://www.ctan.org/pkg/breakurl
 % breakurl.sty is not for use under pdflatex pdf mode.
@@ -489,15 +489,15 @@
 % complexity of use.
 % The package options above demonstrate how to enable PDF bookmarks
 % (a type of table of contents viewable in Acrobat Reader) as well as
-% PDF document information (title, subject, author and keywords) that is
+% i PDF document information (title, subject, author and keywords) that is
 % viewable in Acrobat reader's Document_Properties menu. PDF document
 % information is also used extensively to automate the cataloging of PDF
 % documents. The above set of options ensures that hyperlinks will not be
 % colored in the text and thus will not be visible in the printed page,
 % but will be active on "mouse over". USING COLORS OR OTHER HIGHLIGHTING
-% OF HYPERLINKS CAN RESULT IN DOCUMENT REJECTION BY THE IEEE, especially if
+% i OF HYPERLINKS CAN RESULT IN DOCUMENT REJECTION BY THE IEEE, especially if
 % these appear on the "printed" page. IF IN DOUBT, ASK THE RELEVANT
-% SUBMISSION EDITOR. You may need to add the option hypertexnames=false if
+% i SUBMISSION EDITOR. You may need to add the option hypertexnames=false if
 % you used duplicate equation numbers, etc., but this should not be needed
 % in normal IEEE work.
 % The latest version of hyperref and its documentation can be obtained at:
@@ -593,10 +593,10 @@
 % journal papers have the author affiliations above the "Manuscript
 % received ..."  text while in non-compsoc journals this is reversed. Sigh.
 
-\author{Johannes Knippel, 
+\author{Anja Wolf, 
 		Marvin Staudt,
         Andreas Westhoff
-        und Anja Wolf}
+        und Johannes Knippel}
 
 % note the % following the last \IEEEmembership and also \thanks - 
 % these prevent an unwanted space from occurring between the last author name
@@ -682,7 +682,7 @@
 
 
 % for Computer Society papers, we must declare the abstract and index terms
-% PRIOR to the title within the \IEEEtitleabstractindextext IEEEtran
+% i PRIOR to the title within the \IEEEtitleabstractindextext IEEEtran
 % command as these need to go into the title area created by \maketitle.
 % As a general rule, do not put math, special symbols or citations
 % in the abstract or keywords.
@@ -769,19 +769,21 @@ Im Folgenden wird die Konzeption der Anwendung sowie die benötigte Infrastruktu
 
 \hfill 21. Dezember, 2018
 
+%################################################################################
 \section{Konzeption}
-Schönes Fazit
+Schöne Konzeption
 \begin{itemize}
 	\item Fitzli
 \end{itemize}
 
-
+%################################################################################
 \section{Infrastruktur}
 Github, Wildfly 13, DBs in Docker
 \begin{itemize}
 	\item Fitzli
 \end{itemize}
 
+%################################################################################
 \section{Umsetzung}
 Einleitung
 \subsection{Aufbau Server}
@@ -792,6 +794,9 @@ Einleitung
 \subsection{Chat Prozess}
 \subsubsection{JMS Message}
 \subsubsection{Kafka}
+
+
+% TEIL von Marvin
 \subsubsection{Persistieren der Informationen in den Datenbanken Trace und Count}
 Während des \textit{Chat Process} werden mit Hilfe der beiden Datenbankprozesse \textbf{Count} und \textbf{Trace} die benötigten Informationen zu den Nachrichten der \textit{chatuser} in die jeweilige Datenbank gespeichert und protokolliert. Hierfür werden zwei Datenbanksysteme benötigt, welche unabhängig voneinander ausgeführt werden können. Um dies zu gewährleisten wurde jeweils eine Datenbank in einem Docker-Container ausgeführt. Zum einen persistiert die Datenbank \textbf{Trace} alle gewünschten Informationen zu einer Chatnachricht. Die \textbf{Count} Datenbank dient zum ermitteln der Anzahl der versendeten Nachrichten eines \textit{chatusers}. Dementsprechend wird sobald ein \textit{chatuser} die erste Nachricht versendet ein Eintrag erstellt. Bei jeder weiteren Nachricht wird dieser automatisch mit einem Zähler inkrementiert. 
 
@@ -952,6 +957,7 @@ Der abgebildete \textit{JSON-Body} entleert die \textit{Count-Datenbank}. Als R�
 \begin{itemize}
 	\item Die bereits integrierten \textit{JPA-Klassen}, welche zur Persistierung der Daten in die Datenbanken benötigt werden, konnten durch den GraphQL-Endpunkt in unserem Fall nicht mit der Annotation \textit{@EJB} angesprochen werden. Daher mussten zusätzlich \textit{Mapper-Klassen} für \textit{Count} und\textit{Trace} implementiert werden. Die beiden Mapper stellten dementsprechend die Schnittstelle zu den Datenbanken und  \textit{GraphQL}, um einen Datenaustausch zu ermöglichen.
 \end{itemize}
+
 \subsubsection{GraphQL vs. ReST}
 \textbf{ReST} ist ein Architekturkonzept für netzwerkbasierte Software und gilt als Bindeglied, um eine Kommunikation zwischen Client und Server zu ermöglichen. Der Fokus liegt dabei darauf, eine \textit{API} über längere Zeit "haltbar" zu machen, anstatt die Leistung hier zu optimieren. Ziel dieser Architektur ist es, eine vereinfachte Architektur der entkoppelten Schnittstelle zu ermöglichen und eine erhöhte Visibilität der Interaktionen zu erreichen. Darunter leidet selbstverständlich die Effizienz, da Informationen lediglich in einem standardisierten Format abgerufen werden können und nicht auf die speziellen Bedürfnisse angepasst werden können. \cite{GraphQL: ReST} \\
 %Auch werden bei einer \textbf{ReST}-\textit{API} 
@@ -959,26 +965,74 @@ Der abgebildete \textit{JSON-Body} entleert die \textit{Count-Datenbank}. Als R�
 Ein Grundprinzip von \textbf{ReST} beruht sich darauf, dass einheitliche Schnittstellen der Protokolle, wie z. B. \textit{HTTP-Inhaltstypen} oder \textit{Statuscodes}, verwendet werden. \textbf{GraphQL} definiert hingegen seine eigenen Konventionen. GraphQL gibt beispielsweise zu jeder Anfrage den Response Status-Code \textit{200 OK} zurück. ReST verwendet meist den \textit{HTTP Response Status}. \cite{GraphQL: ReST} \\
 Ein weiterer Unterschied besteht darin, dass bei GraphQL zu Beginn ein Schema definiert werden muss, welches nach den jeweiligen Bedürfnissen direkt angepasst werden kann. Dieses Schema definiert die Art der Daten, welche bei clientseitiger Abfrage ausgegeben werden. Dementsprechend ist die gegenseitige Unabhängigkeit des Servers und des Clients sichergestellt. \\
 Zusammenfassend kann nicht ohne eine Bedarfsanalyse des jeweiligen Projektes zu einer der beiden Technologien geraten werden. GraphQL kann einige Schwachstellen von ReST beheben, allerdings müssen die Anforderungen der Anwendung genau geprüft werden, um eine endgültige Aussage treffen zu können. Dementsprechend kann nicht pauschal gesagt werden, welche der beiden Technologien bevorzugt werden soll.\cite{ReST: GraphQL}
+
+
+% TEIL von Johannes:
 \subsection{Admin-Client}
 \label{sub:admin}
-\begin{itemize}
-	\item Fitzli
-\end{itemize}
+
+Um eine Web-Anbindung zu illustrieren sollte im Rahmen dieser Studienarbeit ein Admin-Client implementiert werden. Dabei war die Art der Implementierung nicht maßgeblich vorgegeben, lediglich dass ein aktuelles Webapplikations-Framework verwendet wird.  
+
+% HIER weiter machen
+Für die Implementierung der Admin Anwendung wurde das auf TypeScript- und komponentenbasierte Framework Angular in der Version 7 verwendet. Sie soll zur Verwaltung der ausgetauschten Nachrichten dienen. Der Admin-Client ist direkt an die GraphQL-Schnittstelle des Chat-Servers angebunden und verwaltet Daten aus den Datenbanken Trace und Count sowie die Chat-User Daten. Zudem kann er die verschiedenen Daten löschen.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.25]{Bilder/AdminClient_Dashboard.PNG}
+	\caption{Startseite des Admin-Clients.}
+	\label{fig:adminClientStartseite}
+\end{figure}
+
+Die Angular-Anwendung besteht aus vier verschiedenen Komponenten, die jeweils über eine eigene Route erreichbar sind. Die Home-Komponente stellt den Einstiegspunkt für die Anwendung dar (siehe Abbildung \ref{fig:adminClientStartseite}). Sie bietet eine Startseite an, über die zu den anderen Komponenten gelangt werden kann. Die Count-Komponente ist unter der Route \lstinline|/count| zu erreichen. Sie bietet eine Auflistung aller Zähler Einträge pro Chat-Nutzer an. Über die Route \lstinline|/tracce| wird die Trace-Komponente angesprochen. Diese stellt die Trace Einträge für jede gesendete Nachricht in Tabellenform dar. Die Chat-Nutzer-Komponente erlaubt die Verwaltung von eingeloggten Nutzern. Sie ist über die Route \lstinline|/chatUser| erreichbar.
+
+Im Folgenden werden die einzelnen Komponenten näher beschrieben und die Verbindung zur GraphQL Schnittstelle wird erläutert.
+
+
+\subsubsection{Trace-Verwaltung}
+Der Admin-Client kann Einträge der versendeten Nachrichten eines Chat-Nutzers anzeigen und diese ebenfalls löschen. Abbildung \ref{fig:adminClientTrace} zeigt die Komponente des Admin-Clients, die für die Verwaltung der protokollierten Nachrichten zuständig ist.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.25]{Bilder/AdminClient_Trace.PNG}
+	\caption{Trace-Verwaltung des Admin-Clients.}
+	\label{fig:adminClientTrace}
+\end{figure}
+
+Die Trace-Verwaltung ruft die GraphQL Schnittstelle unter \lstinline|/graphql?=query={allTraces{id userName clientThread message}}| mit einem HTTP GET Aufruf auf.
+Zum Löschen aller Einträge wird die GraphQL Schnittstelle mit einem POST Request unter \lstinline|/graphql| aufgerufen. Der Body dieser Anfrage muss die Mutation im JSON Format enthalten. \lstinline|{"query":  "mutation={clearTraces}"}|
+
+
+\subsubsection{Count-Verwaltung}
+Der Admin-Client kann Einträge des Zählers für alle ausgeführten Chat-Requests eines Chat-Nutzers anzeigen und diese ebenfalls löschen. Abbildung \ref{fig:adminClientCount} zeigt die Komponente des Admin-Clients, die für die Verwaltung der Zähler zuständig ist.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.25]{Bilder/AdminClient_Count.PNG}
+	\caption{Count-Verwaltung des Admin-Clients.}
+	\label{fig:adminClientCount}
+\end{figure}
+
+Diese Komponente ruft die GraphQL Schnittstelle unter \lstinline|/graphql?=query={allCounts{id userName counter}}| mit einem HTTP GET Aufruf auf um alle Zähler Einträge darstellen zu können.
+Zum Löschen aller Zähler Einträge wird die GraphQL Schnittstelle mit einem POST Request unter \lstinline|/graphql| aufgerufen. Der Body dieser Anfrage muss die Mutation im JSON Format enthalten. \lstinline|{"query": "mutation={clearCounts}"}|
+
+
+\subsubsection{Chat-User-Verwaltung}
+Der Admin-Client kann alle angemeldeten Chat-Nutzer anzeigen und diese ebenfalls löschen. Beim Löschen werden die Nutzer zuvor von der Chat-Anwendung abgemeldet. Abbildung \ref{fig:adminClientUser} zeigt die Komponente des Admin-Clients, die für die Verwaltung der Chat-Nutzer zuständig ist.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.25]{Bilder/AdminClient_User.PNG}
+	\caption{Chat-Nutzer-Verwaltung des Admin-Clients.}
+	\label{fig:adminClientUser}
+\end{figure}
+
+Die Chat-Nutzer Komponente ruft die GraphQL Schnittstelle unter \lstinline|/graphql?query=| \lstinline|{allChatUsers{name}}| mit einem HTTP GET Aufruf auf.
+Zum Löschen aller Einträge wird die GraphQL Schnittstelle mit einem POST Request unter \lstinline|/graphql| aufgerufen. Im Body des Requests muss die angeforderte Mutation (\lstinline|{"query": "mutation{clearChatUsers}"}|) mit den Contentype \lstinline|application/JSON| enthalten sein.
 
 \ac{ReST} 
 
 
-%\begin{figure}
-%	\centering
-%	\includegraphics[scale=0.30]{Bilder/AdminClient_User.JPG}
-%	\caption{Chat-Nutzer-Verwaltung des Admin-Clients.}
-%	\label{fig:adminClientUser}
-%\end{figure}
-
-\lstinline|application/JSON|  
-
-
-
+%################################################################################
 \section{Fazit}
 Schönes Fazit
 \begin{itemize}
