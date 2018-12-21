@@ -978,7 +978,7 @@ Für die Implementierung der Admin Anwendung wurde das auf TypeScript- und kompo
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.25]{Bilder/AdminClient_Dashboard.PNG}
-	\caption{Startseite des Admin-Clients.}
+	\caption{Startseite/Dashboard des Admin-Clients.}
 	\label{fig:adminClientStartseite}
 \end{figure}
 
@@ -995,43 +995,41 @@ Im Reiter der Count-Administration kann die Anwendung alle Einträge des Zähler
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.25]{Bilder/AdminClient_Count.PNG}
-	\caption{Count-Verwaltung des Admin-Clients.}
+	\caption{Count-Administration des Admin-Clients.}
 	\label{fig:adminClientCount}
 \end{figure}
 
-Diese Komponente ruft die GraphQL Schnittstelle unter \lstinline|/graphql?=query={allCounts{id userName counter}}| mit einem HTTP GET Aufruf auf um alle Zähler Einträge darstellen zu können.
-Zum Löschen aller Zähler Einträge wird die GraphQL Schnittstelle mit einem POST Request unter \lstinline|/graphql| aufgerufen. Der Body dieser Anfrage muss die Mutation im JSON Format enthalten. \lstinline|{"query": "mutation={clearCounts}"}|
+Die Count-Komponente ruft die GraphQL Schnittstelle unter \lstinline|/graphql?query={allCount{id username counting}}| mit einem HTTP GET Request und einem Observable Object \lstinline|<CountResponse>| auf, um alle Zähler Einträge darstellen zu können. Hierbei wird das erhaltene JSON Objekt an die TypeScript Klasse der CountResponse geparsed, die dann im weiteren Schritt im HTML-Code zur Anzeige genutzt wird.
+Zum Löschen aller Einträge wird die GraphQL Schnittstelle mit einem POST Request unter \lstinline|/graphql| aufgerufen. Der Body dieser Anfrage muss die Mutation \lstinline|{"query": "mutation{clearCount}"}| im JSON Format enthalten, um eine erfolgreiche Löschung der Einträge zu erzielen.
 
 
 \subsubsection{Trace-Administration}
-Der Admin-Client kann Einträge der versendeten Nachrichten eines Chat-Nutzers anzeigen und diese ebenfalls löschen. Abbildung \ref{fig:adminClientTrace} zeigt die Komponente des Admin-Clients, die für die Verwaltung der protokollierten Nachrichten zuständig ist.
+Analog zur Count-Administration kann die Anwendung in der Trace-Verwaltung Einträge von versendeten Nachrichten eines Chat-Users anzeigen und diese bei Bedarf auch wieder löschen. In Abbildung \ref{fig:adminClientTrace} ist die Trace-Komponente mit einigen Einträgen zu sehen. Sie kann neben dem Inhalt einer Nachricht sowohl den serverThread als auch den clientThread anzeigen lassen, die eine genaue Analyse der versendeten Nachrichten erlaubt.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.25]{Bilder/AdminClient_Trace.PNG}
-	\caption{Trace-Verwaltung des Admin-Clients.}
+	\caption{Trace-Administration des Admin-Clients.}
 	\label{fig:adminClientTrace}
 \end{figure}
 
-Die Trace-Verwaltung ruft die GraphQL Schnittstelle unter \lstinline|/graphql?=query={allTraces{id userName clientThread message}}| mit einem HTTP GET Aufruf auf.
-Zum Löschen aller Einträge wird die GraphQL Schnittstelle mit einem POST Request unter \lstinline|/graphql| aufgerufen. Der Body dieser Anfrage muss die Mutation im JSON Format enthalten. \lstinline|{"query":  "mutation={clearTraces}"}|
-
+Die Trace-Administration ruft die GraphQL Schnittstelle unter \lstinline|/graphql?query={allTrace{id username clientthread message serverthread}}| mit einem HTTP GET Aufruf und einem Observable Object \lstinline|<TraceResponse>| auf. Wie auch in der Count-Komponente wird das erhaltene JSON Objekt an die TypeScript Klasse der TraceResponse geparsed, die dann wiederum für die HTML-seitige Anzeige genutzt wird.
+Zum Löschen aller Einträge wird die GraphQL Schnittstelle mit einem POST Request unter \lstinline|/graphql| aufgerufen. Der Body dieser Anfrage muss die Mutation \lstinline|{"query":  "mutation{clearTrace}"}| im JSON Format enthalten, um eine erfolgreiche Löschung der Einträge zu erreichen.
 
 
 \subsubsection{Chat-User-Administration}
-Der Admin-Client kann alle angemeldeten Chat-Nutzer anzeigen und diese ebenfalls löschen. Beim Löschen werden die Nutzer zuvor von der Chat-Anwendung abgemeldet. Abbildung \ref{fig:adminClientUser} zeigt die Komponente des Admin-Clients, die für die Verwaltung der Chat-Nutzer zuständig ist.
+Im Reiter der Chat-User-Administration kann die Anwendung alle angemeldeten User anzeigen und bei Bedarf können diese auch wieder abgemeldet und gelöscht werden. In Abbildung \ref{fig:adminClientUser} ist die User-Komponente mit beispielhaften eingeloggten Benutzern zu sehen.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.25]{Bilder/AdminClient_User.PNG}
-	\caption{Chat-Nutzer-Verwaltung des Admin-Clients.}
+	\caption{Chat-User-Administration des Admin-Clients.}
 	\label{fig:adminClientUser}
 \end{figure}
 
-Die Chat-Nutzer Komponente ruft die GraphQL Schnittstelle unter \lstinline|/graphql?query=| \lstinline|{allChatUsers{name}}| mit einem HTTP GET Aufruf auf.
-Zum Löschen aller Einträge wird die GraphQL Schnittstelle mit einem POST Request unter \lstinline|/graphql| aufgerufen. Im Body des Requests muss die angeforderte Mutation (\lstinline|{"query": "mutation{clearChatUsers}"}|) mit den Contentype \lstinline|application/JSON| enthalten sein.
+Die Chat-User werden über über die \ac{ReST} Schnittstelle beim Laden des Reiters unter \lstinline|/rest/users/currentusers| mit einem HTTP GET Request aufgerufen. Auch hier wird das erhaltene JSON Objekt mithilfe des Observable Objects \lstinline|<ChatUserResponse>| an die korrespondierende TypeScript Klasse geparsed, die dann wiederum im HTML-Code zur Visualisierung verwendet wird.
+Zum Löschen aller Einträge wird die ReST Schnittstelle mit einem DELETE Request unter \lstinline|/rest/users/logout/<user>| aufgerufen. Hierbei wird über die chatUserList iteriert, die im vorherigen GET Request mit den eingeloggten Usern befüllt wurde.
 
-\ac{ReST} 
 
 
 %################################################################################
