@@ -37,3 +37,7 @@ chat/server/target/
 .synctex.gz
 .out
 .aux
+*.aux
+Docs/IEEE_Latex/documentation.aux
+*.out
+*.gz

@@ -973,8 +973,7 @@ Zusammenfassend kann nicht ohne eine Bedarfsanalyse des jeweiligen Projektes zu 
 
 Um eine Web-Anbindung zu illustrieren sollte im Rahmen dieser Studienarbeit ein Admin-Client implementiert werden. Dabei war die Art der Implementierung nicht maßgeblich vorgegeben, lediglich dass ein aktuelles Webapplikations-Framework verwendet wird.  
 
-% HIER weiter machen
-Für die Implementierung der Admin Anwendung wurde das auf TypeScript- und komponentenbasierte Framework Angular in der Version 7 verwendet. Sie soll zur Verwaltung der ausgetauschten Nachrichten dienen. Der Admin-Client ist direkt an die GraphQL-Schnittstelle des Chat-Servers angebunden und verwaltet Daten aus den Datenbanken Trace und Count sowie die Chat-User Daten. Zudem kann er die verschiedenen Daten löschen.
+Für die Implementierung der Admin Anwendung wurde das auf TypeScript- und komponentenbasierte Framework Angular in der Version 7 verwendet. Die Anwendung dient der administrativen Verwaltung der Daten des Chats und zeigt Details zu den im Server gespeicherten Statistiken an. Sie ist direkt an die GraphQL-Schnittstelle des Chat-Servers angebunden und verwaltet Daten aus den Datenbanken Trace und Count sowie die Chat-User Daten. Zudem können über die Anwendung die verschiedenen Daten aus den Datenbanken gelöscht werden.
 
 \begin{figure}[h]
 	\centering
@@ -983,29 +982,17 @@ Für die Implementierung der Admin Anwendung wurde das auf TypeScript- und kompo
 	\label{fig:adminClientStartseite}
 \end{figure}
 
-Die Angular-Anwendung besteht aus vier verschiedenen Komponenten, die jeweils über eine eigene Route erreichbar sind. Die Home-Komponente stellt den Einstiegspunkt für die Anwendung dar (siehe Abbildung \ref{fig:adminClientStartseite}). Sie bietet eine Startseite an, über die zu den anderen Komponenten gelangt werden kann. Die Count-Komponente ist unter der Route \lstinline|/count| zu erreichen. Sie bietet eine Auflistung aller Zähler Einträge pro Chat-Nutzer an. Über die Route \lstinline|/tracce| wird die Trace-Komponente angesprochen. Diese stellt die Trace Einträge für jede gesendete Nachricht in Tabellenform dar. Die Chat-Nutzer-Komponente erlaubt die Verwaltung von eingeloggten Nutzern. Sie ist über die Route \lstinline|/chatUser| erreichbar.
+Die Angular-Anwendung besteht aus vier verschiedenen Komponenten, die jeweils über einen eigenen Link, im Angularjargon auch Routen genannt, erreichbar sind. Für eine einfachere Bedienbarkeit wurde eine übersichtliche Headerzeile implementiert, die den Titel, ein Suchfeld und den Administrator als Profil anzeigt. Für eine einfache und schnelle Navigation zwischen den Komponenten wurde eine faltbare Sidebar implementiert, die die vier Komponenten übersichtlich mit Icons am rechten Bildschirmrand anzeigt.
+\\
+Die Dashboard-Komponente stellt die Willkommensseite für die Anwendung dar (siehe Abbildung \ref{fig:adminClientStartseite}). Über die Willkommens- beziehungsweise Startseite gelangt man durch Button zu den anderen Komponenten der Anwendung. Die CountDB-Komponente ist unter der Route \lstinline|/countdb| zu erreichen. Sie zeigt eine Auflistung aller Zähler-Einträge pro Chat-User an. Die TraceDB-Komponente wird über die Route \lstinline|/tracedb| angesprochen. Diese veranschaulicht die Trace-Einträge für jede gesendete Nachricht in Tabellenform. Die Chat-User-Komponente erlaubt die Verwaltung von eingeloggten Nutzern. Sie ist über die Route \lstinline|/user| erreichbar. Sollte ein ungültiger Link im Browser eingefügt werden, so gelangt man automatisch zurück zum Dashboard.
 
-Im Folgenden werden die einzelnen Komponenten näher beschrieben und die Verbindung zur GraphQL Schnittstelle wird erläutert.
-
-
-\subsubsection{Trace-Verwaltung}
-Der Admin-Client kann Einträge der versendeten Nachrichten eines Chat-Nutzers anzeigen und diese ebenfalls löschen. Abbildung \ref{fig:adminClientTrace} zeigt die Komponente des Admin-Clients, die für die Verwaltung der protokollierten Nachrichten zuständig ist.
-
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.25]{Bilder/AdminClient_Trace.PNG}
-	\caption{Trace-Verwaltung des Admin-Clients.}
-	\label{fig:adminClientTrace}
-\end{figure}
-
-Die Trace-Verwaltung ruft die GraphQL Schnittstelle unter \lstinline|/graphql?=query={allTraces{id userName clientThread message}}| mit einem HTTP GET Aufruf auf.
-Zum Löschen aller Einträge wird die GraphQL Schnittstelle mit einem POST Request unter \lstinline|/graphql| aufgerufen. Der Body dieser Anfrage muss die Mutation im JSON Format enthalten. \lstinline|{"query":  "mutation={clearTraces}"}|
+Im Folgenden werden die einzelnen Komponenten näher beschrieben sowie die Verbindung zur GraphQL Schnittstelle erläutert.
 
 
-\subsubsection{Count-Verwaltung}
-Der Admin-Client kann Einträge des Zählers für alle ausgeführten Chat-Requests eines Chat-Nutzers anzeigen und diese ebenfalls löschen. Abbildung \ref{fig:adminClientCount} zeigt die Komponente des Admin-Clients, die für die Verwaltung der Zähler zuständig ist.
+\subsubsection{Count-Administration}
+Im Reiter der Count-Administration kann die Anwendung alle Einträge des Zählers für alle ausgeführten Chat-Requests eines Chat-Users anzeigen und bei Bedarf auch wieder löschen. Abbildung \ref{fig:adminClientCount} zeigt die Komponente des Admin-Clients, die für die Verwaltung der Zähler zuständig ist.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.25]{Bilder/AdminClient_Count.PNG}
 	\caption{Count-Verwaltung des Admin-Clients.}
@@ -1016,10 +1003,25 @@ Diese Komponente ruft die GraphQL Schnittstelle unter \lstinline|/graphql?=query
 Zum Löschen aller Zähler Einträge wird die GraphQL Schnittstelle mit einem POST Request unter \lstinline|/graphql| aufgerufen. Der Body dieser Anfrage muss die Mutation im JSON Format enthalten. \lstinline|{"query": "mutation={clearCounts}"}|
 
 
-\subsubsection{Chat-User-Verwaltung}
+\subsubsection{Trace-Administration}
+Der Admin-Client kann Einträge der versendeten Nachrichten eines Chat-Nutzers anzeigen und diese ebenfalls löschen. Abbildung \ref{fig:adminClientTrace} zeigt die Komponente des Admin-Clients, die für die Verwaltung der protokollierten Nachrichten zuständig ist.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.25]{Bilder/AdminClient_Trace.PNG}
+	\caption{Trace-Verwaltung des Admin-Clients.}
+	\label{fig:adminClientTrace}
+\end{figure}
+
+Die Trace-Verwaltung ruft die GraphQL Schnittstelle unter \lstinline|/graphql?=query={allTraces{id userName clientThread message}}| mit einem HTTP GET Aufruf auf.
+Zum Löschen aller Einträge wird die GraphQL Schnittstelle mit einem POST Request unter \lstinline|/graphql| aufgerufen. Der Body dieser Anfrage muss die Mutation im JSON Format enthalten. \lstinline|{"query":  "mutation={clearTraces}"}|
+
+
+
+\subsubsection{Chat-User-Administration}
 Der Admin-Client kann alle angemeldeten Chat-Nutzer anzeigen und diese ebenfalls löschen. Beim Löschen werden die Nutzer zuvor von der Chat-Anwendung abgemeldet. Abbildung \ref{fig:adminClientUser} zeigt die Komponente des Admin-Clients, die für die Verwaltung der Chat-Nutzer zuständig ist.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.25]{Bilder/AdminClient_User.PNG}
 	\caption{Chat-Nutzer-Verwaltung des Admin-Clients.}
