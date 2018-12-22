@@ -756,43 +756,64 @@ Verteilte Systeme, JMS, Wildfly, MOM, JavaEE, JPA, Kafka, Docker, Angular, Graph
 %
 % Here we have the typical use of a "T" for an initial drop letter
 % and "HIS" in caps to complete the first word.
-\IEEEPARstart Noch neu Schreiben
-
-
-{D}{iese} Studienarbeit beschreibt die Chat-Applikation, die im Rahmen des Praktikums im Fach \textit{Verteilte Systeme} im Wintersemester 2017/2018. 
+% TEIL von Johannes (evtl. nochml überabeiten)
+\IEEEPARstart{C}{hat}-Applikationen basieren in den meisten Anwendungsfällen auf speziellen Middleware Technologien, die auf verteilten Systemen aufgebaut und implementiert sind. Diese Studienarbeit beschreibt die Chat-Anwendung, die im Rahmen des Praktikums im Fach \textit{Verteilte Systeme} im Wintersemester 2018/2019 bearbeitet wurde. 
 
 Ziel der Studienarbeit ist, es innovative Lösungsansätze und Konzepte im Umfeld der verteilten Systeme zu erforschen, zu erproben und diese zu bewerten. 
 
-Im Fokus der Arbeit steht eine einfache Chat-Anwendung, die dazu dient, die Entwicklung und Funktionsweise von verteilten Systemen auf Basis von Middleware-Technologien, vor allem mit \ac{MOM}, näher zu vertiefen.
+Im Fokus der Arbeit steht eine einfache Chat-Anwendung, die dazu dient, die Entwicklung und Funktionsweise von verteilten Systemen auf Basis von \ac{MOM}, näher zu vertiefen.
 
 Im Folgenden wird die Konzeption der Anwendung sowie die benötigte Infrastruktur erläutert. Anschließend wird die Umsetzung und die damit verbundene Konfiguration der einzelnen Komponenten der Anwendung näher beschrieben. Abschließend folgt ein Fazit. 
 
-\hfill 21. Dezember, 2018
+\hfill 22. Dezember, 2018
 
 %################################################################################
+% TEIL von Johannes
 \section{Konzeption}
-Schöne Konzeption
-\begin{itemize}
-	\item Fitzli
-\end{itemize}
+Zu entwickeln galt es ein verteiltes System auf Basis von Middleware Technologien, welches im Anschluss durch bestimmte Benchmarkzyklen analysiert werden soll. Genauer handelt es sich um spezielle \ac{MOM}, die eine klare und strukturierte Methode der Kommunikation zwischen disparaten Software Entitäten zur Verfügung stellt. \cite{MOM:Introduction} Im Fokus der Entwicklung steht die Installation und die Inbetriebnahme der verwendeten Technologien, die Nutzung von \ac{ReST}, Message Queues, Topics, GraphQL, Apache Kafka, Transaktionsverarbeitung sowie die Leistungsbewertung der entstandenen Applikation. 
+
+
+\begin{figure*}[h]
+	\centering
+	\includegraphics[scale=0.4]{Bilder/Grobe_Architektur.png}
+	\caption{Grobe Skizze der Architektur der Chat-Anwendung mit Erweiterung um Apache Kafka}
+	\label{fig:Architektur}
+\end{figure*}
+
+Die darzustellende Anwendung beinhaltet einen einfachen Chat-Prozess. Dieser setzt sich aus zwei Teilen zusammen. Einem Chat-Client, der es einem Benutzer ermöglicht über eine graphische Nutzer-Oberfläche mit anderen Chat-Beteiligten zu kommunizieren und einem Chat-Server, der sich um die Verwaltung der Chat-Nutzer und deren Nachrichten kümmert. 
+
+Möchte sich ein Benutzer am Server registrieren, verwendet er eine dafür implementierte Client-Anwendung. Ist er registriert beziehungsweise am System angemeldet, können Nachrichten von anderen bereits registrierten Benutzern empfangen und an diese verschickt werden. Der Server bestätigt jede Nachrichtenanfrage eines registrierten Benutzers (Clients). Ist ein Benutzer nicht angemeldet, so werden die Nachrichten auch nicht verarbeitet. Zur Auswertung und Datenhaltung werden Informationen zu den Nachrichten vom Server in dafür vorgesehene Datenbanken gespeichert. Eingehende Nachrichten werden in Verbindung mit den Benutzernamen und dessen genutzten Threads in einer hier benannten Trace-Datenbank gespeichert. In einer zweiten separaten Count-Datenbank wird ein Zähler mit der Anzahl der Nachrichten pro Nutzername geführt. Aufgrund der Softwarearchitektur erstrecken sich manche Aktionen über verteilte Komponenten, die es über Transaktionen abzusichern gilt. Sollte eine Komponente, wie beispielsweise eine der beiden Datenbanken, ausfallen, so müssen alle Schritte der jeweiligen Transaktion zurückrückrollbar gehalten werden.
+
+Die in den Datenbanken gespeicherten Informationen können über eine implementierte GraphQL\footnote{\url{http://graphql.org/}} Schnittstelle ausgelesen werden.
+
+Für Administratoren des Systems wurde eine Client Anwendung basierend auf dem Webapplikations-Framework Angular\footnote{\url{https://angular.io/}} entwickelt. Diese nutzt die GraphQL Schnittstelle, um Daten über die Chat-Anwendungen auszulesen und anzuzeigen.
+
+Zur Bestimmung von Performanceergebnissen des entstehenden Systems wird ein Benchmarking-Client genutzt, der eine wählbare Anzahl an Anwendern simuliert und Nachrichten an den Server schickt. Dabei werden verschiedene Kennzahlen, wie beispielsweise die Dauer eines Roundtrips der Nachricht, erhoben.
 
 %################################################################################
 \section{Infrastruktur}
 Github, Wildfly 13, DBs in Docker
-\begin{itemize}
-	\item Fitzli
-\end{itemize}
+
 
 %################################################################################
 \section{Umsetzung}
 Einleitung
 \subsection{Aufbau Server}
+%Wildfly beinhaltet bereits eine Vielzahl von Subsystemen, weshalb kein separater \ac{JMS}-Provider oder Transaktionsmanager zu installieren ist.
+
 \subsection{Aufbau Client}
+
 \subsection{JMS Konfiguration}
+%Im \ac{JMS}-Provider des Chat-Servers (Wildfly Application-Servers) werden entsprechende Queues und Topics konfiguriert, welche anschließend vom Chat-Client genutzt werden. 
+
 \subsection{Kafka Konfiguration}
+
 \subsection{Login über ReST}
+
 \subsection{Chat Prozess}
+
 \subsubsection{JMS Message}
+
 \subsubsection{Kafka}
 
 
@@ -848,6 +869,8 @@ Dementsprechend wird es ermöglicht eine einheitliche Schnittstelle für den \te
 Auch werden hierbei die Methoden zum Abfragen und zum Zurücksetzen der Datenbanken für den Admin Client (vgl. Kapitel \ref{sub:admin})bereitgestellt. Die beiden Methoden \textit{List<Count> findAll()} und \textit{List<Trace> findAll()} geben jeweils den gesamten Inhalt der in den Datenbanken gespeicherten Informationen aus. Die Methode \textit{clear()} ermöglicht das separate Löschen aller Daten aus den beiden Datenbanken. 
 
 Im Folgenden Kapitel \ref{sub:transactions} werden die Transaktionsverwaltung und der Zusammenhang des Persistieren dieser Informationen in die beiden Datenbankinstanzen genauer erläutert. 
+
+
 \subsection{Transaktionsverwaltung}
 \label{sub:transactions}
 Um eine übergreifende XA-Transaktion unter Einbeziehung der Zugriffe auf die JMS-Queue, das Topic sowie auf die Datenbanken zu realisieren übernimmt das \textit{Transactions subsystem} des Wildfly Application Servers die komplette Transaktionsverwaltung. Die beiden MariaDB-Container, welche im Docker ausgeführt werden, unterstützen den Prozess der XA-Transaktionen. Auch wurden die beiden Datenbanken als \textit{XA-Datasources} in der Konfigurationsdatei \textit{standalone.xml} des Application Servers definiert. 
@@ -861,10 +884,16 @@ Beispeilsweise wird beim unerwarteten Abbruch während des Schreibvorgangs von D
 Auch ein aktives Auslösen eines Rollbacks im \textit{ChatProcess} ist mit der Methode \textit{setRollbackOnly()} des \textit{MessageDrivenContext} der Message Driven Bean im Falle einer \textit{JMSException} möglich. 
 
 Im Falle eines Sendeversuchs einer \textit{Message}, welche von einem nicht eingeloggten \textit{user} versendet wird, ist diese Exception allerdings nicht notwendig. Dies ist darauf zurückzuführen, dass in der Klasse \textit{ChatProcess} im Vorfeld überpüft wird, ob der \textit{user} eingeolgt ist. Ist dieser nicht eingeloggt, wird kein Sendeprozess durchgeführt und somit findet kein Schreiben in die Datenbank statt. 
+
+
 \subsection{Benchmark-Client}
 Ergebnisse etc. 
+
+
 \subsection{GraphQL}
 Im Folgenden Abschnitt wird die GraphQL-Schnittstelle  und die Vorgehensweise der Implementierung in dieser Studienarbeit dargestellt. Weiterhin werden mittels eines Vergleichs die Vor- und Nachteile von \textit{ReST} und \textit{GraphQL} diskutiert. Abschließend werden die aufgetretenen Herausforderungen in diesem Projekt angeführt.
+
+
 \subsubsection{Was ist GraphQL?}
 \textit{GraphQL} bietet mit Hilfe eines neuen API Standards eine effiziente und leistungsfähige Alternative zu \textit{ReST} an. \textit{GraphQL} ist eine Abfragesprache \textit{(Query Language)}, welche über die API angesprochen werden kann. Dabei ermöglicht es das Ausführen von Abfragen mit Hilfe eines Typsystems, welches im Vorfeld definiert wurde, zur Laufzeit des Servers. Zusätzlich stellt \textit{GraphQL} Spezifikationen und Werkezeuge, welche lediglich über \textbf{einen} HTTP-Endpunkt angesprochen werden, zur Verfügung. \cite{GraphQL:Introduction}
 
@@ -1207,7 +1236,11 @@ Schönes Fazit
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
 \begin{thebibliography}{1}
-  
+
+\bibitem{MOM:Introduction}
+\emph{Middleware for Communications}
+\url{https://bit.ly/2A7Y7u0https://bit.ly/2A7Y7u0}
+
 \bibitem{GraphQL:Introduction}
 \emph{Introduction to GraphQL}
 \url{https://graphql.org/learn/}
