@@ -41,3 +41,6 @@ chat/server/target/
 Docs/IEEE_Latex/documentation.aux
 *.out
 *.gz
+Docs/IEEE_Latex/documentation.aux
+Docs/IEEE_Latex/documentation.out
+Docs/IEEE_Latex/documentation.synctex.gz
