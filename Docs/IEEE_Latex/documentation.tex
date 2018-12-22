@@ -850,7 +850,7 @@ Auch werden hierbei die Methoden zum Abfragen und zum Zurücksetzen der Datenban
 Im Folgenden Kapitel \ref{sub:transactions} werden die Transaktionsverwaltung und der Zusammenhang des Persistieren dieser Informationen in die beiden Datenbankinstanzen genauer erläutert. 
 \subsection{Transaktionsverwaltung}
 \label{sub:transactions}
-Um eine übergreifende XA-Transaktion unter Einbeziehung der Zugriff auf die JMS-Queue, das Topic sowie auf die Datenbanken zu realisieren übernimmt das \textit{Transactions subsystem} des Wildfly Application Servers die komplette Transaktionsverwaltung. Die beiden MariaDB-Container, welche im Docker ausgeführt werden, unterstützen den Prozess der XA-Transaktionen. Auch wurden die beiden Datenbanken als \textit{XA-Datasources} in der Konfigurationsdatei \textit{standalone.xml} des Application Servers definiert. 
+Um eine übergreifende XA-Transaktion unter Einbeziehung der Zugriffe auf die JMS-Queue, das Topic sowie auf die Datenbanken zu realisieren übernimmt das \textit{Transactions subsystem} des Wildfly Application Servers die komplette Transaktionsverwaltung. Die beiden MariaDB-Container, welche im Docker ausgeführt werden, unterstützen den Prozess der XA-Transaktionen. Auch wurden die beiden Datenbanken als \textit{XA-Datasources} in der Konfigurationsdatei \textit{standalone.xml} des Application Servers definiert. 
 
 Dementsprechend wird ein Transaktionsmanager mit dem \textit{TransactionsManagementType.CONTAINER} vorgeschaltet. Das Starten, Zurückrollen oder Abschließen einer Transaktion wird direkt unter dessen Verwaltung gestellt. Hierfür sind die Annotationen \textit{@Transactional} vor die jeweiligen Methoden bzw. Klassen gesetzt. 
 
@@ -858,17 +858,17 @@ Ein aktives Eingreifen ist aus diesem Grund nicht notwendig. Wird eine Methode o
 
 Beispeilsweise wird beim unerwarteten Abbruch während des Schreibvorgangs von Daten in einer der beiden Datenbanken eine Exception nötig, die automatisch alle Änderungen mit einem \textit{ROLLBACK} rückgängig macht. Werden zum Beispiel erfolgreich Daten in die erste Datenbank geschrieben und ein unerwarteter Fehler tritt beim Einfügen der Daten in die zweite Datenbank auf, muss mittels einer Exception durch den Transaktionsmanager ein Zurückrollen der beiden Schreibvorgänge durchgeführt werden. Im Anschluss sollte ein erneuter Zustellversuch dieser Nachricht die Folge sein. 
 
-Auch ein aktives Auslösen eines Rollbacks im \textit{ChatProcess} ist mit der Methode \textit{setRollbackOnly()} des \textit{MessageDrivenContext} der Message Driven Bean ist im Falle einer \textit{JMSException} möglich. 
+Auch ein aktives Auslösen eines Rollbacks im \textit{ChatProcess} ist mit der Methode \textit{setRollbackOnly()} des \textit{MessageDrivenContext} der Message Driven Bean im Falle einer \textit{JMSException} möglich. 
 
 Im Falle eines Sendeversuchs einer \textit{Message}, welche von einem nicht eingeloggten \textit{user} versendet wird, ist diese Exception allerdings nicht notwendig. Dies ist darauf zurückzuführen, dass in der Klasse \textit{ChatProcess} im Vorfeld überpüft wird, ob der \textit{user} eingeolgt ist. Ist dieser nicht eingeloggt, wird kein Sendeprozess durchgeführt und somit findet kein Schreiben in die Datenbank statt. 
 \subsection{Benchmark-Client}
 Ergebnisse etc. 
 \subsection{GraphQL}
-Im Folgenden Abschnitt wird die GraphQL-Schnittstelle  und die Vorgehensweise der Implementierung mit den aufgetretenen Herausforderungen in diesem Projekt erläutert. Abschließend werden mittels eines Vergleichs die Vor- bzw. Nachteile von \textit{ReST} und \textit{GraphQL} diskutiert.
+Im Folgenden Abschnitt wird die GraphQL-Schnittstelle  und die Vorgehensweise der Implementierung in dieser Studienarbeit dargestellt. Weiterhin werden mittels eines Vergleichs die Vor- und Nachteile von \textit{ReST} und \textit{GraphQL} diskutiert. Abschließend werden die aufgetretenen Herausforderungen in diesem Projekt angeführt.
 \subsubsection{Was ist GraphQL?}
-\textit{GraphQL} bietet mit Hilfe eines neuen API Standards eine effiziente und leistungsfähige Alternative zu \textit{ReST} an. \textit{GraphQL} ist eine Abfragesprache \textit{(Query Language)}, welche über die API angesprochen werden kann. Dabei ermöglicht es das Ausführen von Abfragen mit Hilfe eines Typsystems, welches im Vorfeld definiert wurde, zur Laufzeit des Servers. Zusätzlich stellt \textit{GraphQL} Spezifikationen und Werkezeuge, welche lediglich über einen HTTP-Endpunkt angesprochen werden, zur Verfügung. \cite{GraphQL:Introduction}
+\textit{GraphQL} bietet mit Hilfe eines neuen API Standards eine effiziente und leistungsfähige Alternative zu \textit{ReST} an. \textit{GraphQL} ist eine Abfragesprache \textit{(Query Language)}, welche über die API angesprochen werden kann. Dabei ermöglicht es das Ausführen von Abfragen mit Hilfe eines Typsystems, welches im Vorfeld definiert wurde, zur Laufzeit des Servers. Zusätzlich stellt \textit{GraphQL} Spezifikationen und Werkezeuge, welche lediglich über \textbf{einen} HTTP-Endpunkt angesprochen werden, zur Verfügung. \cite{GraphQL:Introduction}
 
-Die im Folgenden beschriebenen drei Schritte dienen der Erklärung des Grundkonzepts, welches hinter \textit{GraphQL} steht, am Beispiel der Implementierung in diesem Projekt.
+Die im Folgenden beschriebenen zwei Schritte dienen der Erklärung des Grundkonzepts, welches hinter \textit{GraphQL} steht, am Beispiel der Implementierung in diesem Projekt.
 \begin{itemize}
 	\item[1.]
 	Da \textit{GraphQL} ein eigenes Typsystem hat, welches das Schema der API definiert, muss dieses im ersten Schritt festgelegt werden. Hierfür wird die \textit{Schema Definition Language} \textbf{(SDL)} verwendet. Hier ein Beispiel, welches im Rahmen dieser Studienarbeit angewendet wurde, um den einfachen Typ \textit{Trace} zu definieren. 
@@ -908,7 +908,7 @@ public List<TraceMapper> findAll() {
 }
 \end{lstlisting}
 	\end{itemize}
-Der Server gibt die angefragten Daten im Anschluss durch eines JSON-Body wie folgt zurück. 
+Der Server gibt die angefragten Daten im Anschluss als JSON-Objekt wie folgt zurück. 
 \begin{lstlisting}
 {
  "data": {
@@ -941,12 +941,12 @@ schema {
 	mutation: Mutation
 }
 \end{lstlisting}
-In der Klasse \textit{Query} werden die Methoden definiert, die alle Daten aus den beiden Datenbanken \textit{Count} und \textit{Trace} ausgeben. In der Klasse \textit{Mutation} werden die Methoden definiert, welche der Admin-Client im Anschluss ausführen kann, um die beiden Datenbanken zu entleeren. \textit{Query} und \textit{Mutation} müssen beide jeweils im Schema als Typen definiert werden. Im Anschluss müssen die jeweiligen Methoden in den beiden Klassen definiert werden. \\
-In diesen Methoden wurde die gesamte Logik der Abfrage bzw. das Manipulieren der Daten hinterlegt. Die beiden \textit{GET-Methoden}, die alle Daten aus den Datenbanken ausgebenw werden als \textit{GET-Reqeust} auf den Server abgesetzt. Die beiden Methoden, welche zum Löschen der Datenbanken aufgerufen werden können, wurden in der Klasse \textit{Mutation} definiert. Dabei muss ein \textit{POST-Request} abgesetzt werden. Zusätzlich wird ein \textbf{JSON-Body} mit dem folgenden Inhalt übergeben.
+In der Klasse \textit{Query} werden die Methoden definiert, die alle Daten aus den beiden Datenbanken \textit{Count} und \textit{Trace} ausgeben. In der Klasse \textit{Mutation} werden die Methoden definiert, welche der Admin-Client im Anschluss ausführen kann, um die beiden Datenbanken zu entleeren. \textit{Query} und \textit{Mutation} müssen beide jeweils im Schema \textit{schema.graphqls} als Typen definiert werden. Im Anschluss müssen die jeweiligen Methoden in den beiden Klassen definiert werden. \\
+In diesen Methoden wurde die gesamte Logik der Abfrage bzw. das Manipulieren der Daten hinterlegt. Die beiden \textit{GET-Methoden}, die alle Daten aus den Datenbanken ausgeben werden als \textit{GET-Reqeust} auf den Server abgesetzt. Die beiden Methoden, welche zum Löschen der Datenbanken aufgerufen werden können, wurden in der Klasse \textit{Mutation} definiert. Dabei muss ein \textit{POST-Request} abgesetzt werden. Zusätzlich wird ein \textbf{JSON-Body} mit dem folgenden Inhalt übergeben.
 \begin{lstlisting}
 {"query":"mutation{clearCount}"}
 \end{lstlisting}
-Der abgebildete \textit{JSON-Body} entleert die \textit{Count-Datenbank}. Als Rückmeldung wird ein \textit{Boolean-Wert} vom Applikationsserver zurückgegeben. War das Zurücksetzen der Datenbank erfolgreich wird \textit{true} ausgeben. Das Vorgehen für die \textit{Trace-Datenbank} ist identisch.\\
+Der abgebildete \textit{JSON-Body} entleert die \textit{Count-Datenbank}. Als Rückmeldung wird ein \textit{Boolean-Wert} vom Applikationsserver zurückgegeben. War das Zurücksetzen der Datenbank erfolgreich wird \textit{true} ausgeben. Das Vorgehen für die \textit{Trace-Datenbank} ist identisch.\\ \\ \\
 \textbf{Herausforderungen im Laufe der Implementierung:}
 \begin{itemize}
 	\item Sehr wichtig bei der Implementierung einer \textit{GraphQL-Schnittstelle} ist es Typen, Felder und Methoden strikt so zu benennen, wie es in der Datei \textit{schema.graphqls} definiert wurde. Andernfalls werden diese nicht erkannt und es wird eine Exception beim Abfragen geworfen. 
@@ -961,8 +961,8 @@ Der abgebildete \textit{JSON-Body} entleert die \textit{Count-Datenbank}. Als R�
 \subsubsection{GraphQL vs. ReST}
 \textbf{ReST} ist ein Architekturkonzept für netzwerkbasierte Software und gilt als Bindeglied, um eine Kommunikation zwischen Client und Server zu ermöglichen. Der Fokus liegt dabei darauf, eine \textit{API} über längere Zeit "haltbar" zu machen, anstatt die Leistung hier zu optimieren. Ziel dieser Architektur ist es, eine vereinfachte Architektur der entkoppelten Schnittstelle zu ermöglichen und eine erhöhte Visibilität der Interaktionen zu erreichen. Darunter leidet selbstverständlich die Effizienz, da Informationen lediglich in einem standardisierten Format abgerufen werden können und nicht auf die speziellen Bedürfnisse angepasst werden können. \cite{GraphQL: ReST} \\
 %Auch werden bei einer \textbf{ReST}-\textit{API} 
-\textbf{GraphQL} ist im Gegensatz dazu eine Abfragesprache, eine Spezifikation und eine Sammlung von Tools, die über einen einzigen Endpunkt mittels \textit{HTTP} ausgeführt werden können. Der große Fokus liegt hierbei auf der Optimierung von Leistung und Flexibilität.\\
-Ein Grundprinzip von \textbf{ReST} beruht sich darauf, dass einheitliche Schnittstellen der Protokolle, wie z. B. \textit{HTTP-Inhaltstypen} oder \textit{Statuscodes}, verwendet werden. \textbf{GraphQL} definiert hingegen seine eigenen Konventionen. GraphQL gibt beispielsweise zu jeder Anfrage den Response Status-Code \textit{200 OK} zurück. ReST verwendet meist den \textit{HTTP Response Status}. \cite{GraphQL: ReST} \\
+\textbf{GraphQL} ist im Gegensatz dazu eine Abfragesprache, eine Spezifikation und eine Sammlung von Tools, die über einen \textbf{einzigen} Endpunkt mittels \textit{HTTP} ausgeführt werden können. Der große Fokus liegt hierbei auf der Optimierung von Leistung und Flexibilität.\\
+Ein Grundprinzip von \textbf{ReST} beruht sich darauf, dass einheitliche Schnittstellen der Protokolle, wie z. B. \textit{HTTP-Inhaltstypen} oder \textit{Statuscodes}, verwendet werden. \textbf{GraphQL} definiert hingegen seine eigenen Konventionen. GraphQL gibt beispielsweise zu \textbf{jeder} Anfrage den Response Status-Code \textit{200 OK} zurück. ReST verwendet meist den \textit{HTTP Response Status}. Hier wird lediglich bei erfolgreicher Bearbeitung der Anfrage der Statuscode 200 zurückgegeben. Andernfalls kann zum Beispiel auch der Status-Code \textit{400 Bade Reqeuest} oder \textit{500 Internal Server Error} zurückgegeben werden. \cite{GraphQL: ReST} \\
 Ein weiterer Unterschied besteht darin, dass bei GraphQL zu Beginn ein Schema definiert werden muss, welches nach den jeweiligen Bedürfnissen direkt angepasst werden kann. Dieses Schema definiert die Art der Daten, welche bei clientseitiger Abfrage ausgegeben werden. Dementsprechend ist die gegenseitige Unabhängigkeit des Servers und des Clients sichergestellt. \\
 Zusammenfassend kann nicht ohne eine Bedarfsanalyse des jeweiligen Projektes zu einer der beiden Technologien geraten werden. GraphQL kann einige Schwachstellen von ReST beheben, allerdings müssen die Anforderungen der Anwendung genau geprüft werden, um eine endgültige Aussage treffen zu können. Dementsprechend kann nicht pauschal gesagt werden, welche der beiden Technologien bevorzugt werden soll.\cite{ReST: GraphQL}
 
