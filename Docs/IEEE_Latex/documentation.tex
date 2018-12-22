@@ -759,7 +759,7 @@ Verteilte Systeme, JMS, Wildfly, MOM, JavaEE, JPA, Kafka, Docker, Angular, Graph
 % TEIL von Johannes (evtl. nochml überabeiten)
 \IEEEPARstart{C}{hat}-Applikationen basieren in den meisten Anwendungsfällen auf speziellen Middleware Technologien, die auf verteilten Systemen aufgebaut und implementiert sind. Diese Studienarbeit beschreibt die Chat-Anwendung, die im Rahmen des Praktikums im Fach \textit{Verteilte Systeme} im Wintersemester 2018/2019 bearbeitet wurde. 
 
-Ziel der Studienarbeit ist, es innovative Lösungsansätze und Konzepte im Umfeld der verteilten Systeme zu erforschen, zu erproben und diese zu bewerten. 
+Ziel der Studienarbeit ist es, innovative Lösungsansätze und Konzepte im Umfeld der verteilten Systeme zu erforschen, zu erproben und diese zu bewerten. 
 
 Im Fokus der Arbeit steht eine einfache Chat-Anwendung, die dazu dient, die Entwicklung und Funktionsweise von verteilten Systemen auf Basis von \ac{MOM}, näher zu vertiefen.
 
@@ -782,7 +782,7 @@ Zu entwickeln galt es ein verteiltes System auf Basis von Middleware Technologie
 
 Die darzustellende Anwendung beinhaltet einen einfachen Chat-Prozess. Dieser setzt sich aus zwei Teilen zusammen. Einem Chat-Client, der es einem Benutzer ermöglicht über eine graphische Nutzer-Oberfläche mit anderen Chat-Beteiligten zu kommunizieren und einem Chat-Server, der sich um die Verwaltung der Chat-Nutzer und deren Nachrichten kümmert. 
 
-Möchte sich ein Benutzer am Server registrieren, verwendet er eine dafür implementierte Client-Anwendung. Ist er registriert beziehungsweise am System angemeldet, können Nachrichten von anderen bereits registrierten Benutzern empfangen und an diese verschickt werden. Der Server bestätigt jede Nachrichtenanfrage eines registrierten Benutzers (Clients). Ist ein Benutzer nicht angemeldet, so werden die Nachrichten auch nicht verarbeitet. Zur Auswertung und Datenhaltung werden Informationen zu den Nachrichten vom Server in dafür vorgesehene Datenbanken gespeichert. Eingehende Nachrichten werden in Verbindung mit den Benutzernamen und dessen genutzten Threads in einer hier benannten Trace-Datenbank gespeichert. In einer zweiten separaten Count-Datenbank wird ein Zähler mit der Anzahl der Nachrichten pro Nutzername geführt. Aufgrund der Softwarearchitektur erstrecken sich manche Aktionen über verteilte Komponenten, die es über Transaktionen abzusichern gilt. Sollte eine Komponente, wie beispielsweise eine der beiden Datenbanken, ausfallen, so müssen alle Schritte der jeweiligen Transaktion zurückrückrollbar gehalten werden.
+Möchte sich ein Benutzer am Server registrieren, verwendet er eine dafür implementierte Client-Anwendung. Ist er registriert beziehungsweise am System angemeldet, können Nachrichten von anderen bereits registrierten Benutzern empfangen und an diese verschickt werden. Der Server bestätigt jede Nachrichtenanfrage eines registrierten Benutzers (Clients). Ist ein Benutzer nicht angemeldet, so werden die Nachrichten auch nicht verarbeitet. Zur Auswertung und Datenhaltung werden Informationen zu den Nachrichten vom Server in dafür vorgesehene Datenbanken gespeichert. Eingehende Nachrichten werden in Verbindung mit den Benutzernamen und dessen genutzten Threads in einer hier benannten Trace-Datenbank gesichert. In einer zweiten separaten Count-Datenbank wird ein Zähler mit der Anzahl der Nachrichten pro Nutzername geführt. Aufgrund der Softwarearchitektur erstrecken sich manche Aktionen über verteilte Komponenten, die es über Transaktionen abzusichern gilt. Sollte eine Komponente, wie beispielsweise eine der beiden Datenbanken, ausfallen, so müssen alle Schritte der jeweiligen Transaktion zurückrückrollbar gehalten werden.
 
 Die in den Datenbanken gespeicherten Informationen können über eine implementierte GraphQL\footnote{\url{http://graphql.org/}} Schnittstelle ausgelesen werden.
 
@@ -808,17 +808,13 @@ Als Application Server wurde Wilfdly 13.0.0.Final genutzt. ....
 
 
 \subsection{Maria DB}
-Datenbanken im Chatprozess um Nachrichten zu speichern und protokollieren. MariaDB verwendet. Docker ...
+Um die Daten in die Datenbank persistieren zu können wurden zwei \textit{MariaDB}-Container mit Hilfe der Containervirtualisierungssoftware \textit{Docker} erstellt. Beide Datbenbanken sind somit unter zwei unterschiedlichen IP-Adressen zu erreichen.
 
 \subsection{Representational State Transfer (ReST)}
 ...
 
 \subsection{GraphQL}
-....
-
-
-
-
+Um dem Admin-Client die gespeicherten Informationen aus den beiden Datenbanken zugänglich machen zu können wurde eine \textit{GraphQL}-Schnittstelle zu dem Applikationsserver eingerichtet. 
 
 %################################################################################
 \section{Umsetzung}
