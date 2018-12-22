@@ -1,25 +1,32 @@
 \BOOKMARK [1][-]{section.1}{Einleitung}{}% 1
 \BOOKMARK [1][-]{section.2}{Konzeption}{}% 2
 \BOOKMARK [1][-]{section.3}{Infrastruktur}{}% 3
-\BOOKMARK [1][-]{section.4}{Umsetzung}{}% 4
-\BOOKMARK [2][-]{subsection.4.1}{Aufbau Server}{section.4}% 5
-\BOOKMARK [2][-]{subsection.4.2}{Aufbau Client}{section.4}% 6
-\BOOKMARK [2][-]{subsection.4.3}{JMS Konfiguration}{section.4}% 7
-\BOOKMARK [2][-]{subsection.4.4}{Kafka Konfiguration}{section.4}% 8
-\BOOKMARK [2][-]{subsection.4.5}{Login \374ber ReST}{section.4}% 9
-\BOOKMARK [2][-]{subsection.4.6}{Chat Prozess}{section.4}% 10
-\BOOKMARK [3][-]{subsubsection.4.6.1}{JMS Message}{subsection.4.6}% 11
-\BOOKMARK [3][-]{subsubsection.4.6.2}{Kafka}{subsection.4.6}% 12
-\BOOKMARK [3][-]{subsubsection.4.6.3}{Persistieren der Informationen in den Datenbanken Trace und Count}{subsection.4.6}% 13
-\BOOKMARK [2][-]{subsection.4.7}{Transaktionsverwaltung}{section.4}% 14
-\BOOKMARK [2][-]{subsection.4.8}{Benchmark-Client}{section.4}% 15
-\BOOKMARK [2][-]{subsection.4.9}{GraphQL}{section.4}% 16
-\BOOKMARK [3][-]{subsubsection.4.9.1}{Was ist GraphQL?}{subsection.4.9}% 17
-\BOOKMARK [3][-]{subsubsection.4.9.2}{Die implementierte GraphQL-Schnittstelle}{subsection.4.9}% 18
-\BOOKMARK [3][-]{subsubsection.4.9.3}{GraphQL vs. ReST}{subsection.4.9}% 19
-\BOOKMARK [2][-]{subsection.4.10}{Admin-Client}{section.4}% 20
-\BOOKMARK [3][-]{subsubsection.4.10.1}{Count-Administration}{subsection.4.10}% 21
-\BOOKMARK [3][-]{subsubsection.4.10.2}{Trace-Administration}{subsection.4.10}% 22
-\BOOKMARK [3][-]{subsubsection.4.10.3}{Chat-User-Administration}{subsection.4.10}% 23
-\BOOKMARK [1][-]{section.5}{Fazit}{}% 24
-\BOOKMARK [1][-]{section*.1}{References}{}% 25
+\BOOKMARK [2][-]{subsection.3.1}{Github}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Application Server Wildfly 13}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.3}{Java Message Service \(JMS\)}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.4}{Apache Kafka}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.5}{Maria DB}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.6}{Representational State Transfer \(ReST\)}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.7}{GraphQL}{section.3}% 10
+\BOOKMARK [1][-]{section.4}{Umsetzung}{}% 11
+\BOOKMARK [2][-]{subsection.4.1}{Aufbau Server}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.2}{Aufbau Client}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.3}{JMS Konfiguration}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.4}{Kafka Konfiguration}{section.4}% 15
+\BOOKMARK [2][-]{subsection.4.5}{Login \374ber ReST}{section.4}% 16
+\BOOKMARK [2][-]{subsection.4.6}{Chat Prozess}{section.4}% 17
+\BOOKMARK [3][-]{subsubsection.4.6.1}{JMS Message}{subsection.4.6}% 18
+\BOOKMARK [3][-]{subsubsection.4.6.2}{Kafka}{subsection.4.6}% 19
+\BOOKMARK [3][-]{subsubsection.4.6.3}{Persistieren der Informationen in den Datenbanken Trace und Count}{subsection.4.6}% 20
+\BOOKMARK [2][-]{subsection.4.7}{Transaktionsverwaltung}{section.4}% 21
+\BOOKMARK [2][-]{subsection.4.8}{Benchmark-Client}{section.4}% 22
+\BOOKMARK [2][-]{subsection.4.9}{GraphQL}{section.4}% 23
+\BOOKMARK [3][-]{subsubsection.4.9.1}{Was ist GraphQL?}{subsection.4.9}% 24
+\BOOKMARK [3][-]{subsubsection.4.9.2}{Die implementierte GraphQL-Schnittstelle}{subsection.4.9}% 25
+\BOOKMARK [3][-]{subsubsection.4.9.3}{GraphQL vs. ReST}{subsection.4.9}% 26
+\BOOKMARK [2][-]{subsection.4.10}{Admin-Client}{section.4}% 27
+\BOOKMARK [3][-]{subsubsection.4.10.1}{Count-Administration}{subsection.4.10}% 28
+\BOOKMARK [3][-]{subsubsection.4.10.2}{Trace-Administration}{subsection.4.10}% 29
+\BOOKMARK [3][-]{subsubsection.4.10.3}{Chat-User-Administration}{subsection.4.10}% 30
+\BOOKMARK [1][-]{section.5}{Fazit}{}% 31
+\BOOKMARK [1][-]{section*.1}{References}{}% 32

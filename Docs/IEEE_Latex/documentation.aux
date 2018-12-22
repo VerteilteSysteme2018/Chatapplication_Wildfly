@@ -17,6 +17,7 @@
 \gdef\HyperFirstAtBeginDocument#1{#1}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{MOM:Introduction}
 \newacro{MOM}[\AC@hyperlink{MOM}{MOM}]{Message Oriented Middleware}
 \newacro{JMS}[\AC@hyperlink{JMS}{JMS}]{Java Messaging Service}
 \newacro{ReST}[\AC@hyperlink{ReST}{ReST}]{Representational State Transfer}
@@ -48,53 +49,73 @@
 \newlabel{acro:MOM}{{}{1}{}{section.1}{}}
 \acronymused{MOM}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Konzeption}{1}{section.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Infrastruktur}{1}{section.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Umsetzung}{1}{section.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Aufbau Server}{1}{subsection.4.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Aufbau Client}{1}{subsection.4.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}JMS Konfiguration}{1}{subsection.4.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Kafka Konfiguration}{1}{subsection.4.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Login \IeC {\"u}ber ReST}{1}{subsection.4.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Chat Prozess}{1}{subsection.4.6}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.1}JMS Message}{1}{subsubsection.4.6.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.2}Kafka}{1}{subsubsection.4.6.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.3}Persistieren der Informationen in den Datenbanken Trace und Count}{1}{subsubsection.4.6.3}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Struktur der Count-Tabelle.}}{2}{table.1}}
-\newlabel{tab:count}{{1}{2}{Struktur der Count-Tabelle}{table.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Struktur der Trace-Tabelle.}}{2}{table.2}}
-\newlabel{tab:trace}{{2}{2}{Struktur der Trace-Tabelle}{table.2}{}}
+\acronymused{MOM}
+\AC@undonewlabel{acro:ReST}
+\newlabel{acro:ReST}{{2}{1}{Konzeption}{section.2}{}}
+\acronymused{ReST}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Grobe Skizze der Architektur der Chat-Anwendung mit Erweiterung um Apache Kafka}}{2}{figure.1}}
+\newlabel{fig:Architektur}{{1}{2}{Grobe Skizze der Architektur der Chat-Anwendung mit Erweiterung um Apache Kafka}{figure.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Infrastruktur}{2}{section.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Github}{2}{subsection.3.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Application Server Wildfly 13}{2}{subsection.3.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Java Message Service (JMS)}{2}{subsection.3.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Apache Kafka}{3}{subsection.3.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Maria DB}{3}{subsection.3.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Representational State Transfer (ReST)}{3}{subsection.3.6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}GraphQL}{3}{subsection.3.7}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Umsetzung}{3}{section.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Aufbau Server}{3}{subsection.4.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Aufbau Client}{3}{subsection.4.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}JMS Konfiguration}{3}{subsection.4.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Kafka Konfiguration}{3}{subsection.4.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Login \IeC {\"u}ber ReST}{3}{subsection.4.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Chat Prozess}{3}{subsection.4.6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.1}JMS Message}{3}{subsubsection.4.6.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.2}Kafka}{3}{subsubsection.4.6.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.3}Persistieren der Informationen in den Datenbanken Trace und Count}{3}{subsubsection.4.6.3}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Struktur der Count-Tabelle.}}{3}{table.1}}
+\newlabel{tab:count}{{1}{3}{Struktur der Count-Tabelle}{table.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Struktur der Trace-Tabelle.}}{3}{table.2}}
+\newlabel{tab:trace}{{2}{3}{Struktur der Trace-Tabelle}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Transaktionsverwaltung}{4}{subsection.4.7}}
+\newlabel{sub:transactions}{{4.7}{4}{Transaktionsverwaltung}{subsection.4.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Benchmark-Client}{5}{subsection.4.8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Definition der Round Trip Time}}{5}{figure.2}}
+\newlabel{fig:RTT}{{2}{5}{Definition der Round Trip Time}{figure.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Ergebnisse (RTT's) der beiden Benchmark-L\IeC {\"a}ufe}}{5}{table.3}}
+\newlabel{tab:Benchmark}{{3}{5}{Ergebnisse (RTT's) der beiden Benchmark-Läufe}{table.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Benchmark JMS}}{5}{figure.3}}
+\newlabel{fig:RTT_JMS}{{3}{5}{Benchmark JMS}{figure.3}{}}
 \citation{GraphQL:Introduction}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Transaktionsverwaltung}{3}{subsection.4.7}}
-\newlabel{sub:transactions}{{4.7}{3}{Transaktionsverwaltung}{subsection.4.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Benchmark-Client}{3}{subsection.4.8}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.9}GraphQL}{3}{subsection.4.9}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.9.1}Was ist GraphQL?}{3}{subsubsection.4.9.1}}
 \citation{GraphQL:howtoGraphQL}
 \citation{GraphQL:howtoGraphQL}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.9.2}Die implementierte GraphQL-Schnittstelle}{4}{subsubsection.4.9.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Benchmark Kafka}}{6}{figure.4}}
+\newlabel{fig:RTT_Kafka}{{4}{6}{Benchmark Kafka}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9}GraphQL}{6}{subsection.4.9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.9.1}Was ist GraphQL?}{6}{subsubsection.4.9.1}}
 \citation{GraphQL: ReST}
 \citation{GraphQL: ReST}
 \citation{ReST: GraphQL}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.9.3}GraphQL vs. ReST}{5}{subsubsection.4.9.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.10}Admin-Client}{5}{subsection.4.10}}
-\newlabel{sub:admin}{{4.10}{5}{Admin-Client}{subsection.4.10}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Startseite/Dashboard des Admin-Clients.}}{6}{figure.1}}
-\newlabel{fig:adminClientStartseite}{{1}{6}{Startseite/Dashboard des Admin-Clients}{figure.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.10.1}Count-Administration}{6}{subsubsection.4.10.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Count-Administration des Admin-Clients.}}{6}{figure.2}}
-\newlabel{fig:adminClientCount}{{2}{6}{Count-Administration des Admin-Clients}{figure.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.10.2}Trace-Administration}{6}{subsubsection.4.10.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Trace-Administration des Admin-Clients.}}{6}{figure.3}}
-\newlabel{fig:adminClientTrace}{{3}{6}{Trace-Administration des Admin-Clients}{figure.3}{}}
-\bibcite{GraphQL:Introduction}{1}
-\bibcite{GraphQL:howtoGraphQL}{2}
-\bibcite{GraphQL: ReST}{3}
-\bibcite{ReST: GraphQL}{4}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.10.3}Chat-User-Administration}{7}{subsubsection.4.10.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Chat-User-Administration des Admin-Clients.}}{7}{figure.4}}
-\newlabel{fig:adminClientUser}{{4}{7}{Chat-User-Administration des Admin-Clients}{figure.4}{}}
-\AC@undonewlabel{acro:ReST}
-\newlabel{acro:ReST}{{4.10.3}{7}{Chat-User-Administration}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.9.2}Die implementierte GraphQL-Schnittstelle}{7}{subsubsection.4.9.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.9.3}GraphQL vs. ReST}{7}{subsubsection.4.9.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.10}Admin-Client}{8}{subsection.4.10}}
+\newlabel{sub:admin}{{4.10}{8}{Admin-Client}{subsection.4.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Startseite/Dashboard des Admin-Clients.}}{8}{figure.5}}
+\newlabel{fig:adminClientStartseite}{{5}{8}{Startseite/Dashboard des Admin-Clients}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.10.1}Count-Administration}{8}{subsubsection.4.10.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Count-Administration des Admin-Clients.}}{9}{figure.6}}
+\newlabel{fig:adminClientCount}{{6}{9}{Count-Administration des Admin-Clients}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.10.2}Trace-Administration}{9}{subsubsection.4.10.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Trace-Administration des Admin-Clients.}}{9}{figure.7}}
+\newlabel{fig:adminClientTrace}{{7}{9}{Trace-Administration des Admin-Clients}{figure.7}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.10.3}Chat-User-Administration}{9}{subsubsection.4.10.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Chat-User-Administration des Admin-Clients.}}{9}{figure.8}}
+\newlabel{fig:adminClientUser}{{8}{9}{Chat-User-Administration des Admin-Clients}{figure.8}{}}
 \acronymused{ReST}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Fazit}{7}{section.5}}
-\@writefile{toc}{\contentsline {section}{References}{7}{section*.1}}
+\bibcite{MOM:Introduction}{1}
+\bibcite{GraphQL:Introduction}{2}
+\bibcite{GraphQL:howtoGraphQL}{3}
+\bibcite{GraphQL: ReST}{4}
+\bibcite{ReST: GraphQL}{5}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Fazit}{10}{section.5}}
+\@writefile{toc}{\contentsline {section}{References}{10}{section*.1}}

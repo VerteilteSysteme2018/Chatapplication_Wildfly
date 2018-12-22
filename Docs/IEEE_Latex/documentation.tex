@@ -792,7 +792,32 @@ Zur Bestimmung von Performanceergebnissen des entstehenden Systems wird ein Benc
 
 %################################################################################
 \section{Infrastruktur}
-Github, Wildfly 13, DBs in Docker
+\subsection{Github}
+Für ein gemeinsames Arbeiten am Quellcode wurde die Versionsverwaltungsplatform Github verwendet. Es wurden zwei Repositories für Server und Client angelegt. Für das Aufsetzten des Servers wurde ein neues Projekt ersetllt, wohingegen für die Arbeit auf Client-Seite das bereits bestehende Projekt chatApplication erweitert wurde.
+
+\subsection{Application Server Wildfly 13}
+
+Als Application Server wurde Wilfdly 13.0.0.Final genutzt. ....
+
+
+\subsection{Java Message Service (JMS)}
+..
+\subsection{Apache Kafka}
+..
+
+
+
+\subsection{Maria DB}
+Datenbanken im Chatprozess um Nachrichten zu speichern und protokollieren. MariaDB verwendet. Docker ...
+
+\subsection{Representational State Transfer (ReST)}
+...
+
+\subsection{GraphQL}
+....
+
+
+
 
 
 %################################################################################
@@ -887,7 +912,69 @@ Im Falle eines Sendeversuchs einer \textit{Message}, welche von einem nicht eing
 
 
 \subsection{Benchmark-Client}
-Ergebnisse etc. 
+
+Der Benchmarking-Client dient zur Simulation eines Chat-Szenarios. Dabei kann hinsichtlich der Performance beim Versand von Chat-Nachrichten getestet werden. Diese wird anhand der Round Trip Time (RTT) einer Nachricht gemessen. Diese misst die Zeit für einen Chat-Request mit vollständiger Bearbeitung (vgl. Abbildung \ref{fig:RTT}). 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.35]{Bilder/RTT.PNG}
+	\caption{Definition der Round Trip Time}
+	\label{fig:RTT}
+\end{figure}
+
+Grundlage für die Performance-Tests ist das bereits vorhandenen Java-basiertes Benchmarking-Framework. Dieses wurde um eine JMS sowie eine Apache Kafka Anbindung erweitert um Leistungstest für das Versenden von Nachrichten über die beiden Message Broker durchzuführen.
+
+Damit dies möglich ist, mussten mehrere Änderungen im Quellcode vorgenommen werden. Zunächst wurden zwei zusätzliche ImplementationTypes, \textit{JMSImplementation} und \textit{KafkaImplementation}, definiert. Desweiteren wurden die Klasse \textit{BenchmarkingClientFactory} um JMS sowie Kafka spezifische Parameter erweitert.
+
+Für die JMS Implementierung wurden außerdem die Klassen \textit{JmsChatClient}, \textit{JmsSimpleMessageListenerThread} sowie \textit{JmsBenchmarkingClientImpl} neu implementiert.
+Für die Kafka Implementierung wurden zusätzlich die Klassen \textit{KafkaChatClient}, \textit{KafkaReceiver} und \textit{KafkaBenchmarkingClientImpl} implementiert.
+
+Die Anzahl der Clients, sowie die Menge an Nachrichten bzw. deren Byte-Größe kann verändert werden. Diese Einstellungen können für TCP in der Benutzeroberfläche, für JMS bzw. Kafka in der Klasse \textit{BenchmarkUserInterfaceParameters} angepasst werden.
+
+Vor der Durchführung des Leistungstest wurde die Anzahl der Nachrichten konstant auf 100 je Client mit einer Größe von je 50 Byte festgelegt. Die Anzahl der Clients wurde in 10er Schritten verändert. Der erste Test wurde mit 10 Clients durchgeführt. Danach wurde bis zu einem Maximalwert von 50 Clients erhöht. Jeder der Clients loggt sich dabei ein, versendet die definierte Anzhal an Nachrichten, empfängt Nachrichten der anderen Clients und loggt sich wieder aus.
+
+Das Benchmarking wurde in zwei verschiedenen Ausprägungen durchgeführt. Sowohl JMS als auch Kafka wurden hinsichtlich ihrer Performance getestet. Beide male wurde der Test mit der Klasse \textit{BenchmarkingUserInterfaceSimulation} gestartet, angepasst an JMS bzw. Kafka. Die Ergebnisse des Benchmarks werden in der Konsole ausgegeben. Eine Anbindung an das bereits vorhandene User Interface hat nicht stattgefunden. Die Ergebnisse der beiden Testdurchläufe können Tabelle \ref{tab:Benchmark} entnommen werden. 
+
+\begin{table}[h!]
+	\caption{Ergebnisse (RTT's) der beiden Benchmark-Läufe}
+	\label{tab:Benchmark}
+	\def\arraystretch{1,2} % vertical stretch factor, 1.25 for more spacing
+	\centering
+	\begin{tabular}{|c||c||c|}\hline
+		\textbf{Anzahl Clients} & \textbf{JMS [in ms]} & \textbf{Kafka [in ms]} \\\hline
+		\lstinline|10|          & 168   & 36.024 \\\hline	
+		\lstinline|20|      	& 189	& 49.759   \\\hline
+		\lstinline|30|        	& 222	& 67.164	\\\hline
+		\lstinline|40|       	& 227  	& 90.335    \\\hline
+		\lstinline|50|       	& 322   & 10.3483   \\\hline
+	\end{tabular} 
+\end{table}
+
+Im ersten Durchlauf des Leistungstest wurden die durchschnittliche RTT von JMS gemessen. Bei einer linear ansteigenden Anzahl an Clients steigt auch diese linear an (vgl. Abbildung \ref{fig:RTT_JMS}).
+\\
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{Bilder/RTT_JMS.PNG}
+	\caption{Benchmark JMS}
+	\label{fig:RTT_JMS}
+\end{figure}
+
+
+Beim zweiten Durchlauf des Benchmarks wurde die durchschnittliche RTT von Kafka gemessen. Auch hier steigt diese linear mit einer lienar ansteigenden Anzahl an Clients (vgl. Abbildung \ref{fig:RTT_Kafka}). 
+\\
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{Bilder/RTT_Kafka.PNG}
+	\caption{Benchmark Kafka}
+	\label{fig:RTT_Kafka}
+\end{figure}
+
+Vergleicht man beide Testdurchläufe wird deutlich, dass sich durch die Umstellung von JMS auf Kafka die RTT des Chat Prozesses erhöht. Wärhend bei JMS Nachrichten selbst bei einer Anzahl an 50 Clients Nachrichten noch unter einer Sekunde verschickt werden, sind die RTT Zeiten bei Kafka selbst bei einer geringen Anzahl an Clients bereits im höheren Sekunden bereich.
+\\
+Aus den Testergebnissen lässt sich Folgendes schließen: JMS verschickt Nachrichten um ein vielfaches schneller als Kafka. Desweiteren steigt mit der Anzahl der angemeldeten Chat Clients und zu versendenden Nachrichten die RTT einer einzelnen Chat Nachricht.
+
 
 
 \subsection{GraphQL}
