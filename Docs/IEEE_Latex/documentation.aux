@@ -58,66 +58,71 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3}Infrastruktur}{2}{section.3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Github}{2}{subsection.3.1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Application Server Wildfly 13}{2}{subsection.3.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Java Message Service (JMS)}{3}{subsection.3.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Apache Kafka}{3}{subsection.3.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Maria DB}{3}{subsection.3.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Representational State Transfer (ReST)}{3}{subsection.3.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}GraphQL}{3}{subsection.3.7}}
+\citation{Docker:Functionality}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Apache Kafka}{3}{subsection.3.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}MariaDB und Docker}{3}{subsection.3.4}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Umsetzung}{3}{section.4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Aufbau Server}{3}{subsection.4.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Aufbau Client}{3}{subsection.4.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}JMS Konfiguration}{3}{subsection.4.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Kafka Konfiguration}{3}{subsection.4.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Login \IeC {\"u}ber ReST}{3}{subsection.4.5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Chat User Liste ClientGUI}}{3}{figure.2}}
-\newlabel{fig:chatusers}{{2}{3}{Chat User Liste ClientGUI}{figure.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Chat Prozess}{3}{subsection.4.6}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.1}JMS Message}{3}{subsubsection.4.6.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.2}Kafka}{3}{subsubsection.4.6.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.3}Persistieren der Informationen in den Datenbanken Trace und Count}{3}{subsubsection.4.6.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}JMS Konfiguration}{3}{subsection.4.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Kafka Konfiguration}{3}{subsection.4.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Login \IeC {\"u}ber ReST}{3}{subsection.4.4}}
+\newlabel{login}{{4.4}{3}{Login über ReST}{subsection.4.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Chat User Liste ClientGUI}}{4}{figure.2}}
+\newlabel{fig:chatusers}{{2}{4}{Chat User Liste ClientGUI}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Chat Prozess}{4}{subsection.4.5}}
+\newlabel{chatprozess}{{4.5}{4}{Chat Prozess}{subsection.4.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.1}Bearbeitung der ChatMessage}{4}{subsubsection.4.5.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.2}Chat Prozess mit JMS}{4}{subsubsection.4.5.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.3}Chat Prozess mit Kafka}{4}{subsubsection.4.5.3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.4}Persistieren der Informationen in den Datenbanken Trace und Count}{4}{subsubsection.4.5.4}}
+\newlabel{persistieren}{{4.5.4}{4}{Persistieren der Informationen in den Datenbanken Trace und Count}{subsubsection.4.5.4}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Struktur der Count-Tabelle.}}{4}{table.1}}
 \newlabel{tab:count}{{1}{4}{Struktur der Count-Tabelle}{table.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Struktur der Trace-Tabelle.}}{4}{table.2}}
-\newlabel{tab:trace}{{2}{4}{Struktur der Trace-Tabelle}{table.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Transaktionsverwaltung}{5}{subsection.4.7}}
-\newlabel{sub:transactions}{{4.7}{5}{Transaktionsverwaltung}{subsection.4.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Benchmark-Client}{5}{subsection.4.8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Definition der Round Trip Time}}{5}{figure.3}}
-\newlabel{fig:RTT}{{3}{5}{Definition der Round Trip Time}{figure.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Struktur der Trace-Tabelle.}}{5}{table.2}}
+\newlabel{tab:trace}{{2}{5}{Struktur der Trace-Tabelle}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Transaktionsverwaltung}{5}{subsection.4.6}}
+\newlabel{sub:transactions}{{4.6}{5}{Transaktionsverwaltung}{subsection.4.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Aufbau Client}{6}{subsection.4.7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces ClientGUI}}{6}{figure.3}}
+\newlabel{fig:clientGUI}{{3}{6}{ClientGUI}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Benchmark-Client}{6}{subsection.4.8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Definition der Round Trip Time}}{7}{figure.4}}
+\newlabel{fig:RTT}{{4}{7}{Definition der Round Trip Time}{figure.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Ergebnisse (RTT's) der beiden Benchmark-L\IeC {\"a}ufe}}{7}{table.3}}
+\newlabel{tab:Benchmark}{{3}{7}{Ergebnisse (RTT's) der beiden Benchmark-Läufe}{table.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Benchmark JMS}}{7}{figure.5}}
+\newlabel{fig:RTT_JMS}{{5}{7}{Benchmark JMS}{figure.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Benchmark Kafka}}{7}{figure.6}}
+\newlabel{fig:RTT_Kafka}{{6}{7}{Benchmark Kafka}{figure.6}{}}
 \citation{GraphQL:Introduction}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Ergebnisse (RTT's) der beiden Benchmark-L\IeC {\"a}ufe}}{6}{table.3}}
-\newlabel{tab:Benchmark}{{3}{6}{Ergebnisse (RTT's) der beiden Benchmark-Läufe}{table.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Benchmark JMS}}{6}{figure.4}}
-\newlabel{fig:RTT_JMS}{{4}{6}{Benchmark JMS}{figure.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Benchmark Kafka}}{6}{figure.5}}
-\newlabel{fig:RTT_Kafka}{{5}{6}{Benchmark Kafka}{figure.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.9}GraphQL}{6}{subsection.4.9}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.9.1}Was ist GraphQL?}{6}{subsubsection.4.9.1}}
 \citation{GraphQL:howtoGraphQL}
 \citation{GraphQL:howtoGraphQL}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.9.2}Die implementierte GraphQL-Schnittstelle}{7}{subsubsection.4.9.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9}GraphQL}{8}{subsection.4.9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.9.1}Was ist GraphQL?}{8}{subsubsection.4.9.1}}
 \citation{GraphQL: ReST}
 \citation{GraphQL: ReST}
 \citation{ReST: GraphQL}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.9.3}GraphQL vs. ReST}{8}{subsubsection.4.9.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.10}Admin-Client}{8}{subsection.4.10}}
-\newlabel{sub:admin}{{4.10}{8}{Admin-Client}{subsection.4.10}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Startseite/Dashboard des Admin-Clients.}}{9}{figure.6}}
-\newlabel{fig:adminClientStartseite}{{6}{9}{Startseite/Dashboard des Admin-Clients}{figure.6}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.10.1}Count-Administration}{9}{subsubsection.4.10.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Count-Administration des Admin-Clients.}}{9}{figure.7}}
-\newlabel{fig:adminClientCount}{{7}{9}{Count-Administration des Admin-Clients}{figure.7}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.10.2}Trace-Administration}{9}{subsubsection.4.10.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.9.2}Die implementierte GraphQL-Schnittstelle}{9}{subsubsection.4.9.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.9.3}GraphQL vs. ReST}{9}{subsubsection.4.9.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.10}Admin-Client}{10}{subsection.4.10}}
+\newlabel{sub:admin}{{4.10}{10}{Admin-Client}{subsection.4.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Startseite/Dashboard des Admin-Clients.}}{10}{figure.7}}
+\newlabel{fig:adminClientStartseite}{{7}{10}{Startseite/Dashboard des Admin-Clients}{figure.7}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.10.1}Count-Administration}{10}{subsubsection.4.10.1}}
 \bibcite{MOM:Introduction}{1}
 \bibcite{GraphQL:Introduction}{2}
 \bibcite{GraphQL:howtoGraphQL}{3}
 \bibcite{GraphQL: ReST}{4}
-\bibcite{ReST: GraphQL}{5}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Trace-Administration des Admin-Clients.}}{10}{figure.8}}
-\newlabel{fig:adminClientTrace}{{8}{10}{Trace-Administration des Admin-Clients}{figure.8}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.10.3}Chat-User-Administration}{10}{subsubsection.4.10.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Chat-User-Administration des Admin-Clients.}}{10}{figure.9}}
-\newlabel{fig:adminClientUser}{{9}{10}{Chat-User-Administration des Admin-Clients}{figure.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Count-Administration des Admin-Clients.}}{11}{figure.8}}
+\newlabel{fig:adminClientCount}{{8}{11}{Count-Administration des Admin-Clients}{figure.8}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.10.2}Trace-Administration}{11}{subsubsection.4.10.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Trace-Administration des Admin-Clients.}}{11}{figure.9}}
+\newlabel{fig:adminClientTrace}{{9}{11}{Trace-Administration des Admin-Clients}{figure.9}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.10.3}Chat-User-Administration}{11}{subsubsection.4.10.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Chat-User-Administration des Admin-Clients.}}{11}{figure.10}}
+\newlabel{fig:adminClientUser}{{10}{11}{Chat-User-Administration des Admin-Clients}{figure.10}{}}
 \acronymused{ReST}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Fazit}{10}{section.5}}
-\@writefile{toc}{\contentsline {section}{References}{10}{section*.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Fazit}{11}{section.5}}
+\@writefile{toc}{\contentsline {section}{References}{11}{section*.1}}
+\bibcite{ReST: GraphQL}{5}
+\bibcite{Docker:Functionality}{6}
