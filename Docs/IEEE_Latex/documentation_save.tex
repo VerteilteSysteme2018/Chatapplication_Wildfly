@@ -1,0 +1,1425 @@
+%% bare_adv.tex
+%% V1.4b
+%% 2015/08/26
+%% by Michael Shell
+%% See: 
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the advanced use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.8b or later) with an IEEE Computer
+%% Society journal paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/pkg/ieeetran
+%% and
+%% http://www.ieee.org/
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall the IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%*************************************************************************
+
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. The IEEE's font choices and paper sizes can   ***
+% *** trigger bugs that do not appear when using other class files.       ***                          ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+% i IEEEtran V1.7 and later provides for these CLASSINPUT macros to allow the
+% user to reprogram some IEEEtran.cls defaults if needed. These settings
+% override the internal defaults of IEEEtran.cls regardless of which class
+% options are used. Do not use these unless you have good reason to do so as
+% they can result in nonIEEE compliant documents. User beware. ;)
+%
+%\newcommand{\CLASSINPUTbaselinestretch}{1.0} % baselinestretch
+%\newcommand{\CLASSINPUTinnersidemargin}{1in} % inner side margin
+%\newcommand{\CLASSINPUToutersidemargin}{1in} % outer side margin
+%\newcommand{\CLASSINPUTtoptextmargin}{1in}   % top text margin
+%\newcommand{\CLASSINPUTbottomtextmargin}{1in}% bottom text margin
+
+
+
+
+%
+\documentclass[10pt,journal,compsoc]{IEEEtran}
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[10pt,journal,compsoc]{../sty/IEEEtran}
+
+
+% For Computer Society journals, IEEEtran defaults to the use of 
+% Palatino/Palladio as is done in IEEE Computer Society journals.
+% To go back to Times Roman, you can use this code:
+%\renewcommand{\rmdefault}{ptm}\selectfont
+
+
+
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/pkg/ifpdf
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
+
+
+
+
+% *** CITATION PACKAGES ***
+%
+\ifCLASSOPTIONcompsoc
+% The IEEE Computer Society needs nocompress option
+% requires cite.sty v4.0 or later (November 2003)
+\usepackage[nocompress]{cite}
+\else
+% normal IEEE
+\usepackage{cite}
+\fi
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of the IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off
+% such as if a citation ever needs to be enclosed in parenthesis.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 5.0 (2009-03-20) and later if using hyperref.sty.
+% The latest version can be obtained at:
+% http://www.ctan.org/pkg/cite
+% The documentation is contained in the cite.sty file itself.
+%
+% Note that some packages require special options to format as the Computer
+% Society requires. In particular, Computer Society  papers do not use
+% compressed citation ranges as is done in typical IEEE papers
+% (e.g., [1]-[4]). Instead, they list every citation separately in order
+% (e.g., [1], [2], [3], [4]). To get the latter we need to load the cite
+% package with the nocompress option which is supported by cite.sty v4.0
+% and later.
+
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+\usepackage[pdftex]{graphicx}
+% declare the path(s) where your graphic files are
+% \graphicspath{{../pdf/}{../jpeg/}}
+% and their extensions so you won't have to specify these with
+% every instance of \includegraphics
+% \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+% or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+% will default to the driver specified in the system graphics.cfg if no
+% driver is specified.
+% \usepackage[dvips]{graphicx}
+% declare the path(s) where your graphic files are
+% \graphicspath{{../eps/}}
+% and their extensions so you won't have to specify these with
+% every instance of \includegraphics
+% \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation
+% can be obtained at: 
+% http://www.ctan.org/pkg/graphicx
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found at:
+% http://www.ctan.org/pkg/epslatex
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). The IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+%\usepackage{amsmath}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics.
+%
+% Note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+%\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/amsmath
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%\usepackage{acronym}
+% acronym.sty was written by Tobias Oetiker. This package provides tools for
+% managing documents with large numbers of acronyms. (You don't *have* to
+% use this package - unless you have a lot of acronyms, you may feel that
+% such package management of them is bit of an overkill.)
+% Do note that the acronym environment (which lists acronyms) will have a
+% problem when used under IEEEtran.cls because acronym.sty relies on the
+% description list environment - which IEEEtran.cls has customized for
+% producing IEEE style lists. A workaround is to declared the longest
+% label width via the IEEEtran.cls \IEEEiedlistdecl global control:
+%
+% \renewcommand{\IEEEiedlistdecl}{\IEEEsetlabelwidth{SONET}}
+% \begin{acronym}
+%
+% \end{acronym}
+% \renewcommand{\IEEEiedlistdecl}{\relax}% remember to reset \IEEEiedlistdecl
+%
+% instead of using the acronym environment's optional argument.
+% The latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/acronym
+
+
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as the IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/pkg/algorithms
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/pkg/algorithmicx
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/array
+
+
+%\usepackage{mdwmath}
+%\usepackage{mdwtab}
+% Also highly recommended is Mark Wooding's extremely powerful MDW tools,
+% especially mdwmath.sty and mdwtab.sty which are used to format equations
+% and tables, respectively. The MDWtools set is already installed on most
+% LaTeX systems. The lastest version and documentation is available at:
+% http://www.ctan.org/pkg/mdwtools
+
+
+% i IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+%\usepackage{eqparbox}
+% Also of notable interest is Scott Pakin's eqparbox package for creating
+% (automatically sized) equal width boxes - aka "natural width parboxes".
+% Available at:
+% http://www.ctan.org/pkg/eqparbox
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\ifCLASSOPTIONcompsoc
+%  \usepackage[caption=false,font=footnotesize,labelfont=sf,textfont=sf]{subfig}
+%\else
+%  \usepackage[caption=false,font=footnotesize]{subfig}
+%\fi
+% subfig.sty, written by Steven Douglas Cochran, is the modern replacement
+% for subfigure.sty, the latter of which is no longer maintained and is
+% incompatible with some LaTeX packages including fixltx2e. However,
+% subfig.sty requires and automatically loads Axel Sommerfeldt's caption.sty
+% which will override IEEEtran.cls' handling of captions and this will result
+% in non-IEEE style figure/table captions. To prevent this problem, be sure
+% and invoke subfig.sty's "caption=false" package option (available since
+% subfig.sty version 1.3, 2005/06/28) as this is will preserve IEEEtran.cls
+% handling of captions.
+% Note that the Computer Society format requires a sans serif font rather
+% than the serif font used in traditional IEEE formatting and thus the need
+% to invoke different subfig.sty package options depending on whether
+% compsoc mode has been enabled.
+%
+% The latest version and documentation of subfig.sty can be obtained at:
+% http://www.ctan.org/pkg/subfig
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure.
+% Be aware that LaTeX2e kernels dated 2015 and later have fixltx2e.sty's
+% corrections already built into the system in which case a warning will
+% be issued if an attempt is made to load fixltx2e.sty as it is no longer
+% needed.
+% The latest version and documentation can be found at:
+% http://www.ctan.org/pkg/fixltx2e
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/stfloats
+% Do not use the stfloats baselinefloat ability as the IEEE does not allow
+% \baselineskip to stretch. Authors submitting work to the IEEE should note
+% that the IEEE rarely uses double column equations and that authors should try
+% to avoid such use. Do not be tempted to use the cuted.sty or midfloat.sty
+% packages (also by Sigitas Tolusis) as the IEEE does not format its papers in
+% such ways.
+% Do not attempt to use stfloats with fixltx2e as they are incompatible.
+% Instead, use Morten Hogholm'a dblfloatfix which combines the features
+% of both fixltx2e and stfloats:
+%
+% \usepackage{dblfloatfix}
+% The latest version can be found at:
+% http://www.ctan.org/pkg/dblfloatfix
+
+
+%\ifCLASSOPTIONcaptionsoff
+%  \usepackage[nomarkers]{endfloat}
+% \let\MYoriglatexcaption\caption
+% \renewcommand{\caption}[2][\relax]{\MYoriglatexcaption[#2]{#2}}
+%\fi
+% endfloat.sty was written by James Darrell McCauley, Jeff Goldberg and 
+% Axel Sommerfeldt. This package may be useful when used in conjunction with 
+% i IEEEtran.cls'  captionsoff option. Some IEEE journals/societies require that
+% submissions have lists of figures/tables at the end of the paper and that
+% figures/tables without any captions are placed on a page by themselves at
+% the end of the document. If needed, the draftcls IEEEtran class option or
+% \CLASSINPUTbaselinestretch interface can be used to increase the line
+% spacing as well. Be sure and use the nomarkers option of endfloat to
+% prevent endfloat from "marking" where the figures would have been placed
+% in the text. The two hack lines of code above are a slight modification of
+% that suggested by in the endfloat docs (section 8.4.1) to ensure that
+% the full captions always appear in the list of figures/tables - even if
+% the user used the short optional argument of \caption[]{}.
+% i IEEE papers do not typically make use of \caption[]'s optional argument,
+% so this should not be an issue. A similar trick can be used to disable
+% captions of packages such as subfig.sty that lack options to turn off
+% the subcaptions:
+% For subfig.sty:
+% \let\MYorigsubfloat\subfloat
+% \renewcommand{\subfloat}[2][\relax]{\MYorigsubfloat[]{#2}}
+% However, the above trick will not work if both optional arguments of
+% the \subfloat command are used. Furthermore, there needs to be a
+% description of each subfigure *somewhere* and endfloat does not add
+% subfigure captions to its list of figures. Thus, the best approach is to
+% avoid the use of subfigure captions (many IEEE journals avoid them anyway)
+% and instead reference/explain all the subfigures within the main caption.
+% The latest version of endfloat.sty and its documentation can obtained at:
+% http://www.ctan.org/pkg/endfloat
+%
+% The IEEEtran \ifCLASSOPTIONcaptionsoff conditional can also be used
+% later in the document, say, to conditionally put the References on a 
+% page by themselves.
+
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/url
+% Basically, \url{my_url_here}.
+
+
+% i NOTE: PDF thumbnail features are not required in IEEE papers
+%       and their use requires extra complexity and work.
+%\ifCLASSINFOpdf
+%  \usepackage[pdftex]{thumbpdf}
+%\else
+%  \usepackage[dvips]{thumbpdf}
+%\fi
+% thumbpdf.sty and its companion Perl utility were written by Heiko Oberdiek.
+% It allows the user a way to produce PDF documents that contain fancy
+% thumbnail images of each of the pages (which tools like acrobat reader can
+% utilize). This is possible even when using dvi->ps->pdf workflow if the
+% correct thumbpdf driver options are used. thumbpdf.sty incorporates the
+% file containing the PDF thumbnail information (filename.tpm is used with
+% dvips, filename.tpt is used with pdftex, where filename is the base name of
+% your tex document) into the final ps or pdf output document. An external
+% utility, the thumbpdf *Perl script* is needed to make these .tpm or .tpt
+% thumbnail files from a .ps or .pdf version of the document (which obviously
+% does not yet contain pdf thumbnails). Thus, one does a:
+% 
+% thumbpdf filename.pdf 
+%
+% to make a filename.tpt, and:
+%
+% thumbpdf --mode dvips filename.ps
+%
+% to make a filename.tpm which will then be loaded into the document by
+% thumbpdf.sty the NEXT time the document is compiled (by pdflatex or
+% latex->dvips->ps2pdf). Users must be careful to regenerate the .tpt and/or
+% .tpm files if the main document changes and then to recompile the
+% document to incorporate the revised thumbnails to ensure that thumbnails
+% match the actual pages. It is easy to forget to do this!
+% 
+% Unix systems come with a Perl interpreter. However, MS Windows users
+% will usually have to install a Perl interpreter so that the thumbpdf
+% script can be run. The Ghostscript PS/PDF interpreter is also required.
+% See the thumbpdf docs for details. The latest version and documentation
+% can be obtained at.
+% http://www.ctan.org/pkg/thumbpdf
+
+
+% i NOTE: PDF hyperlink and bookmark features are not required in IEEE
+%       papers and their use requires extra complexity and work.
+% *** IF USING HYPERREF BE SURE AND CHANGE THE EXAMPLE PDF ***
+% *** TITLE/SUBJECT/AUTHOR/KEYWORDS INFO BELOW!!           ***
+\newcommand\MYhyperrefoptions{bookmarks=true,bookmarksnumbered=true,
+	pdfpagemode={UseOutlines},plainpages=false,pdfpagelabels=true,
+	colorlinks=true,linkcolor={black},citecolor={black},urlcolor={black},
+	pdftitle={Verteilte Systeme: Chat Applikation unter Einsatz einer Message-Oriented-Middleware},%<!CHANGE!
+	pdfsubject={Typesetting},%<!CHANGE!
+	pdfauthor={Johannes Knippel},%<!CHANGE!
+	pdfkeywords={Verteilte Systeme, MOM, Wildfly, JMS, JavaEE, Transactions, Angular, GraphQL, Kafka}}%<^!CHANGE!
+%\ifCLASSINFOpdf
+%\usepackage[\MYhyperrefoptions,pdftex]{hyperref}
+%\else
+%\usepackage[\MYhyperrefoptions,breaklinks=true,dvips]{hyperref}
+%\usepackage{breakurl}
+%\fi
+% One significant drawback of using hyperref under DVI output is that the
+% LaTeX compiler cannot break URLs across lines or pages as can be done
+% under pdfLaTeX's PDF output via the hyperref pdftex driver. This is
+% probably the single most important capability distinction between the
+% i DVI and PDF output. Perhaps surprisingly, all the other PDF features
+% (PDF bookmarks, thumbnails, etc.) can be preserved in
+% .tex->.dvi->.ps->.pdf workflow if the respective packages/scripts are
+% loaded/invoked with the correct driver options (dvips, etc.). 
+% As most IEEE papers use URLs sparingly (mainly in the references), this
+% may not be as big an issue as with other publications.
+%
+% That said, Vilar Camara Neto created his breakurl.sty package which
+% permits hyperref to easily break URLs even in dvi mode.
+% Note that breakurl, unlike most other packages, must be loaded
+% i AFTER hyperref. The latest version of breakurl and its documentation can
+% be obtained at:
+% http://www.ctan.org/pkg/breakurl
+% breakurl.sty is not for use under pdflatex pdf mode.
+%
+% The advanced features offer by hyperref.sty are not required for IEEE
+% submission, so users should weigh these features against the added
+% complexity of use.
+% The package options above demonstrate how to enable PDF bookmarks
+% (a type of table of contents viewable in Acrobat Reader) as well as
+% i PDF document information (title, subject, author and keywords) that is
+% viewable in Acrobat reader's Document_Properties menu. PDF document
+% information is also used extensively to automate the cataloging of PDF
+% documents. The above set of options ensures that hyperlinks will not be
+% colored in the text and thus will not be visible in the printed page,
+% but will be active on "mouse over". USING COLORS OR OTHER HIGHLIGHTING
+% i OF HYPERLINKS CAN RESULT IN DOCUMENT REJECTION BY THE IEEE, especially if
+% these appear on the "printed" page. IF IN DOUBT, ASK THE RELEVANT
+% i SUBMISSION EDITOR. You may need to add the option hypertexnames=false if
+% you used duplicate equation numbers, etc., but this should not be needed
+% in normal IEEE work.
+% The latest version of hyperref and its documentation can be obtained at:
+% http://www.ctan.org/pkg/hyperref
+
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage{inconsolata}
+
+\usepackage{color}
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\setlength{\parindent}{0pt}
+
+\usepackage[nohyperlinks, nolist]{acronym}  % Package für Abkürzungen -> [nolist] um Abkürzungsverzeichnis zu unterdrücken
+\usepackage{listings}         % Include the listings-package
+\lstset{language=Java,
+	showspaces=false,
+	showtabs=false,
+	breaklines=true,
+	showstringspaces=false,
+	breakatwhitespace=true,
+	commentstyle=\color{pgreen},
+	keywordstyle=\color{pblue},
+	%stringstyle=\color{pred},
+	basicstyle=\ttfamily,
+	%moredelim=[il][\textcolor{pgrey}]{$$},
+	moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+}
+
+\usepackage{nameref}          % Erm\"oglicht das referenzieren von Kapitelbezeichnungen
+\usepackage{enumitem}         % Formatoptionen für "description"-Liste
+\usepackage{hyperref}		  % Für \url Befehl zur formatierung von Links
+\usepackage{float}
+%Zusätzliches Package einbinden 
+\usepackage{setspace} 
+\usepackage{parskip}
+\usepackage{listings}
+
+
+%Befehle zum umschalten des Zeilenabstandes 
+\onehalfspacing             % anderthablfacher Zeilenabstand 
+%\singlespacing     %einzeiliger Abstand
+
+\begin{document}
+
+%
+% paper title
+% Titles are generally capitalized except for words such as a, an, and, as,
+% at, but, by, for, in, nor, of, on, or, the, to and up, which are usually
+% not capitalized unless they are the first or last word of the title.
+% Linebreaks \\ can be used within to get better formatting as desired.
+% Do not put math or special symbols in the title.
+\title{Verteilte Systeme: Chat Applikation unter Einsatz einer Message-Oriented-Middleware}
+%
+%
+% author names and IEEE memberships
+% note positions of commas and nonbreaking spaces ( ~ ) LaTeX will not break
+% a structure at a ~ so this keeps an author's name from being broken across
+% two lines.
+% use \thanks{} to gain access to the first footnote area
+% a separate \thanks must be used for each paragraph as LaTeX2e's \thanks
+% was not built to handle multiple paragraphs
+%
+%
+%\IEEEcompsocitemizethanks is a special \thanks that produces the bulleted
+% lists the Computer Society journals use for "first footnote" author
+% affiliations. Use \IEEEcompsocthanksitem which works much like \item
+% for each affiliation group. When not in compsoc mode,
+% \IEEEcompsocitemizethanks becomes like \thanks and
+% \IEEEcompsocthanksitem becomes a line break with idention. This
+% facilitates dual compilation, although admittedly the differences in the
+% desired content of \author between the different types of papers makes a
+% one-size-fits-all approach a daunting prospect. For instance, compsoc 
+% journal papers have the author affiliations above the "Manuscript
+% received ..."  text while in non-compsoc journals this is reversed. Sigh.
+
+\author{Anja Wolf, 
+		Marvin Staudt,
+        Andreas Westhoff
+        und Johannes Knippel}
+
+% note the % following the last \IEEEmembership and also \thanks - 
+% these prevent an unwanted space from occurring between the last author name
+% and the end of the author line. i.e., if you had this:
+% 
+% \author{....lastname \thanks{...} \thanks{...} }
+%                     ^------------^------------^----Do not want these spaces!
+%
+% a space would be appended to the last name and could cause every name on that
+% line to be shifted left slightly. This is one of those "LaTeX things". For
+% instance, "\textbf{A} \textbf{B}" will typeset as "A B" not "AB". To get
+% "AB" then you have to do: "\textbf{A}\textbf{B}"
+% \thanks is no different in this regard, so shield the last } of each \thanks
+% that ends a line with a % and do not let a space in before the next \thanks.
+% Spaces after \IEEEmembership other than the last one are OK (and needed) as
+% you are supposed to have spaces between the names. For what it is worth,
+% this is a minor point as most people would not even notice if the said evil
+% space somehow managed to creep in.
+
+
+
+% The paper headers
+%%\markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2015}%
+%%{Shell \MakeLowercase{\textit{et al.}}: Bare Advanced Demo of IEEEtran.cls for IEEE Computer Society Journals}
+% The only time the second header will appear is for the odd numbered pages
+% after the title page when using the twoside option.
+% 
+% *** Note that you probably will NOT want to include the author's ***
+% *** name in the headers of peer review papers.                   ***
+% You can use \ifCLASSOPTIONpeerreview for conditional compilation here if
+% you desire.
+
+
+
+% The publisher's ID mark at the bottom of the page is less important with
+% Computer Society journal papers as those publications place the marks
+% outside of the main text columns and, therefore, unlike regular IEEE
+% journals, the available text space is not reduced by their presence.
+% If you want to put a publisher's ID mark on the page you can do it like
+% this:
+%\IEEEpubid{0000--0000/00\$00.00~\copyright~2015 IEEE}
+% or like this to get the Computer Society new two part style.
+%\IEEEpubid{\makebox[\columnwidth]{\hfill 0000--0000/00/\$00.00~\copyright~2015 IEEE}%
+%\hspace{\columnsep}\makebox[\columnwidth]{Published by the IEEE Computer Society\hfill}}
+% Remember, if you use this you must call \IEEEpubidadjcol in the second
+% column for its text to clear the IEEEpubid mark (Computer Society journal
+% papers don't need this extra clearance.)
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+\begin{acronym}
+	\acro{MOM}{Message Oriented Middleware}
+	\acro{JMS}{Java Messaging Service}
+	\acro{ReST}{Representational State Transfer}
+	\acro{SOAP}{Simple Object Access Protocol}
+	\acro{XML}{Extensible Markup Language }
+	\acro{RPC}{Remote Procedure Call}
+	\acro{EAR}{Enterprise Application Archive}
+	\acro{JAX-RS}{Java API for RESTful Web Services}
+	\acro{Java EE}{Java Platform, Enterprise Edition}
+	\acro{POM}{Project Object Model}
+	\acro{FIFO}{First In - First Out}
+	\acro{JNDI}{Java Naming and Directory Interface}
+	\acro{HTTP}{Hypertext Transfer Protocol}
+	\acro{JSON}{JavaScript Object Notation}
+	\acro{MVC}{Model View Controller}
+	\acro{GUI}{Graphical User Interface}
+	\acro{API}{Application Programming Interface}
+	\acro{JPA}{Java Persistence API}
+	\acro{JDBC}{Java Database Connectivity}
+	\acro{REST}{Representational State Transfer}
+	\acro{EJB}{Enterprise JavaBean}
+	\acro{JTA}{Java Transaction API}
+	\acro{SDL}{Schema Definition Language}
+	\acro{POM}{Project Object Model}
+	\acro{SQL}{Structured Query Language}
+\end{acronym}
+
+
+% for Computer Society papers, we must declare the abstract and index terms
+% i PRIOR to the title within the \IEEEtitleabstractindextext IEEEtran
+% command as these need to go into the title area created by \maketitle.
+% As a general rule, do not put math, special symbols or citations
+% in the abstract or keywords.
+\IEEEtitleabstractindextext{%
+\begin{abstract}
+Aufbau einer Chat Applikation unter Einsatz einer Message Oriented Middleware und deren Anwendung.
+\end{abstract}
+
+% Note that keywords are not normally used for peerreview papers.
+\begin{IEEEkeywords}
+Verteilte Systeme, JMS, Wildfly, MOM, JavaEE, JPA, Kafka, Docker, Angular, GraphQL, ReST
+\end{IEEEkeywords}}
+
+
+% make the title area
+\maketitle
+
+
+% To allow for easy dual compilation without having to reenter the
+% abstract/keywords data, the \IEEEtitleabstractindextext text will
+% not be used in maketitle, but will appear (i.e., to be "transported")
+% here as \IEEEdisplaynontitleabstractindextext when compsoc mode
+% is not selected <OR> if conference mode is selected - because compsoc
+% conference papers position the abstract like regular (non-compsoc)
+% papers do!
+\IEEEdisplaynontitleabstractindextext
+% \IEEEdisplaynontitleabstractindextext has no effect when using
+% compsoc under a non-conference mode.
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+\ifCLASSOPTIONcompsoc
+\IEEEraisesectionheading{\section{Einleitung}\label{sec:Einleitung}}
+\else
+\section{Einleitung}
+\label{sec:Einleitung}
+\fi
+% Computer Society journal (but not conference!) papers do something unusual
+% with the very first section heading (almost always called "Introduction").
+% They place it ABOVE the main text! IEEEtran.cls does not automatically do
+% this for you, but you can achieve this effect with the provided
+% \IEEEraisesectionheading{} command. Note the need to keep any \label that
+% is to refer to the section immediately after \section in the above as
+% \IEEEraisesectionheading puts \section within a raised box.
+
+
+
+
+% The very first letter is a 2 line initial drop letter followed
+% by the rest of the first word in caps (small caps for compsoc).
+%
+% form to use if the first word consists of a single letter:
+% \IEEEPARstart{A}{demo} file is ....
+%
+% form to use if you need the single drop letter followed by
+% normal text (unknown if ever used by the IEEE):
+% \IEEEPARstart{A}{}demo file is ....
+%
+% Some journals put the first two words in caps:
+% \IEEEPARstart{T}{his demo} file is ....
+%
+% Here we have the typical use of a "T" for an initial drop letter
+% and "HIS" in caps to complete the first word.
+% TEIL von Johannes (evtl. nochml überabeiten)
+\IEEEPARstart{C}{hat}-Applikationen basieren in den meisten Anwendungsfällen auf speziellen Middleware Technologien, die auf verteilten Systemen aufgebaut und implementiert sind. Diese Studienarbeit beschreibt die Chat-Anwendung, die im Rahmen des Praktikums im Fach \textit{Verteilte Systeme} im Wintersemester 2018/2019 bearbeitet wurde. 
+
+Ziel der Studienarbeit ist, es innovative Lösungsansätze und Konzepte im Umfeld der verteilten Systeme zu erforschen, zu erproben und diese zu bewerten. 
+
+Im Fokus der Arbeit steht eine einfache Chat-Anwendung, die dazu dient, die Entwicklung und Funktionsweise von verteilten Systemen auf Basis von \ac{MOM}, näher zu vertiefen.
+
+Im Folgenden wird die Konzeption der Anwendung sowie die benötigte Infrastruktur erläutert. Anschließend wird die Umsetzung und die damit verbundene Konfiguration der einzelnen Komponenten der Anwendung näher beschrieben. Abschließend folgt ein Fazit. 
+
+\hfill 22. Dezember, 2018
+
+%################################################################################
+% TEIL von Johannes
+\section{Konzeption}
+Zu entwickeln galt es ein verteiltes System auf Basis von Middleware Technologien, welches im Anschluss durch bestimmte Benchmarkzyklen analysiert werden soll. Genauer handelt es sich um spezielle \ac{MOM}, die eine klare und strukturierte Methode der Kommunikation zwischen disparaten Software Entitäten zur Verfügung stellt. \cite{MOM:Introduction} Im Fokus der Entwicklung steht die Installation und die Inbetriebnahme der verwendeten Technologien, die Nutzung von \ac{ReST}, Message Queues, Topics, GraphQL, Apache Kafka, Transaktionsverarbeitung sowie die Leistungsbewertung der entstandenen Applikation. 
+
+
+\begin{figure*}[h]
+	\centering
+	\includegraphics[scale=0.4]{Bilder/Grobe_Architektur.png}
+	\caption{Grobe Skizze der Architektur der Chat-Anwendung mit Erweiterung um Apache Kafka}
+	\label{fig:Architektur}
+\end{figure*}
+
+Die darzustellende Anwendung beinhaltet einen einfachen Chat-Prozess. Dieser setzt sich aus zwei Teilen zusammen. Einem Chat-Client, der es einem Benutzer ermöglicht über eine graphische Nutzer-Oberfläche mit anderen Chat-Beteiligten zu kommunizieren und einem Chat-Server, der sich um die Verwaltung der Chat-Nutzer und deren Nachrichten kümmert. 
+
+Möchte sich ein Benutzer am Server registrieren, verwendet er eine dafür implementierte Client-Anwendung. Ist er registriert beziehungsweise am System angemeldet, können Nachrichten von anderen bereits registrierten Benutzern empfangen und an diese verschickt werden. Der Server bestätigt jede Nachrichtenanfrage eines registrierten Benutzers (Clients). Ist ein Benutzer nicht angemeldet, so werden die Nachrichten auch nicht verarbeitet. Zur Auswertung und Datenhaltung werden Informationen zu den Nachrichten vom Server in dafür vorgesehene Datenbanken gespeichert. Eingehende Nachrichten werden in Verbindung mit den Benutzernamen und dessen genutzten Threads in einer hier benannten Trace-Datenbank gespeichert. In einer zweiten separaten Count-Datenbank wird ein Zähler mit der Anzahl der Nachrichten pro Nutzername geführt. Aufgrund der Softwarearchitektur erstrecken sich manche Aktionen über verteilte Komponenten, die es über Transaktionen abzusichern gilt. Sollte eine Komponente, wie beispielsweise eine der beiden Datenbanken, ausfallen, so müssen alle Schritte der jeweiligen Transaktion zurückrückrollbar gehalten werden.
+
+Die in den Datenbanken gespeicherten Informationen können über eine implementierte GraphQL\footnote{\url{http://graphql.org/}} Schnittstelle ausgelesen werden.
+
+Für Administratoren des Systems wurde eine Client Anwendung basierend auf dem Webapplikations-Framework Angular\footnote{\url{https://angular.io/}} entwickelt. Diese nutzt die GraphQL Schnittstelle, um Daten über die Chat-Anwendungen auszulesen und anzuzeigen.
+
+Zur Bestimmung von Performanceergebnissen des entstehenden Systems wird ein Benchmarking-Client genutzt, der eine wählbare Anzahl an Anwendern simuliert und Nachrichten an den Server schickt. Dabei werden verschiedene Kennzahlen, wie beispielsweise die Dauer eines Roundtrips der Nachricht, erhoben.
+
+%################################################################################
+\section{Infrastruktur}
+\subsection{Github}
+Für ein gemeinsames Arbeiten am Quellcode wurde die Versionsverwaltungsplatform Github verwendet. Es wurden zwei Repositories für Server und Client angelegt. Für das Aufsetzten des Servers wurde ein neues Projekt ersetllt, wohingegen für die Arbeit auf Client-Seite das bereits bestehende Projekt chatApplication erweitert wurde.
+
+\subsection{Application Server Wildfly 13}
+
+Als Application Server wurde Wilfdly 13.0.0.Final genutzt. Dieser stellt eine umfangreiche Auswahl an Systemen, wie z.B. \textit{ActiveMQ} für Messaging oder \textit{JNDI} für Naming zur Verfügung, sodass die serverseitige Abwicklung nahezu vollständig mit Bordmitteln abgewickelt werden kann.
+
+\subsection{Apache Kafka}
+\textit{Apache Kafka}\footnote{\url{https://kafka.apache.org/}} stellt neben \textit{JMS} einen weiteren Message-Broker dar.
+Für die Erweiterung mit \textit{Kafka} wird jedoch zusätzlich ein \textit{Zookeeper}-Server benötigt, der zur Koordination der am Messaging beteiligten Clients und zur Verwaltung der Topics dient.
+
+\subsection{MariaDB und Docker}
+Datenbanken im Chatprozess um Nachrichten zu speichern und protokollieren. MariaDB verwendet. Um die Anforderungen eines verteilten Systems gerecht zu werden werden die Datenbankinstanzen in einem Dockercontainer\footnote{\url{https://www.docker.com/}} betrieben. Da Docker im Gegensatz zu einer virtuellen Maschine das Host-Betriebssystem mitbenutzt, können ressourcensparend leichtgewichtige, isolierte Container zur Verfügung gestellt werden, die aber dennoch über ein eigenes Dateisystem und Netzwerk-Interface verfügen.\cite{Docker:Functionality}
+
+%TODO removed REST und GraphQL weil wegen eigentlich keine Infrastruktur?
+
+
+%################################################################################
+\section{Umsetzung}
+Im Folgenden wird die Umsetzung der Anforderungen 
+\subsection{Aufbau Server}
+%Wildfly beinhaltet bereits eine Vielzahl von Subsystemen, weshalb kein separater \ac{JMS}-Provider oder Transaktionsmanager zu installieren ist.
+Der Server besteht aus einem Maven-Projekt, das aus den Serverklassen über die Markierung in der POM als Web Archive ein Artefakt im Server baut.
+Dieses Artefakt beinhaltet Klassen zur Abwicklung der folgenden Prozesse:
+\begin{itemize}
+	\item \textit{Datenbankdefinition und -verwaltung}}
+	\item \textit{Kafka- und JMS-Chat-Prozess}}
+	\item \textit{ReST-Controller}}
+	\item \textit{GraphQL}}
+\end{itemize}
+
+
+\subsection{Aufbau Client}
+%TODO
+
+\subsection{JMS Konfiguration}
+Wildfly enthält, sofern es über die \textit{standalone-full.xml}-Konfiguration gestartet wird, standardmäßig einen \textit{Apache ActiveMQ Artemis}-Server als Message-Broker zur Verfügung. Dieser arbeitet mit \textit{Queues} für Punkt-zu-Punkt-Kommunikation und \textit{Topics}, die nach dem publish- and subscripe Prinzip arbeiten. Diese JMS-Destinationen können entweder im Wildfly-Management-Interface oder über die XML-Konfigurationsdatei erstellt werden und mit JNDI-Bindings intern sowie extern (mit dem Zusatz\textit{exported} referenzierbar gemacht werden.
+Für die Chat-Anfragen an den Server wird eine \textit{chatQueue}	verwendet, an die alle Clients ihre Chat-Anfragen richten. Die erfolgreiche Bearbeitung der Nachricht wird dem Client bestätigt, indem der Server eine Antwort in der \textit{response}-Queue für den anfragenden Client platziert. Des Weiteren wird die Nachricht im \textit{responseTopic} veröffentlicht, das jeder Client beim Log-in abonniert.
+
+
+\subsection{Kafka Konfiguration}
+\textit{Apache Kafka} stellt wie \textit{JMS} eine Message-Broker Funktionalität zur Verfügung, ist jedoch nicht in Wildfly enthalten sondern wird in einem eigenen Server abgebildet. Im Gegensatz zu JMS gibt es bei Kafka nur Topics. 
+Analog zu JMS wird die Nachricht vom Client an ein in diesem Fall \textit{Request-Topic} gesendet. Da der Kafka-Server außerhalb von Wildfly läuft, muss der Wildfly-Server den Request-Topic abonnieren um die eingehenden Nachrichten abzuholen. Nach der Abwicklung des Chat-Prozesses sendet Wildfly die Nachricht an das \textit{Response-Topic} von Kafka, das wiederum von allen Chat-Clients beim Login abonniert wird.
+Die Verbindung zum Kafka-Server wird über einen \textit{KafkaConsumer} hergestellt, in dessen Eigenschaften die IP-Adresse des Kafka-Servers, die Consumer-Group (in diesem Anwendungsfall stellt jeder einzelne Client sowie der Wildfly-Server eine eigene Consumer-Group dar) sowie Pfade zu (De-)Serializern für die Serializierung von Nachrichten-Objekten hinterlegt werden. Für das Versenden der Chat-Nachrichten reicht bei Kafka eine Implementierung von \textit{Serializable} nicht aus, es muss für die \textit{ChatMessage} eine eigene Serializer und Deserializerklasse implementiert werden, die mithilfe eines \textit{ObjectMappers} das Object in einen Bytestream und zurückwandelt.
+
+\subsection{Login über ReST}
+%TODO
+
+\subsection{Chat Prozess}
+
+\subsubsection{Bearbeitung der ChatMessage}
+Als Nachricht wird in Anlehnung an die \textit{ChatPDU} aus der Chat-Vorlage ein \textit{ChatMessage}-Objekt verwendet. Dieses enthält neben der eigentlichen Nachricht und dem Benutzernamen den Client-Thread, die Art des Übertragungswegs (\textit{JMS} oder \textit{Kafka}), sowie einen Zeitstempel für die spätere Ermittlung der Round Trip Time.
+Außerdem implementiert die Klasse das \textit{Serilazible}-Interface, um über JMS als serialisiertes Objekt versendet werden zu können.
+
+\subsubsection{Chat Prozess mit JMS}
+Bei der JMS-Variante erfolgt die Initiierung des Chat-Prozesses über eine \textit{Message Driven Bean}. Diese ist entsprechend mit der Annotation \textit{@MessageDriven} versehen und so konfiguriert, dass der Chat-Prozess bei eingehenden Nachrichten in der \textit{chatQueue} angestoßen wird. 
+Des Weiteren wird für die Erzeugung des Producers für das Versenden der Antwort an das \textit{responseTopic} ein JMS-Kontext injiziert, sowie die über \textit{@Ressource}- und \textit{@EJB}-Annotationen die JMS-Destinationen sowie die Datenbankinterfaces bereitgestellt.
+Nach erfolgreicher Verarbeitung wird die Nachricht im \textit{responseTopic} veröffentlicht, welches von allen Clients abonniert ist.  
+
+\subsubsection{Chat Prozess mit Kafka}
+Da die Nachrichten bei Kafka aus einem externen Topic abgeholt werden müssen, wird beim der Kafka-Chat-Prozess beim Einloggen des ersten Clients initiiert. Dabei wird das \textit{requestTopic} von Kafka vom Wildfly-Server abonniert und hört ab diesem Zeitpunkt auf Nachrichten-Anfragen.
+Zum veröffentlichen der Nachricht an das \textit{responseTopic} wird analog zur Client-Anfrage ein \textit{Kafka-Producer} erstellt, der die Nachricht nach erfolgreicher Verarbeitung im Server veröffentlicht.
+
+
+
+
+% TEIL von Marvin
+\subsubsection{Persistieren der Informationen in den Datenbanken Trace und Count}
+Während des \textit{Chat Process} werden mit Hilfe der beiden Datenbankprozesse \textbf{Count} und \textbf{Trace} die benötigten Informationen zu den Nachrichten der \textit{chatuser} in die jeweilige Datenbank gespeichert und protokolliert. Hierfür werden zwei Datenbanksysteme benötigt, welche unabhängig voneinander ausgeführt werden können. Um dies zu gewährleisten wurde jeweils eine Datenbank in einem Docker-Container ausgeführt. Zum einen persistiert die Datenbank \textbf{Trace} alle gewünschten Informationen zu einer Chatnachricht. Die \textbf{Count} Datenbank dient zum ermitteln der Anzahl der versendeten Nachrichten eines \textit{chatusers}. Dementsprechend wird sobald ein \textit{chatuser} die erste Nachricht versendet ein Eintrag erstellt. Bei jeder weiteren Nachricht wird dieser automatisch mit einem Zähler inkrementiert. 
+
+Die Count-Datenbankinstanz erzeugt zur Laufzeit eine Tabelle mit dem Namen \textit{countdata}. Die Struktur besteht dabei aus den folgenden fünf Attributen: \textit{ID, username, clientthread, serverthread und message}. (Vgl. Tabelle \ref{tab:count})
+
+Die Trace-Datenbankinstanz erzeugt zur Laufzeit eine Tabelle mit dem Namen \textit{trace}. Die Struktur besteht dabei aus den folgenden drei Attributen: \textit{ID, username und counting}. (Vgl. Tabelle \ref{tab:trace})
+
+\begin{table}[h!]
+	\caption{Struktur der Count-Tabelle.}
+	\label{tab:count}
+	\def\arraystretch{1,2} % vertical stretch factor, 1.25 for more spacing
+	\centering
+	\begin{tabular}{|c||c|}\hline
+		\textbf{Attribut}  & \textbf{Funktion} \\\hline \hline
+		\lstinline|ID|           & Eindeutige ID             \\ \hline
+		\lstinline|username|       & Nutzername             \\ \hline
+		\lstinline|counting|        & Anzahl der gesendeten Nachrichten             \\\hline
+	\end{tabular} 
+\end{table}
+\begin{table}[h!]
+	\caption{Struktur der Trace-Tabelle.}
+	\label{tab:trace}
+	\def\arraystretch{1,2} % vertical stretch factor, 1.25 for more spacing
+	\centering
+	\begin{tabular}{|c||c|}\hline
+		\textbf{Attribut}  & \textbf{Funktion} \\ \hline \hline
+		\lstinline|ID|           & Eindeutige ID             \\ \hline
+		\lstinline|username|       & Nutzername             \\ \hline
+		\lstinline|clientthread|        & Identifikation des clients             \\ \hline
+		\lstinline|serverthread|        & Identifikation des Servers           \\ \hline
+		\lstinline|message|        & versendete Nachricht             \\\hline 
+	\end{tabular} 
+\end{table}
+
+
+Um im ersten Schritt einen Zugriff von Wildfly auf die in den beiden Docker-Containern ausgeführten Datenbanken zu erhalten muss die Konfigurationsdatei des Applikations-Servers \textit{standalone.xml} um die beiden Datenbankinstanzen erweitert werden. Hierbei werden zwei \textit{XA-Datasources} eingetragen. Diese Art von Datenbanken erlaubt es mehrere \textit{Datasources} gleichzeitig innerhalb einer Transaktion verwenden zu können. Folgende Informationen wurden hierbei hinterlegt: \textit{IP-Adresse, Port, User} und \textit{Passwort}. 
+Wichtig ist hierbei die Verwendung der richtigen Syntax der jeweiligen wildfly-Version, da andernfalls die Verbindung zwischen Applikationsserver und Datenbank nicht erfolgreich hergestllt werden kann. 
+
+Um nun im Folgenden die Daten in die jeweiligen Tabellen persisitieren zu können wurde die \textit{Java Persistence API} \textbf{(JPA)} verwendet. Dies vereinfacht den Prozess der Zuordnung und Auslieferung der Objekte zu den richtigen Einträgen in den Datenbankinstanzen.  Dabei bilden die zwei Persistence Entities der Klassen \textbf{Trace.java} und \textbf{Count.java} aus dem Package \textit{databases} die Tabellen \textit{countdata} und \textit{trace} ab. Die Objekte der Klassen werden automatisch erkannt und die Struktur der Tabellen festgelegt. 
+
+In dieser Studienarbeit wurde der Ansatz der \textit{Enterprise JavaBean} \textbf{(EJB)} mit einer container-verwalteten Transaktion verwendet. Dementsprechend wurden beide Datenbanken als \textit{persistence-unit} in dem \textit{persistence.xml}-file angegeben. Weiterhin wurden hier die IP-Adressen, welche \textit{Docker} vergeben hat, zusammen mit den jeweiligen Ports hinterlegt. Zusätzlich wurde der \textit{User} und das \textit{Passwort} angegeben, um einen Zugang zur Datenbank zu ermöglichen. Wichtig hierbei ist auch die Angabe der Klasse, welche die \textit{Entity} auf eine die jeweilige Datenbanktabelle wiederspiegeln soll. 
+
+Mit Hilfe von Hibernate, welches ebenfalls in der \textit{persisstence.xml} mit den entsprechenden Eigenschaften definiert wurde, wird die Schnittstelle für den Zugriff auf die Datenbanken festgelegt. Dadurch wird es möglich, Datenbankverbindungen aufzubauen und diese entsprechend zu verwalten. Dabei werden \textit{Structured Query Language} \textbf{(SQL)} Abfragen weitergeleitet und nach Ausführung dem Applikationsserver wieder zur Verfügung gestellt. 
+
+In dieser Studienarbeit wurden zwei \textbf{JPA}-Implementierungen eingebunden. Dementsprechend werden für beide zur Laufzeit jeweils automatisch ein \textit{Entity-Manager} erstellt. Dieser dient als Komponente zur erfolgreichen Persistierung von Daten in die Datenbank zur Verfügung. Daraus ergeben sich Methoden, wie z. B. das Speichern, das Finden oder Bearbeiten bereits gespeicherter Daten oder das Löschen eines Datensatzes. Dies wird automatisch unter Verwendung der richtigen Annotationen zur Laufzzeit durchgeführt. 
+
+Dementsprechend wird es ermöglicht eine einheitliche Schnittstelle für den \textit{ChatProcess} zur Verfügung zu stellen. Mit den Methoden \textit{updateCount(Count count)} und \textit{create(Trace trace)}, welche der \textit{ChatProcess} aufruft, werden Daten in die beiden Datenbankinstanzen gespeichert bzw. aktualisiert.
+
+Auch werden hierbei die Methoden zum Abfragen und zum Zurücksetzen der Datenbanken für den Admin Client (vgl. Kapitel \ref{sub:admin})bereitgestellt. Die beiden Methoden \textit{List<Count> findAll()} und \textit{List<Trace> findAll()} geben jeweils den gesamten Inhalt der in den Datenbanken gespeicherten Informationen aus. Die Methode \textit{clear()} ermöglicht das separate Löschen aller Daten aus den beiden Datenbanken. 
+
+Im Folgenden Kapitel \ref{sub:transactions} werden die Transaktionsverwaltung und der Zusammenhang des Persistieren dieser Informationen in die beiden Datenbankinstanzen genauer erläutert. 
+
+
+\subsection{Transaktionsverwaltung}
+\label{sub:transactions}
+Um eine übergreifende XA-Transaktion unter Einbeziehung der Zugriffe auf die JMS-Queue, das Topic sowie auf die Datenbanken zu realisieren übernimmt das \textit{Transactions subsystem} des Wildfly Application Servers die komplette Transaktionsverwaltung. Die beiden MariaDB-Container, welche im Docker ausgeführt werden, unterstützen den Prozess der XA-Transaktionen. Auch wurden die beiden Datenbanken als \textit{XA-Datasources} in der Konfigurationsdatei \textit{standalone.xml} des Application Servers definiert. 
+
+Dementsprechend wird ein Transaktionsmanager mit dem \textit{TransactionsManagementType.CONTAINER} vorgeschaltet. Das Starten, Zurückrollen oder Abschließen einer Transaktion wird direkt unter dessen Verwaltung gestellt. Hierfür sind die Annotationen \textit{@Transactional} vor die jeweiligen Methoden bzw. Klassen gesetzt. 
+
+Ein aktives Eingreifen ist aus diesem Grund nicht notwendig. Wird eine Methode ohne Komplikationen durchlaufen, schließt der Transaktionsmanager die Transaktion automatisch mit \textit{COMMIT} ab. Wird jedoch ein Fehler geworfen, werden alle darin enthaltenen Methoden mit einem \textit{ROLLBACK} zurückgerollt.
+
+Beispeilsweise wird beim unerwarteten Abbruch während des Schreibvorgangs von Daten in einer der beiden Datenbanken eine Exception nötig, die automatisch alle Änderungen mit einem \textit{ROLLBACK} rückgängig macht. Werden zum Beispiel erfolgreich Daten in die erste Datenbank geschrieben und ein unerwarteter Fehler tritt beim Einfügen der Daten in die zweite Datenbank auf, muss mittels einer Exception durch den Transaktionsmanager ein Zurückrollen der beiden Schreibvorgänge durchgeführt werden. Im Anschluss sollte ein erneuter Zustellversuch dieser Nachricht die Folge sein. 
+
+Auch ein aktives Auslösen eines Rollbacks im \textit{ChatProcess} ist mit der Methode \textit{setRollbackOnly()} des \textit{MessageDrivenContext} der Message Driven Bean im Falle einer \textit{JMSException} möglich. 
+
+Im Falle eines Sendeversuchs einer \textit{Message}, welche von einem nicht eingeloggten \textit{user} versendet wird, ist diese Exception allerdings nicht notwendig. Dies ist darauf zurückzuführen, dass in der Klasse \textit{ChatProcess} im Vorfeld überpüft wird, ob der \textit{user} eingeolgt ist. Ist dieser nicht eingeloggt, wird kein Sendeprozess durchgeführt und somit findet kein Schreiben in die Datenbank statt. 
+
+
+\subsection{Benchmark-Client}
+
+Der Benchmarking-Client dient zur Simulation eines Chat-Szenarios. Dabei kann hinsichtlich der Performance beim Versand von Chat-Nachrichten getestet werden. Diese wird anhand der Round Trip Time (RTT) einer Nachricht gemessen. Diese misst die Zeit für einen Chat-Request mit vollständiger Bearbeitung (vgl. Abbildung \ref{fig:RTT}). 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.35]{Bilder/RTT.PNG}
+	\caption{Definition der Round Trip Time}
+	\label{fig:RTT}
+\end{figure}
+
+Grundlage für die Performance-Tests ist das bereits vorhandenen Java-basiertes Benchmarking-Framework. Dieses wurde um eine JMS sowie eine Apache Kafka Anbindung erweitert um Leistungstest für das Versenden von Nachrichten über die beiden Message Broker durchzuführen.
+
+Damit dies möglich ist, mussten mehrere Änderungen im Quellcode vorgenommen werden. Zunächst wurden zwei zusätzliche ImplementationTypes, \textit{JMSImplementation} und \textit{KafkaImplementation}, definiert. Desweiteren wurden die Klasse \textit{BenchmarkingClientFactory} um JMS sowie Kafka spezifische Parameter erweitert.
+
+Für die JMS Implementierung wurden außerdem die Klassen \textit{JmsChatClient}, \textit{JmsSimpleMessageListenerThread} sowie \textit{JmsBenchmarkingClientImpl} neu implementiert.
+Für die Kafka Implementierung wurden zusätzlich die Klassen \textit{KafkaChatClient}, \textit{KafkaReceiver} und \textit{KafkaBenchmarkingClientImpl} implementiert.
+
+Die Anzahl der Clients, sowie die Menge an Nachrichten bzw. deren Byte-Größe kann verändert werden. Diese Einstellungen können für TCP in der Benutzeroberfläche, für JMS bzw. Kafka in der Klasse \textit{BenchmarkUserInterfaceParameters} angepasst werden.
+
+Vor der Durchführung des Leistungstest wurde die Anzahl der Nachrichten konstant auf 100 je Client mit einer Größe von je 50 Byte festgelegt. Die Anzahl der Clients wurde in 10er Schritten verändert. Der erste Test wurde mit 10 Clients durchgeführt. Danach wurde bis zu einem Maximalwert von 50 Clients erhöht. Jeder der Clients loggt sich dabei ein, versendet die definierte Anzhal an Nachrichten, empfängt Nachrichten der anderen Clients und loggt sich wieder aus.
+
+Das Benchmarking wurde in zwei verschiedenen Ausprägungen durchgeführt. Sowohl JMS als auch Kafka wurden hinsichtlich ihrer Performance getestet. Beide male wurde der Test mit der Klasse \textit{BenchmarkingUserInterfaceSimulation} gestartet, angepasst an JMS bzw. Kafka. Die Ergebnisse des Benchmarks werden in der Konsole ausgegeben. Eine Anbindung an das bereits vorhandene User Interface hat nicht stattgefunden. Die Ergebnisse der beiden Testdurchläufe können Tabelle \ref{tab:Benchmark} entnommen werden. 
+
+\begin{table}[h!]
+	\caption{Ergebnisse (RTT's) der beiden Benchmark-Läufe}
+	\label{tab:Benchmark}
+	\def\arraystretch{1,2} % vertical stretch factor, 1.25 for more spacing
+	\centering
+	\begin{tabular}{|c||c||c|}\hline
+		\textbf{Anzahl Clients} & \textbf{JMS [in ms]} & \textbf{Kafka [in ms]} \\\hline
+		\lstinline|10|          & 168   & 36.024 \\\hline	
+		\lstinline|20|      	& 189	& 49.759   \\\hline
+		\lstinline|30|        	& 222	& 67.164	\\\hline
+		\lstinline|40|       	& 227  	& 90.335    \\\hline
+		\lstinline|50|       	& 322   & 10.3483   \\\hline
+	\end{tabular} 
+\end{table}
+
+Im ersten Durchlauf des Leistungstest wurden die durchschnittliche RTT von JMS gemessen. Bei einer linear ansteigenden Anzahl an Clients steigt auch diese linear an (vgl. Abbildung \ref{fig:RTT_JMS}).
+\\
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{Bilder/RTT_JMS.PNG}
+	\caption{Benchmark JMS}
+	\label{fig:RTT_JMS}
+\end{figure}
+
+
+Beim zweiten Durchlauf des Benchmarks wurde die durchschnittliche RTT von Kafka gemessen. Auch hier steigt diese linear mit einer lienar ansteigenden Anzahl an Clients (vgl. Abbildung \ref{fig:RTT_Kafka}). 
+\\
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{Bilder/RTT_Kafka.PNG}
+	\caption{Benchmark Kafka}
+	\label{fig:RTT_Kafka}
+\end{figure}
+
+Vergleicht man beide Testdurchläufe wird deutlich, dass sich durch die Umstellung von JMS auf Kafka die RTT des Chat Prozesses erhöht. Wärhend bei JMS Nachrichten selbst bei einer Anzahl an 50 Clients Nachrichten noch unter einer Sekunde verschickt werden, sind die RTT Zeiten bei Kafka selbst bei einer geringen Anzahl an Clients bereits im höheren Sekunden bereich.
+\\
+Aus den Testergebnissen lässt sich Folgendes schließen: JMS verschickt Nachrichten um ein vielfaches schneller als Kafka. Desweiteren steigt mit der Anzahl der angemeldeten Chat Clients und zu versendenden Nachrichten die RTT einer einzelnen Chat Nachricht.
+
+
+
+\subsection{GraphQL}
+Im Folgenden Abschnitt wird die GraphQL-Schnittstelle  und die Vorgehensweise der Implementierung in dieser Studienarbeit dargestellt. Weiterhin werden mittels eines Vergleichs die Vor- und Nachteile von \textit{ReST} und \textit{GraphQL} diskutiert. Abschließend werden die aufgetretenen Herausforderungen in diesem Projekt angeführt.
+
+
+\subsubsection{Was ist GraphQL?}
+\textit{GraphQL} bietet mit Hilfe eines neuen API Standards eine effiziente und leistungsfähige Alternative zu \textit{ReST} an. \textit{GraphQL} ist eine Abfragesprache \textit{(Query Language)}, welche über die API angesprochen werden kann. Dabei ermöglicht es das Ausführen von Abfragen mit Hilfe eines Typsystems, welches im Vorfeld definiert wurde, zur Laufzeit des Servers. Zusätzlich stellt \textit{GraphQL} Spezifikationen und Werkezeuge, welche lediglich über \textbf{einen} HTTP-Endpunkt angesprochen werden, zur Verfügung. \cite{GraphQL:Introduction}
+
+Die im Folgenden beschriebenen zwei Schritte dienen der Erklärung des Grundkonzepts, welches hinter \textit{GraphQL} steht, am Beispiel der Implementierung in diesem Projekt.
+\begin{itemize}
+	\item[1.]
+	Da \textit{GraphQL} ein eigenes Typsystem hat, welches das Schema der API definiert, muss dieses im ersten Schritt festgelegt werden. Hierfür wird die \textit{Schema Definition Language} \textbf{(SDL)} verwendet. Hier ein Beispiel, welches im Rahmen dieser Studienarbeit angewendet wurde, um den einfachen Typ \textit{Trace} zu definieren. 
+	
+\begin{lstlisting}
+type query {
+	allTrace: [TraceTO]
+	allCount: [CountTO]
+}
+
+type TraceTO {	
+	id: ID!
+	username: String
+	clientthread: String
+	message: String
+	serverthread: String
+}
+\end{lstlisting}
+	Ein \textit{GraphQL-Service} wird erstellt, indem Typen und Felder für diesen Typen definiert werden, um im Anschluss für jedes Feld bzw. für jeden Typen Funktionen festlegen zu können.
+	\item[2.]
+	Der \textit{GraphQL-Service} kann nun mit der folgenden Query vom Client ausgeführt werden. \cite{GraphQL:howtoGraphQL}
+\begin{lstlisting}
+query = {
+	allTrace {
+		id
+		username
+		clientthread
+		message
+		serverthread
+	}
+}
+\end{lstlisting}
+	Dabei kann der Client direkt festlegen welche Attribute ausgegeben werden sollen bzw. entsprechende auch weglassen. Es müssen dementsprechend nicht alle Attribute, welche im zuvor festgelegten Schema definiert wurden, auch wieder abgerufen werden. Die hinterlegte Methode zu dieser Abfrage wird in dem Mapper-Repository der Klasse \textit{TraceMRepository} mit der Methode \textit{public List<TraceMapper> findAll()} definiert.  Diese Methode wird in der Klasse \textit{Query} mit der folgenden Methode aufgerufen und ausgeführt. \cite{GraphQL:howtoGraphQL}
+\begin{lstlisting}
+public List<TraceMapper> findAll() {
+  return TraceMRepository.findAll();
+}
+\end{lstlisting}
+	\end{itemize}
+Der Server gibt die angefragten Daten im Anschluss als JSON-Objekt wie folgt zurück. 
+\begin{lstlisting}
+{
+ "data": {
+  "allTrace": [
+   {
+    "id": "1",
+    "username": "Marvin",
+    "clientthread": 
+       "Thread[AWT-EventQueue-0,6,main]",
+    "message": "Hallo, wie geht's?",
+    "serverthread": "JMS"
+   }
+  ]
+ }
+}
+\end{lstlisting}
+\subsubsection{Die implementierte GraphQL-Schnittstelle}
+Die im Zuge dieser Studienarbeit implementierte \textit{GraphQL-Schnittstelle} ist auf die  Bibliothek \textit{com.graphql-java} in der Version \textit{3.0.0} aufgebaut. Die Bibliothek ist in der \textit{pom.xml}-Datei des Maven-Projekts hinterlegt. Um einen GraphQL Endpunkt mit der folgenden \textit{URL} erreichbar zu machen wurde eine Klasse mit dem Namen \textit{GraphQLEndpoint} im Package \textit{graphql} erstellt. Diese erweitert die Klasse \textit{SimpleGraphQLServlet}.
+\begin{lstlisting}
+localhost:8080/server-1.0-SNAPSHOT/graphql
+\end{lstlisting}
+Diese Klasse beschreibt von welchem Schema dieser \textit{GraphQL}-Service definiert wird. Das Schema hierzu muss im folgenden Verzeichnis hinterlegt werden. 
+\begin{lstlisting}
+chat/server/src/main/resources/schema.graphqls
+\end{lstlisting}
+Das Schema wird einführend wie folgt definiert:
+\begin{lstlisting}
+schema {
+	query: Query
+	mutation: Mutation
+}
+\end{lstlisting}
+In der Klasse \textit{Query} werden die Methoden definiert, die alle Daten aus den beiden Datenbanken \textit{Count} und \textit{Trace} ausgeben. In der Klasse \textit{Mutation} werden die Methoden definiert, welche der Admin-Client im Anschluss ausführen kann, um die beiden Datenbanken zu entleeren. \textit{Query} und \textit{Mutation} müssen beide jeweils im Schema \textit{schema.graphqls} als Typen definiert werden. Im Anschluss müssen die jeweiligen Methoden in den beiden Klassen definiert werden. \\
+In diesen Methoden wurde die gesamte Logik der Abfrage bzw. das Manipulieren der Daten hinterlegt. Die beiden \textit{GET-Methoden}, die alle Daten aus den Datenbanken ausgeben werden als \textit{GET-Reqeust} auf den Server abgesetzt. Die beiden Methoden, welche zum Löschen der Datenbanken aufgerufen werden können, wurden in der Klasse \textit{Mutation} definiert. Dabei muss ein \textit{POST-Request} abgesetzt werden. Zusätzlich wird ein \textbf{JSON-Body} mit dem folgenden Inhalt übergeben.
+\begin{lstlisting}
+{"query":"mutation{clearCount}"}
+\end{lstlisting}
+Der abgebildete \textit{JSON-Body} entleert die \textit{Count-Datenbank}. Als Rückmeldung wird ein \textit{Boolean-Wert} vom Applikationsserver zurückgegeben. War das Zurücksetzen der Datenbank erfolgreich wird \textit{true} ausgeben. Das Vorgehen für die \textit{Trace-Datenbank} ist identisch.\\ \\ \\
+\textbf{Herausforderungen im Laufe der Implementierung:}
+\begin{itemize}
+	\item Sehr wichtig bei der Implementierung einer \textit{GraphQL-Schnittstelle} ist es Typen, Felder und Methoden strikt so zu benennen, wie es in der Datei \textit{schema.graphqls} definiert wurde. Andernfalls werden diese nicht erkannt und es wird eine Exception beim Abfragen geworfen. 
+\end{itemize}
+\begin{itemize}
+	\item Fehlermeldungen werden bei \textit{GraphQL} nicht wie bei \textit{ReST} mittels HTTP-Statuscodes ausgegeben. Tritt eine Exception auf, wird diese im Body zurückgegeben.  
+\end{itemize}
+\begin{itemize}
+	\item Die bereits integrierten \textit{JPA-Klassen}, welche zur Persistierung der Daten in die Datenbanken benötigt werden, konnten durch den GraphQL-Endpunkt in unserem Fall nicht mit der Annotation \textit{@EJB} angesprochen werden. Daher mussten zusätzlich \textit{Mapper-Klassen} für \textit{Count} und\textit{Trace} implementiert werden. Die beiden Mapper stellten dementsprechend die Schnittstelle zu den Datenbanken und  \textit{GraphQL}, um einen Datenaustausch zu ermöglichen.
+\end{itemize}
+
+\subsubsection{GraphQL vs. ReST}
+\textbf{ReST} ist ein Architekturkonzept für netzwerkbasierte Software und gilt als Bindeglied, um eine Kommunikation zwischen Client und Server zu ermöglichen. Der Fokus liegt dabei darauf, eine \textit{API} über längere Zeit "haltbar" zu machen, anstatt die Leistung hier zu optimieren. Ziel dieser Architektur ist es, eine vereinfachte Architektur der entkoppelten Schnittstelle zu ermöglichen und eine erhöhte Visibilität der Interaktionen zu erreichen. Darunter leidet selbstverständlich die Effizienz, da Informationen lediglich in einem standardisierten Format abgerufen werden können und nicht auf die speziellen Bedürfnisse angepasst werden können. \cite{GraphQL: ReST} \\
+%Auch werden bei einer \textbf{ReST}-\textit{API} 
+\textbf{GraphQL} ist im Gegensatz dazu eine Abfragesprache, eine Spezifikation und eine Sammlung von Tools, die über einen \textbf{einzigen} Endpunkt mittels \textit{HTTP} ausgeführt werden können. Der große Fokus liegt hierbei auf der Optimierung von Leistung und Flexibilität.\\
+Ein Grundprinzip von \textbf{ReST} beruht sich darauf, dass einheitliche Schnittstellen der Protokolle, wie z. B. \textit{HTTP-Inhaltstypen} oder \textit{Statuscodes}, verwendet werden. \textbf{GraphQL} definiert hingegen seine eigenen Konventionen. GraphQL gibt beispielsweise zu \textbf{jeder} Anfrage den Response Status-Code \textit{200 OK} zurück. ReST verwendet meist den \textit{HTTP Response Status}. Hier wird lediglich bei erfolgreicher Bearbeitung der Anfrage der Statuscode 200 zurückgegeben. Andernfalls kann zum Beispiel auch der Status-Code \textit{400 Bade Reqeuest} oder \textit{500 Internal Server Error} zurückgegeben werden. \cite{GraphQL: ReST} \\
+Ein weiterer Unterschied besteht darin, dass bei GraphQL zu Beginn ein Schema definiert werden muss, welches nach den jeweiligen Bedürfnissen direkt angepasst werden kann. Dieses Schema definiert die Art der Daten, welche bei clientseitiger Abfrage ausgegeben werden. Dementsprechend ist die gegenseitige Unabhängigkeit des Servers und des Clients sichergestellt. \\
+Zusammenfassend kann nicht ohne eine Bedarfsanalyse des jeweiligen Projektes zu einer der beiden Technologien geraten werden. GraphQL kann einige Schwachstellen von ReST beheben, allerdings müssen die Anforderungen der Anwendung genau geprüft werden, um eine endgültige Aussage treffen zu können. Dementsprechend kann nicht pauschal gesagt werden, welche der beiden Technologien bevorzugt werden soll.\cite{ReST: GraphQL}
+
+
+% TEIL von Johannes:
+\subsection{Admin-Client}
+\label{sub:admin}
+
+Um eine Web-Anbindung zu illustrieren sollte im Rahmen dieser Studienarbeit ein Admin-Client implementiert werden. Dabei war die Art der Implementierung nicht maßgeblich vorgegeben, lediglich dass ein aktuelles Webapplikations-Framework verwendet wird.  
+
+Für die Implementierung der Admin Anwendung wurde das auf TypeScript- und komponentenbasierte Framework Angular in der Version 7 verwendet. Die Anwendung dient der administrativen Verwaltung der Daten des Chats und zeigt Details zu den im Server gespeicherten Statistiken an. Sie ist direkt an die GraphQL-Schnittstelle des Chat-Servers angebunden und verwaltet Daten aus den Datenbanken Trace und Count sowie die Chat-User Daten. Zudem können über die Anwendung die verschiedenen Daten aus den Datenbanken gelöscht werden.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.25]{Bilder/AdminClient_Dashboard.PNG}
+	\caption{Startseite/Dashboard des Admin-Clients.}
+	\label{fig:adminClientStartseite}
+\end{figure}
+
+Die Angular-Anwendung besteht aus vier verschiedenen Komponenten, die jeweils über einen eigenen Link, im Angularjargon auch Routen genannt, erreichbar sind. Für eine einfachere Bedienbarkeit wurde eine übersichtliche Headerzeile implementiert, die den Titel, ein Suchfeld und den Administrator als Profil anzeigt. Für eine einfache und schnelle Navigation zwischen den Komponenten wurde eine faltbare Sidebar implementiert, die die vier Komponenten übersichtlich mit Icons am rechten Bildschirmrand anzeigt.
+\\
+Die Dashboard-Komponente stellt die Willkommensseite für die Anwendung dar (siehe Abbildung \ref{fig:adminClientStartseite}). Über die Willkommens- beziehungsweise Startseite gelangt man durch Button zu den anderen Komponenten der Anwendung. Die CountDB-Komponente ist unter der Route \lstinline|/countdb| zu erreichen. Sie zeigt eine Auflistung aller Zähler-Einträge pro Chat-User an. Die TraceDB-Komponente wird über die Route \lstinline|/tracedb| angesprochen. Diese veranschaulicht die Trace-Einträge für jede gesendete Nachricht in Tabellenform. Die Chat-User-Komponente erlaubt die Verwaltung von eingeloggten Nutzern. Sie ist über die Route \lstinline|/user| erreichbar. Sollte ein ungültiger Link im Browser eingefügt werden, so gelangt man automatisch zurück zum Dashboard.
+
+Im Folgenden werden die einzelnen Komponenten näher beschrieben sowie die Verbindung zur GraphQL Schnittstelle erläutert.
+
+
+\subsubsection{Count-Administration}
+Im Reiter der Count-Administration kann die Anwendung alle Einträge des Zählers für alle ausgeführten Chat-Requests eines Chat-Users anzeigen und bei Bedarf auch wieder löschen. Abbildung \ref{fig:adminClientCount} zeigt die Komponente des Admin-Clients, die für die Verwaltung der Zähler zuständig ist.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.25]{Bilder/AdminClient_Count.PNG}
+	\caption{Count-Administration des Admin-Clients.}
+	\label{fig:adminClientCount}
+\end{figure}
+
+Die Count-Komponente ruft die GraphQL Schnittstelle unter \lstinline|/graphql?query={allCount{id username counting}}| mit einem HTTP GET Request und einem Observable Object \lstinline|<CountResponse>| auf, um alle Zähler Einträge darstellen zu können. Hierbei wird das erhaltene JSON Objekt an die TypeScript Klasse der CountResponse geparsed, die dann im weiteren Schritt im HTML-Code zur Anzeige genutzt wird.
+Zum Löschen aller Einträge wird die GraphQL Schnittstelle mit einem POST Request unter \lstinline|/graphql| aufgerufen. Der Body dieser Anfrage muss die Mutation \lstinline|{"query": "mutation{clearCount}"}| im JSON Format enthalten, um eine erfolgreiche Löschung der Einträge zu erzielen.
+
+
+\subsubsection{Trace-Administration}
+Analog zur Count-Administration kann die Anwendung in der Trace-Verwaltung Einträge von versendeten Nachrichten eines Chat-Users anzeigen und diese bei Bedarf auch wieder löschen. In Abbildung \ref{fig:adminClientTrace} ist die Trace-Komponente mit einigen Einträgen zu sehen. Sie kann neben dem Inhalt einer Nachricht sowohl den serverThread als auch den clientThread anzeigen lassen, die eine genaue Analyse der versendeten Nachrichten erlaubt.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.25]{Bilder/AdminClient_Trace.PNG}
+	\caption{Trace-Administration des Admin-Clients.}
+	\label{fig:adminClientTrace}
+\end{figure}
+
+Die Trace-Administration ruft die GraphQL Schnittstelle unter \lstinline|/graphql?query={allTrace{id username clientthread message serverthread}}| mit einem HTTP GET Aufruf und einem Observable Object \lstinline|<TraceResponse>| auf. Wie auch in der Count-Komponente wird das erhaltene JSON Objekt an die TypeScript Klasse der TraceResponse geparsed, die dann wiederum für die HTML-seitige Anzeige genutzt wird.
+Zum Löschen aller Einträge wird die GraphQL Schnittstelle mit einem POST Request unter \lstinline|/graphql| aufgerufen. Der Body dieser Anfrage muss die Mutation \lstinline|{"query":  "mutation{clearTrace}"}| im JSON Format enthalten, um eine erfolgreiche Löschung der Einträge zu erreichen.
+
+
+\subsubsection{Chat-User-Administration}
+Im Reiter der Chat-User-Administration kann die Anwendung alle angemeldeten User anzeigen und bei Bedarf können diese auch wieder abgemeldet und gelöscht werden. In Abbildung \ref{fig:adminClientUser} ist die User-Komponente mit beispielhaften eingeloggten Benutzern zu sehen.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.25]{Bilder/AdminClient_User.PNG}
+	\caption{Chat-User-Administration des Admin-Clients.}
+	\label{fig:adminClientUser}
+\end{figure}
+
+Die Chat-User werden über über die \ac{ReST} Schnittstelle beim Laden des Reiters unter \lstinline|/rest/users/currentusers| mit einem HTTP GET Request aufgerufen. Auch hier wird das erhaltene JSON Objekt mithilfe des Observable Objects \lstinline|<ChatUserResponse>| an die korrespondierende TypeScript Klasse geparsed, die dann wiederum im HTML-Code zur Visualisierung verwendet wird.
+Zum Löschen aller Einträge wird die ReST Schnittstelle mit einem DELETE Request unter \lstinline|/rest/users/logout/<user>| aufgerufen. Hierbei wird über die chatUserList iteriert, die im vorherigen GET Request mit den eingeloggten Usern befüllt wurde.
+
+
+
+%################################################################################
+\section{Fazit}
+Schönes Fazit
+\begin{itemize}
+	\item evtl Herausforderungen
+\end{itemize}
+
+% An example of a floating figure using the graphicx package.
+% Note that \label must occur AFTER (or within) \caption.
+% For figures, \caption should occur after the \includegraphics.
+% Note that IEEEtran v1.7 and later has special internal code that
+% is designed to preserve the operation of \label within \caption
+% even when the captionsoff option is in effect. However, because
+% of issues like this, it may be the safest practice to put all your
+% \label just after \caption rather than within \caption{}.
+%
+% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
+% option should be used if it is desired that the figures are to be
+% displayed while in draft mode.
+%
+%\begin{figure}[!t]
+%\centering
+%\includegraphics[width=2.5in]{myfigure}
+% where an .eps filename suffix will be assumed under latex, 
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure}
+
+% Note that the IEEE typically puts floats only at the top, even when this
+% results in a large percentage of a column being occupied by floats.
+% However, the Computer Society has been known to put floats at the bottom.
+
+
+% An example of a double column floating figure using two subfigures.
+% (The subfig.sty package must be loaded for this to work.)
+% The subfigure \label commands are set within each subfloat command,
+% and the \label for the overall figure must come after \caption.
+% \hfil is used as a separator to get equal spacing.
+% Watch out that the combined width of all the subfigures on a 
+% line do not exceed the text width or a line break will occur.
+%
+%\begin{figure*}[!t]
+%\centering
+%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
+%\label{fig_second_case}}
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure*}
+%
+% Note that often IEEE papers with subfigures do not employ subfigure
+% captions (using the optional argument to \subfloat[]), but instead will
+% reference/describe all of them (a), (b), etc., within the main caption.
+% Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
+% labels, the optional argument to \subfloat must be present. If a
+% subcaption is not desired, just leave its contents blank,
+% e.g., \subfloat[].
+
+
+% An example of a floating table. Note that, for IEEE style tables, the
+% \caption command should come BEFORE the table and, given that table
+% captions serve much like titles, are usually capitalized except for words
+% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
+% and up, which are usually not capitalized unless they are the first or
+% last word of the caption. Table text will default to \footnotesize as
+% the IEEE normally uses this smaller font for tables.
+% The \label must come after \caption as always.
+%
+%\begin{table}[!t]
+%% increase table row spacing, adjust to taste
+%\renewcommand{\arraystretch}{1.3}
+% if using array.sty, it might be a good idea to tweak the value of
+% \extrarowheight as needed to properly center the text within the cells
+%\caption{An Example of a Table}
+%\label{table_example}
+%\centering
+%% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|}
+%\hline
+%One & Two\\
+%\hline
+%Three & Four\\
+%\hline
+%\end{tabular}
+%\end{table}
+
+
+% Note that the IEEE does not put floats in the very first column
+% - or typically anywhere on the first page for that matter. Also,
+% in-text middle ("here") positioning is typically not used, but it
+% is allowed and encouraged for Computer Society conferences (but
+% not Computer Society journals). Most IEEE journals/conferences use
+% top floats exclusively. 
+% Note that, LaTeX2e, unlike IEEE journals/conferences, places
+% footnotes above bottom floats. This can be corrected via the
+% \fnbelowfloat command of the stfloats package.
+
+
+
+
+
+% if have a single appendix:
+%\appendix[Proof of the Zonklar Equations]
+% or
+%\appendix  % for no appendix heading
+% do not use \section anymore after \appendix, only \section*
+% is possibly needed
+
+% use appendices with more than one appendix
+% then use \section to start each appendix
+% you must declare a \section before using any
+% \subsection or using \label (\appendices by itself
+% starts a section numbered zero.)
+%
+
+
+%\appendices
+%\section{Proof of the First Zonklar Equation}
+%Appendix one text goes here.
+%
+%% you can choose not to have a title for an appendix
+%% if you want by leaving the argument blank
+%\section{}
+%Appendix two text goes here.
+%
+%
+%% use section* for acknowledgment
+%\ifCLASSOPTIONcompsoc
+%  % The Computer Society usually uses the plural form
+%  \section*{Acknowledgments}
+%\else
+%  % regular IEEE prefers the singular form
+%  \section*{Acknowledgment}
+%\fi
+%
+%
+%The authors would like to thank...
+
+
+% Can use something like this to put references on a page
+% by themselves when using endfloat and the captionsoff option.
+\ifCLASSOPTIONcaptionsoff
+  \newpage
+\fi
+
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://mirror.ctan.org/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+%\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+%\bibliography{IEEEabrv,../bib/paper}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+\begin{thebibliography}{1}
+
+\bibitem{MOM:Introduction}
+\emph{Middleware for Communications}
+\url{https://bit.ly/2A7Y7u0https://bit.ly/2A7Y7u0}
+
+\bibitem{GraphQL:Introduction}
+\emph{Introduction to GraphQL}
+\url{https://graphql.org/learn/}
+  
+\bibitem{GraphQL:howtoGraphQL}
+\emph{The Fullstack Tutorial for GraphQL}
+\url{https://www.howtographql.com}
+
+\bibitem{GraphQL: ReST}
+\emph{GraphQL vs ReSt: Overview}
+\url{https://philsturgeon.uk/api/2017/01/24/graphql-vs-rest-overview/}
+
+\bibitem{ReST: GraphQL}
+\emph{ReST vs. GraphQL: Critical Review}
+\url{https://blog.goodapi.co/rest-vs-graphql-a-critical-review-5f77392658e7}
+
+\bibitem{Docker:Functionality}
+\emph{Kommentar: Docker – das Ende der Virtualisierung}
+\url{https://www.heise.de/developer/meldung/Kommentar-Docker-das-Ende-der-Virtualisierung-3949022.html}
+
+%\bibitem{GraphQL:graphglvsrest}
+%\emph{GraphQL is the better REST}
+%\url{https://www.howtographql.com/basics/1-graphql-is-the-better-rest/}
+
+%\bibitem{GraphQL:restvsGraphQL}
+%Blogpost: \emph{REST versus GraphQL}, E. Chimezie, 2017
+%\url{https://blog.pusher.com/rest-versus-graphql/}
+
+%\bibitem{GraphQL:GvR:Overview}
+%Blogpost: \emph{GraphQL vs Rest: Overview}, P. Sturgeon, 2017
+%\url{https://philsturgeon.uk/api/2017/01/24/graphql-vs-rest-overview/}
+
+\end{thebibliography}
+
+% biography section
+% 
+% If you have an EPS/PDF photo (graphicx package needed) extra braces are
+% needed around the contents of the optional argument to biography to prevent
+% the LaTeX parser from getting confused when it sees the complicated
+% \includegraphics command within an optional argument. (You could create
+% your own custom macro containing the \includegraphics command to make things
+% simpler here.)
+%\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
+% or if you just want to reserve a space for a photo:
+
+%\begin{IEEEbiography}{Michael Shell}
+%Biography text here.
+%\end{IEEEbiography}
+%
+%% if you will not have a photo at all:
+%\begin{IEEEbiographynophoto}{John Doe}
+%Biography text here.
+%\end{IEEEbiographynophoto}
+%
+%% insert where needed to balance the two columns on the last page with
+%% biographies
+%%\newpage
+%
+%\begin{IEEEbiographynophoto}{Jane Doe}
+%Biography text here.
+%\end{IEEEbiographynophoto}
+
+% You can push biographies down or up by placing
+% a \vfill before or after them. The appropriate
+% use of \vfill depends on what kind of text is
+% on the last page and whether or not the columns
+% are being equalized.
+
+%\vfill
+
+% Can be used to pull up biographies so that the bottom of the last one
+% is flush with the other column.
+%\enlargethispage{-5in}
+
+
+
+% that's all folks
+\end{document}
+
