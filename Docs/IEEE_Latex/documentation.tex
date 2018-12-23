@@ -804,7 +804,7 @@ Als Application Server wurde Wilfdly 13.0.0.Final genutzt. Dieser stellt eine um
 Für die Erweiterung mit \textit{Kafka} wird jedoch zusätzlich ein \textit{Zookeeper}-Server benötigt, der zur Koordination der am Messaging beteiligten Clients und zur Verwaltung der Topics dient.
 
 \subsection{MariaDB und Docker}
-Datenbanken im Chatprozess um Nachrichten zu speichern und protokollieren. MariaDB verwendet. Um die Anforderungen eines verteilten Systems gerecht zu werden werden die Datenbankinstanzen in einem Dockercontainer\footnote{\url{https://www.docker.com/}} betrieben. Da Docker im Gegensatz zu einer virtuellen Maschine das Host-Betriebssystem mitbenutzt, können ressourcensparend leichtgewichtige, isolierte Container zur Verfügung gestellt werden, die aber dennoch über ein eigenes Dateisystem und Netzwerk-Interface verfügen.\cite{Docker:Functionality}
+Um Nachrichten im Chatprozess zu speichern und zu protokollieren wird die Datenbank MariaDB verwendet. Um die Anforderungen eines verteilten Systems gerecht zu werden, werden die Datenbankinstanzen in einem Dockercontainer\footnote{\url{https://www.docker.com/}} betrieben. Da Docker im Gegensatz zu einer virtuellen Maschine das Host-Betriebssystem mitbenutzt, können ressourcensparend leichtgewichtige, isolierte Container zur Verfügung gestellt werden, die aber dennoch über ein eigenes Dateisystem und Netzwerk-Interface verfügen \cite{Docker:Functionality}.
 
 
 
@@ -815,15 +815,11 @@ Datenbanken im Chatprozess um Nachrichten zu speichern und protokollieren. Maria
 Der Server besteht aus einem Maven-Projekt, das aus den Serverklassen über die Markierung in der POM als Web Archive ein Artefakt im Server baut.
 Dieses Artefakt beinhaltet Klassen zur Abwicklung der folgenden Prozesse:
 \begin{itemize}
-	\item \textit{Datenbankdefinition und -verwaltung}}
-	\item \textit{Kafka- und JMS-Chat-Prozess}}
-	\item \textit{ReST-Controller}}
-	\item \textit{GraphQL}}
+	\item{\textit{Kafka- und JMS-Chat-Prozess}}
+	\item{\textit{ReST-Controller}}
+	\item{\textit{Datenbankdefinition und -verwaltung}}
+	\item{\textit{GraphQL}}
 \end{itemize}
-
-
-\subsection{Aufbau Client}
-%TODO
 
 \subsection{JMS Konfiguration}
 Wildfly enthält, sofern es über die \textit{standalone-full.xml}-Konfiguration gestartet wird, standardmäßig einen \textit{Apache ActiveMQ Artemis}-Server als Message-Broker zur Verfügung. Dieser arbeitet mit \textit{Queues} für Punkt-zu-Punkt-Kommunikation und \textit{Topics}, die nach dem publish- and subscripe Prinzip arbeiten. Diese JMS-Destinationen können entweder im Wildfly-Management-Interface oder über die XML-Konfigurationsdatei erstellt werden und mit JNDI-Bindings intern sowie extern (mit dem Zusatz\textit{exported} referenzierbar gemacht werden.
@@ -835,7 +831,9 @@ Für die Chat-Anfragen an den Server wird eine \textit{chatQueue}	verwendet, an 
 Analog zu JMS wird die Nachricht vom Client an ein in diesem Fall \textit{Request-Topic} gesendet. Da der Kafka-Server außerhalb von Wildfly läuft, muss der Wildfly-Server den Request-Topic abonnieren um die eingehenden Nachrichten abzuholen. Nach der Abwicklung des Chat-Prozesses sendet Wildfly die Nachricht an das \textit{Response-Topic} von Kafka, das wiederum von allen Chat-Clients beim Login abonniert wird.
 Die Verbindung zum Kafka-Server wird über einen \textit{KafkaConsumer} hergestellt, in dessen Eigenschaften die IP-Adresse des Kafka-Servers, die Consumer-Group (in diesem Anwendungsfall stellt jeder einzelne Client sowie der Wildfly-Server eine eigene Consumer-Group dar) sowie Pfade zu (De-)Serializern für die Serializierung von Nachrichten-Objekten hinterlegt werden. Für das Versenden der Chat-Nachrichten reicht bei Kafka eine Implementierung von \textit{Serializable} nicht aus, es muss für die \textit{ChatMessage} eine eigene Serializer und Deserializerklasse implementiert werden, die mithilfe eines \textit{ObjectMappers} das Object in einen Bytestream und zurückwandelt.
 
+
 \subsection{Login über ReST}
+\label{login}
 Der Login bzw. Logout Prozess der einzelnen Chat User wurde mithilfe einer ReST-Schnittstelle implementiert. Zur Realisierung dieser wurde die Java API for ReSTful Webservices (JAX-RS) genutzt. 
 Über entsprechende Annotationen in der Klasse \textit{RestController} erfolgt die Zuordnung der jeweiligen Java Methoden zu den HTTP Methoden. 
 \\
@@ -851,7 +849,7 @@ Liefert alle eingeloggten User im JSON-Format
 \\Meldet einen User ab 
 \\
 
-Neben dem Login und Logout, können über einen GET Request auch alle eingeloggten User geliefert werden. Dies ermöglicht es im Chat Prozess eine Liste mit allen aktuell verfügbaren Chat Nutzern zu generieren (vgl. Abbildung \ref{fig:chatusers}).
+Neben Login und Logout, können über einen GET Request auch alle eingeloggten User geliefert werden. Dies ermöglicht es im Chat Prozess eine Liste mit allen verfügbaren Chat Nutzern zu generieren. Um diese immer aktuell zu halten, wird der Request in einem eigenen Thread jede Sekunde verschickt (vgl. Abbildung \ref{fig:chatusers}).
 
 \begin{figure}[h]
 	\centering
@@ -862,6 +860,7 @@ Neben dem Login und Logout, können über einen GET Request auch alle eingeloggt
 
 
 \subsection{Chat Prozess}
+\label{chatprozess}
 
 \subsubsection{Bearbeitung der ChatMessage}
 Als Nachricht wird in Anlehnung an die \textit{ChatPDU} aus der Chat-Vorlage ein \textit{ChatMessage}-Objekt verwendet. Dieses enthält neben der eigentlichen Nachricht und dem Benutzernamen den Client-Thread, die Art des Übertragungswegs (\textit{JMS} oder \textit{Kafka}), sowie einen Zeitstempel für die spätere Ermittlung der Round Trip Time.
@@ -881,6 +880,7 @@ Zum veröffentlichen der Nachricht an das \textit{responseTopic} wird analog zur
 
 % TEIL von Marvin
 \subsubsection{Persistieren der Informationen in den Datenbanken Trace und Count}
+\label{persistieren}
 Während des \textit{Chat Process} werden mit Hilfe der beiden Datenbankprozesse \textbf{Count} und \textbf{Trace} die benötigten Informationen zu den Nachrichten der \textit{chatuser} in die jeweilige Datenbank gespeichert und protokolliert. Hierfür werden zwei Datenbanksysteme benötigt, welche unabhängig voneinander ausgeführt werden können. Um dies zu gewährleisten wurde jeweils eine Datenbank in einem Docker-Container ausgeführt. Zum einen persistiert die Datenbank \textbf{Trace} alle gewünschten Informationen zu einer Chatnachricht. Die \textbf{Count} Datenbank dient zum ermitteln der Anzahl der versendeten Nachrichten eines \textit{chatusers}. Dementsprechend wird sobald ein \textit{chatuser} die erste Nachricht versendet ein Eintrag erstellt. Bei jeder weiteren Nachricht wird dieser automatisch mit einem Zähler inkrementiert. 
 
 Die Count-Datenbankinstanz erzeugt zur Laufzeit eine Tabelle mit dem Namen \textit{countdata}. Die Struktur besteht dabei aus den folgenden fünf Attributen: \textit{ID, username, clientthread, serverthread und message}. (Vgl. Tabelle \ref{tab:count})
@@ -947,6 +947,31 @@ Auch ein aktives Auslösen eines Rollbacks im \textit{ChatProcess} ist mit der M
 
 Im Falle eines Sendeversuchs einer \textit{Message}, welche von einem nicht eingeloggten \textit{user} versendet wird, ist diese Exception allerdings nicht notwendig. Dies ist darauf zurückzuführen, dass in der Klasse \textit{ChatProcess} im Vorfeld überpüft wird, ob der \textit{user} eingeolgt ist. Ist dieser nicht eingeloggt, wird kein Sendeprozess durchgeführt und somit findet kein Schreiben in die Datenbank statt. 
 
+\subsection{Aufbau Client}
+Für das Chatten über JMS bzw. Kafka wurde die bereits vorhandene chatApplication in ein Maven Projekt umgewandelt und um eine neue Chatoberfläche ({\textit{ClientGUI}}) erweitert (vgl. Abbildung \ref{fig:clientGUI}). Diese kann mithilfe der Klasse {\textit{GuiRunner}} in mehreren Threads gestartet werden. So kann der Chat Prozess zwischen verschiedenen Usern simuliert werden.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{Bilder/ClientGUI.PNG}
+	\caption{ClientGUI}
+	\label{fig:clientGUI}
+\end{figure}
+
+Im {\textit{ClientController}} sind alle wichtigen Funktionalitäten der neuen Chat Application implementiert. Sowohl der Login bzw. Logout über ReST, als auch das Vorbereiten von Connection Factory, Queue für den Nachrichtenversand und Topic für den Nachrichtenempfang sind hier definiert.
+\\
+\\
+Beim Nachrichtenversand wird aus dem eingegebenen Text im Chatfenster ein {\textit{ChatMessage}}-Objekt generiert. Diese enthält neben Nachrichtentext auch Usernamen, Timestamp, Client Thread sowie den genutzen Message Broker ({\textit{JMS}} oder {\textit{Kafka}}). Über einen JMS Producer wird die ChatMessage im JSON-Format an die Queue versendet und vom Server verarbeitet (vgl. Kapitel \ref{chatprozess}).
+\\
+\\
+In der {\textit{ClientGUI}} wird außerdem ein JMS-Consumer im entsprechenden JMSContext für das Topic initialisiert. Dieser beobachtet in einem eigenen Thread das Topic und empfängt alle eingegangen Nachrichten. Diese werden wiederum auf der Chatoberfläche abgebildet, sobald ein User eingeloggt ist.
+\\
+\\
+Es wurde außerdem sichergestellt, dass ein User zunächst eingeloggt sein muss, um das Chat Fenster zu aktivieren und alle verfügbaren Chat User angezeigt zu bekommen. Für das Anzeigen der Nutzer wurde ein eigener Thread implementiert. Dieser läuft wie der Login bzw. Logout ebefalls über ReST und ist in Kapitel \ref{login} detaillierter beschrieben.
+\\
+\\
+Zusätzlich ist gewährleistet, dass keine leeren Nachrichten an die Queue verschickt werden können. Mit dem Schließen des Chat Fensters wird der User automatisch ausgeloggt. Dies ist natürlich auch mit dem Klicken des Logout Buttons möglich. 
+
+
 
 \subsection{Benchmark-Client}
 
@@ -964,13 +989,13 @@ Grundlage für die Performance-Tests ist das bereits vorhandenen Java-basiertes 
 Damit dies möglich ist, mussten mehrere Änderungen im Quellcode vorgenommen werden. Zunächst wurden zwei zusätzliche ImplementationTypes, \textit{JMSImplementation} und \textit{KafkaImplementation}, definiert. Desweiteren wurden die Klasse \textit{BenchmarkingClientFactory} um JMS sowie Kafka spezifische Parameter erweitert.
 
 Für die JMS Implementierung wurden außerdem die Klassen \textit{JmsChatClient}, \textit{JmsSimpleMessageListenerThread} sowie \textit{JmsBenchmarkingClientImpl} neu implementiert.
-Für die Kafka Implementierung wurden zusätzlich die Klassen \textit{KafkaChatClient}, \textit{KafkaReceiver} und \textit{KafkaBenchmarkingClientImpl} implementiert.
+Aufgrund kurzfristiger Änderungen in der Teamstruktur wurde für das Kafka Benchmarking eine eigene vereinfachte aber dennoch voll funktionstüchtige Benchmarking Methode entwickelt. Diese beinhaltet die Klassen \textit{KafkaChatClient}, \textit{KafkaReceiver} und \textit{Test}.
 
-Die Anzahl der Clients, sowie die Menge an Nachrichten bzw. deren Byte-Größe kann verändert werden. Diese Einstellungen können für TCP in der Benutzeroberfläche, für JMS bzw. Kafka in der Klasse \textit{BenchmarkUserInterfaceParameters} angepasst werden.
+Die Anzahl der Clients, sowie die Menge an Nachrichten bzw. deren Byte-Größe kann verändert werden. Diese Einstellungen können für TCP in der Benutzeroberfläche, für JMS in der Klasse \textit{BenchmarkUserInterfaceParameters} und für Kafka in den Klassen \textit{KafkaReceiver} und \textit{Test} angepasst werden.
 
 Vor der Durchführung des Leistungstest wurde die Anzahl der Nachrichten konstant auf 100 je Client mit einer Größe von je 50 Byte festgelegt. Die Anzahl der Clients wurde in 10er Schritten verändert. Der erste Test wurde mit 10 Clients durchgeführt. Danach wurde bis zu einem Maximalwert von 50 Clients erhöht. Jeder der Clients loggt sich dabei ein, versendet die definierte Anzhal an Nachrichten, empfängt Nachrichten der anderen Clients und loggt sich wieder aus.
 
-Das Benchmarking wurde in zwei verschiedenen Ausprägungen durchgeführt. Sowohl JMS als auch Kafka wurden hinsichtlich ihrer Performance getestet. Beide male wurde der Test mit der Klasse \textit{BenchmarkingUserInterfaceSimulation} gestartet, angepasst an JMS bzw. Kafka. Die Ergebnisse des Benchmarks werden in der Konsole ausgegeben. Eine Anbindung an das bereits vorhandene User Interface hat nicht stattgefunden. Die Ergebnisse der beiden Testdurchläufe können Tabelle \ref{tab:Benchmark} entnommen werden. 
+Das Benchmarking wurde in zwei verschiedenen Ausprägungen durchgeführt. Sowohl JMS als auch Kafka wurden hinsichtlich ihrer Performance getestet. Für JMS wurde der Test mit der Klasse \textit{BenchmarkingUserInterfaceSimulation} gestartet, für Kafka mit der Klasse \textit{Test}. Die Ergebnisse des Benchmarks werden in der Konsole ausgegeben. Eine Anbindung an das bereits vorhandene User Interface hat nicht stattgefunden. Die Ergebnisse der beiden Testdurchläufe können Tabelle \ref{tab:Benchmark} entnommen werden. 
 
 \begin{table}[h!]
 	\caption{Ergebnisse (RTT's) der beiden Benchmark-Läufe}
@@ -998,7 +1023,7 @@ Im ersten Durchlauf des Leistungstest wurden die durchschnittliche RTT von JMS g
 \end{figure}
 
 
-Beim zweiten Durchlauf des Benchmarks wurde die durchschnittliche RTT von Kafka gemessen. Auch hier steigt diese linear mit einer lienar ansteigenden Anzahl an Clients (vgl. Abbildung \ref{fig:RTT_Kafka}). 
+Beim zweiten Durchlauf des Benchmarks wurde die durchschnittliche RTT von Kafka gemessen. Auch hier steigt diese linear mit einer linear ansteigenden Anzahl an Clients (vgl. Abbildung \ref{fig:RTT_Kafka}). 
 \\
 
 \begin{figure}[h]
@@ -1008,9 +1033,9 @@ Beim zweiten Durchlauf des Benchmarks wurde die durchschnittliche RTT von Kafka 
 	\label{fig:RTT_Kafka}
 \end{figure}
 
-Vergleicht man beide Testdurchläufe wird deutlich, dass sich durch die Umstellung von JMS auf Kafka die RTT des Chat Prozesses erhöht. Wärhend bei JMS Nachrichten selbst bei einer Anzahl an 50 Clients Nachrichten noch unter einer Sekunde verschickt werden, sind die RTT Zeiten bei Kafka selbst bei einer geringen Anzahl an Clients bereits im höheren Sekunden bereich.
+Vergleicht man beide Testdurchläufe wird deutlich, dass sich durch die Umstellung von JMS auf Kafka die RTT des Chat Prozesses erhöht. Wärhend bei JMS Nachrichten selbst bei einer Anzahl an 50 Clients Nachrichten noch unter einer Sekunde verschickt werden, sind die RTT Zeiten bei Kafka selbst bei einer geringen Anzahl an Clients bereits im höheren Sekunden Bereich.
 \\
-Aus den Testergebnissen lässt sich Folgendes schließen: JMS verschickt Nachrichten um ein vielfaches schneller als Kafka. Desweiteren steigt mit der Anzahl der angemeldeten Chat Clients und zu versendenden Nachrichten die RTT einer einzelnen Chat Nachricht.
+Aus den Testergebnissen lässt sich Folgendes schließen: JMS verschickt Nachrichten um ein vielfaches schneller als Kafka. Desweiteren steigt mit der Anzahl der angemeldeten Chat Clients und zu versendenden Nachrichten bei beiden Message-Brokern die RTT einer einzelnen Chat Nachricht.
 
 
 
