@@ -1,7 +1,5 @@
 package org.chat.server;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -12,18 +10,15 @@ import org.chat.databases.CountRepository;
 import org.chat.databases.Trace;
 import org.chat.databases.TraceRepository;
 
-import javax.ejb.*;
-import javax.servlet.*;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-
+/**
+ * This is the core class of the server where the incoming Kafka chat requests arrive
+ */
 public class KafkaChatProcess {
 
   private TraceRepository traceRepository = null;
@@ -35,7 +30,7 @@ public class KafkaChatProcess {
   }
 
   KafkaConsumer kafkaConsumer;
-  ChatMessage m;
+  ChatMessage chatMessage;
 
   public void initializeConsumer() {
     Properties properties = new Properties();
@@ -53,7 +48,6 @@ public class KafkaChatProcess {
   public void startRecievingMessages() {
     Thread thread = new Thread(() -> {
       try {
-
         while (true) {
           ConsumerRecords<String, ChatMessage> messages = kafkaConsumer.poll(100);
           for (ConsumerRecord<String, ChatMessage> message : messages) {
@@ -61,26 +55,13 @@ public class KafkaChatProcess {
               initiateServerProcess(message.value());
             }
             System.out.println("Message received " + message.value().toString());
-            m = message.value();
-            System.out.print(m.getMessage() + " die message");
+            chatMessage = message.value();
+            System.out.print(chatMessage.getMessage() + " die message");
           }
         }
       } catch (Exception e) {
         e.printStackTrace();
       }
-      /**     try {
-       while (true) {
-       ConsumerRecords records = kafkaConsumer.poll(10);
-       for (Object record: records){
-
-       System.out.println(String.format(record.toString()));
-       }
-       }
-       } catch (Exception e){
-       System.out.println(e.getMessage());
-       } finally {
-       kafkaConsumer.close();
-       }*/
     });
     thread.start();
   }

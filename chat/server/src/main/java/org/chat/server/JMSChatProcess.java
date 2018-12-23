@@ -20,8 +20,8 @@ import javax.transaction.Transactional;
 import java.util.Properties;
 
 /**
- * This is the core class of the server where the incoming chat requests come in and all the other stuff has to be done.
- * looks really ugly but i don't know how to make it looking beautiful
+ * This is the core class of the server where the incoming jms chat requests arrive
+ *
  */
 @MessageDriven(activationConfig = {
         @ActivationConfigProperty(
@@ -30,7 +30,7 @@ import java.util.Properties;
         )
 })
 @Transactional
-public class ChatProcess implements MessageListener {
+public class JMSChatProcess implements MessageListener {
 
     @Resource(lookup = "java:/jms/RemoteConnectionFactory")
     TopicConnectionFactory connectionFactory;
@@ -79,59 +79,29 @@ public class ChatProcess implements MessageListener {
                 messageDrivenContext.setRollbackOnly();
             }
         }
-        //TODO add transaction
-        //TODO add check if user is logged in
 
+        // update tracedb
+        System.out.println("update tracedb");
+        Trace trace = new Trace();
+        trace.setClientThread(chatMessage.getClientThread());
+        trace.setUsername(chatMessage.getUserName());
+        trace.setMessage(chatMessage.getMessage());
+        trace.setServerthread(chatMessage.getServerThread());
+        traceRepository.create(trace);
 
-        if (userLoggedIn(chatMessage.getUserName())) {
+        //update countdb
+        System.out.println("update countdb");
+        countRepository.updateCount(chatMessage.getUserName());
 
-            //TODO do any db transaction with the message stuff
-            // update tracedb
-            System.out.println("update tracedb");
-            Trace trace = new Trace();
-            trace.setClientThread(chatMessage.getClientThread());
-            trace.setUsername(chatMessage.getUserName());
-            trace.setMessage(chatMessage.getMessage());
-            trace.setServerthread(chatMessage.getServerThread());
-            traceRepository.create(trace);
+        //send to topic
+        //sendMessageToTopic(message);
+        context.createProducer().send(chatTopic, message);
 
-            //update countdb
-            System.out.println("update countdb");
-            countRepository.updateCount(chatMessage.getUserName());
-
-            //send to topic
-            //sendMessageToTopic(message);
-            context.createProducer().send(chatTopic, message);
-
-            // Send success response to queue/response
-            context.createProducer().setProperty("userName", chatMessage.getUserName()).setProperty("success", true)
-                    .send(responseQueue, String.format("User '%s' is logged in, processed message.", chatMessage.getUserName()));
-
-
-        }
+        // Send success response to queue/response
+        context.createProducer().setProperty("userName", chatMessage.getUserName()).setProperty("success", true)
+                .send(responseQueue, String.format("User '%s' is logged in, processed message.", chatMessage.getUserName()));
     }
 
-    private void sendMessageToKafkaTopic(ChatMessage message) {
-        Properties properties = new Properties();
-        properties.put("bootstrap.servers", "localhost:9092");
-        properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        properties.put("value.serializer", "org.chat.common.ChatMessageSerializer");
-        KafkaProducer kafkaProducer = new KafkaProducer<String, String>(properties);
-        try {
-            System.out.println(message.toString());
-            kafkaProducer.send(new ProducerRecord<>("responseTopic", message.getUserName(), message));
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            kafkaProducer.close();
-        }
-    }
-
-
-    private boolean userLoggedIn(String userName) {
-        // TODO implement user request to topic
-        return true;
-    }
 
     /**
      * creates the topic connection and publish the message to the topic
