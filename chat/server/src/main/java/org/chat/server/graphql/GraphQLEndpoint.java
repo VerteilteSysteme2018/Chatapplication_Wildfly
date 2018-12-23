@@ -17,13 +17,6 @@ import java.util.stream.Collectors;
 @WebServlet(urlPatterns = "/graphql")
 public class GraphQLEndpoint extends SimpleGraphQLServlet {
 
-  /*public GraphQLEndpoint() {
-    super(SchemaParser.newParser()
-        .file("schema.graphqls")
-        .build()
-        .makeExecutableSchema());
-  }*/
-
   @Inject
   public GraphQLEndpoint(CountMRepository countMRepository, TraceMRepository traceMRepository) {
     super(SchemaParser.newParser()
