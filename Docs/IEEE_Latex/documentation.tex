@@ -792,12 +792,13 @@ Zur Bestimmung von Performanceergebnissen des entstehenden Systems wird ein Benc
 
 %################################################################################
 \section{Infrastruktur}
+
 \subsection{Github}
 Für ein gemeinsames Arbeiten am Quellcode wurde die Versionsverwaltungsplatform Github verwendet. Es wurden zwei Repositories für Server und Client angelegt. Für das Aufsetzten des Servers wurde ein neues Projekt ersetllt, wohingegen für die Arbeit auf Client-Seite das bereits bestehende Projekt chatApplication erweitert wurde.
 
 \subsection{Application Server Wildfly 13}
 
-Als Application Server wurde Wilfdly 13.0.0.Final genutzt. ....
+Als Application Server wurde Wilfdly 13.0.0.Final genutzt. Wildfly bietet viele verschiedene Features wie beispielsweise JMS Integration. Über eine XML-Konfigurationsdatei (\textit{standalone.xml}) kann Wildfly je nach Bedarf entsprechend konfiguriert werden. Hier müssen alle Konfigurationen, wie z.B Datenbankverbindungen oder Queues/Topics und für den Webserver integriert werden.
 
 
 \subsection{Java Message Service (JMS)}
@@ -830,6 +831,31 @@ Einleitung
 \subsection{Kafka Konfiguration}
 
 \subsection{Login über ReST}
+
+Der Login bzw. Logout Prozess der einzelnen Chat User wurde mithilfe einer ReST-Schnittstelle implementiert. Zur Realisierung dieser wurde die Java API for ReSTful Webservices (JAX-RS) genutzt. 
+Über entsprechende Annotationen in der Klasse \textit{RestController} erfolgt die Zuordnung der jeweiligen Java Methoden zu den HTTP Methoden. 
+\\
+
+\lstinline|GET rest/users/current users|
+\\
+Liefert alle eingeloggten User im JSON-Format
+
+\lstinline|POST rest/users/login/{username}|
+\\Meldet einen User mit einem gewünschten Username an
+
+\lstinline|DELETE rest/users/logout/{username}| 
+\\Meldet einen User ab 
+\\
+
+Neben dem Login und Logout, können über einen GET Request auch alle eingeloggten User geliefert werden. Dies ermöglicht es im Chat Prozess eine Liste mit allen aktuell verfügbaren Chat Nutzern zu generieren (vgl. Abbildung \ref{fig:chatusers}).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.35]{Bilder/Chatusers.PNG}
+	\caption{Chat User Liste ClientGUI}
+	\label{fig:chatusers}
+\end{figure}
+
 
 \subsection{Chat Prozess}
 
