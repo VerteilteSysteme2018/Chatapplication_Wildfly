@@ -946,7 +946,7 @@ Auch ein aktives Auslösen eines Rollbacks im \textit{ChatProcess} ist mit der M
 Im Falle eines Sendeversuchs einer \textit{Message}, welche von einem nicht eingeloggten \textit{user} versendet wird, ist diese Exception allerdings nicht notwendig. Dies ist darauf zurückzuführen, dass in der Klasse \textit{ChatProcess} im Vorfeld überpüft wird, ob der \textit{user} eingeolgt ist. Ist dieser nicht eingeloggt, wird kein Sendeprozess durchgeführt und somit findet kein Schreiben in die Datenbank statt. 
 
 \subsection{Aufbau Client}
-Für das Chatten über JMS bzw. Kafka wurde die bereits vorhandene chatApplication in ein Maven Projekt umgewandelt und um eine neue Chatoberfläche ({\textit{ClientGUI}}) erweitert (vgl. Abbildung \ref{fig:clientGUI}). Diese kann mithilfe der Klasse {\textit{GuiRunner}} in mehreren Threads gestartet werden. So kann der Chat Prozess zwischen verschiedenen Usern simuliert werden.
+Für das Chatten über JMS bzw. Kafka wurde die bereits vorhandene chatApplication in ein Maven Projekt umgewandelt und um eine neue Chatoberfläche ({\textit{ClientGUI}}) erweitert (vgl. Abbildung \ref{fig:clientGUI}). Diese wurde mit dem Java GUI-Toolkit Swing implementiert. Mithilfe der Klasse {\textit{GuiRunner}} ist es möglich eine Benutzeroberfläche in mehreren Threads zu starten. So kann der Chat Prozess zwischen verschiedenen Usern simuliert werden.
 
 \begin{figure}[h]
 	\centering
@@ -984,16 +984,16 @@ Der Benchmarking-Client dient zur Simulation eines Chat-Szenarios. Dabei kann hi
 
 Grundlage für die Performance-Tests ist das bereits vorhandene, Java-basierte Benchmarking-Framework. Dieses wurde um eine JMS sowie eine Apache Kafka Anbindung erweitert um Leistungstest für das Versenden von Nachrichten über die beiden Message Broker durchzuführen.
 
-Damit dies möglich ist, mussten mehrere Änderungen im Quellcode vorgenommen werden. Zunächst wurden zwei zusätzliche ImplementationTypes, \textit{JMSImplementation} und \textit{KafkaImplementation}, definiert. Desweiteren wurden die Klasse \textit{BenchmarkingClientFactory} um JMS sowie Kafka spezifische Parameter erweitert.
+Damit dies möglich ist, mussten mehrere Änderungen im Quellcode vorgenommen werden. Zunächst wurden zwei zusätzliche ImplementationTypes, \textit{JMSImplementation} und \textit{KafkaImplementation}, definiert. Desweiteren wurden die Klasse \textit{BenchmarkingClientFactory} um JMS spezifische Parameter erweitert.
 
 Für die JMS Implementierung wurden außerdem die Klassen \textit{JmsChatClient}, \textit{JmsSimpleMessageListenerThread} sowie \textit{JmsBenchmarkingClientImpl} neu implementiert.
-Aufgrund kurzfristiger Änderungen in der Teamstruktur wurde für das Kafka Benchmarking eine eigene vereinfachte aber dennoch voll funktionstüchtige Benchmarking Methode entwickelt. Diese beinhaltet die Klassen \textit{KafkaChatClient}, \textit{KafkaReceiver} und \textit{Test}.
+Aufgrund kurzfristiger Änderungen in der Teamstruktur wurde für das Kafka Benchmarking eine eigene vereinfachte aber dennoch voll funktionstüchtige Benchmarking Methode entwickelt. Diese beinhaltet die Klassen \textit{KafkaChatClient}, \textit{KafkaReceiver} und \textit{KafkaTest}.
 
-Die Anzahl der Clients, sowie die Menge an Nachrichten bzw. deren Byte-Größe kann verändert werden. Diese Einstellungen können für TCP in der Benutzeroberfläche, für JMS in der Klasse \textit{BenchmarkUserInterfaceParameters} und für Kafka in den Klassen \textit{KafkaReceiver} und \textit{Test} angepasst werden.
+Die Anzahl der Clients, sowie die Menge an Nachrichten bzw. deren Byte-Größe kann verändert werden. Diese Einstellungen können für TCP in der Benutzeroberfläche, für JMS in den Klassen \textit{UserInterfaceInputParameters} und \textit{BenchmarkingUserInterfaceSimulation} bzw. für Kafka in den Klassen \textit{KafkaReceiver} und \textit{KafkaTest} angepasst werden.
 
 Vor der Durchführung des Leistungstest wurde die Anzahl der Nachrichten konstant auf 100 je Client mit einer Größe von je 50 Byte festgelegt. Die Anzahl der Clients wurde in 10er Schritten verändert. Der erste Test wurde mit 10 Clients durchgeführt. Danach wurde bis zu einem Maximalwert von 50 Clients erhöht. Jeder der Clients loggt sich dabei ein, versendet die definierte Anzhal an Nachrichten, empfängt Nachrichten der anderen Clients und loggt sich wieder aus.
 
-Das Benchmarking wurde in zwei verschiedenen Ausprägungen durchgeführt. Sowohl JMS als auch Kafka wurden hinsichtlich ihrer Performance getestet. Für JMS wurde der Test mit der Klasse \textit{BenchmarkingUserInterfaceSimulation} gestartet, für Kafka mit der Klasse \textit{Test}. Die Ergebnisse des Benchmarks werden in der Konsole ausgegeben. Eine Anbindung an das bereits vorhandene User Interface hat nicht stattgefunden. Die Ergebnisse der beiden Testdurchläufe können Tabelle \ref{tab:Benchmark} entnommen werden. 
+Das Benchmarking wurde in zwei verschiedenen Ausprägungen durchgeführt. Sowohl JMS als auch Kafka wurden hinsichtlich ihrer Performance getestet. Für JMS wurde der Test mit der Klasse \textit{BenchmarkingUserInterfaceSimulation} gestartet, für Kafka mit der Klasse \textit{KafkaTest}. Die Ergebnisse des Benchmarks werden in der Konsole ausgegeben. Eine Anbindung an das bereits vorhandene User Interface hat nicht stattgefunden. Die Ergebnisse der beiden Testdurchläufe können Tabelle \ref{tab:Benchmark} entnommen werden. 
 
 \begin{table}[h!]
 	\caption{Ergebnisse (RTT's) der beiden Benchmark-Läufe}
@@ -1031,7 +1031,8 @@ Beim zweiten Durchlauf des Benchmarks wurde die durchschnittliche RTT von Kafka 
 	\label{fig:RTT_Kafka}
 \end{figure}
 
-Vergleicht man beide Testdurchläufe wird deutlich, dass sich durch die Umstellung von JMS auf Kafka die RTT des Chat Prozesses erhöht. Wärhend bei JMS Nachrichten selbst bei einer Anzahl an 50 Clients Nachrichten noch unter einer Sekunde verschickt werden, sind die RTT Zeiten bei Kafka selbst bei einer geringen Anzahl an Clients bereits im höheren Sekundenbereich.
+Vergleicht man beide Testdurchläufe wird deutlich, dass sich durch die Umstellung von JMS auf Kafka die RTT des Chat Prozesses stark erhöht. Wärhend bei JMS Nachrichten selbst bei einer Anzahl an 50 Clients Nachrichten noch unter einer Sekunde verschickt werden, sind die RTT Zeiten bei Kafka selbst bei einer geringen Anzahl an Clients bereits im höheren Sekundenbereich.
+\\
 \\
 Aus den Testergebnissen lässt sich Folgendes schließen: JMS verschickt Nachrichten um ein vielfaches schneller als Kafka. Desweiteren steigt mit der Anzahl der angemeldeten Chat Clients und zu versendenden Nachrichten bei beiden Message-Brokern die RTT einer einzelnen Chat Nachricht.
 
