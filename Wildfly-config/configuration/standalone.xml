@@ -534,6 +534,7 @@
                 <jms-queue name="ExpiryQueue" entries="java:/jms/queue/ExpiryQueue"/>
                 <jms-queue name="DLQ" entries="java:/jms/queue/DLQ"/>
                 <jms-queue name="chatQueue" entries="java:/jms/queue/chatQueue java:jboss/exported/jms/queue/chatQueue" durable="true"/>
+                <jms-queue name="response" entries="java:/jms/queue/response java:jboss/exported/jms/queue/response" durable="true"/>
                 <jms-topic name="chatTopic" entries="java:/jms/topic/chatTopic java:jboss/exported/jms/topic/chatTopic"/>
                 <connection-factory name="InVmConnectionFactory" entries="java:/ConnectionFactory" connectors="in-vm"/>
                 <connection-factory name="RemoteConnectionFactory" entries="java:jboss/exported/jms/RemoteConnectionFactory java:/jms/RemoteConnectionFactory" connectors="http-connector"/>
