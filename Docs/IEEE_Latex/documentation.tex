@@ -1212,10 +1212,23 @@ Zum Löschen aller Einträge wird die ReST Schnittstelle mit einem DELETE Reques
 
 %################################################################################
 \section{Fazit}
-Schönes Fazit
+Im Laufe des Semesters konnten alle Anforderungen an die Anwendung umgesetzt werden.
+Anfangs verursachte jedoch die umfangreiche Aufgabenstellung und die Verwendung der vielen verschiedenen Technologien Unsicherheit im Team. Nachdem jedoch das JMS-Grundgerüst stand und eine Kommunikation über JMS mit dem Wildfly-Server möglich war, konnten die Anforderungen gut auf das Team verteilt und schrittweise umgesetzt werden. 
+Besondere Herausforderungen waren dabei:
 \begin{itemize}
-	\item evtl Herausforderungen
+	\item Anfänglich Überblick verschaffen
+	\item Abgrenzung und Aufteilung der einzelnen Bestandteile
+	\item Debuggen bei unüberschaubaren Serverprozessen
+	\item Koordination und Verknüpfung der verschiedenen Technologien
 \end{itemize}
+Ergebnis der Arbeit ist eine Chat-Anwendung mit folgenden Funktionen:
+\begin{itemize}
+	\item Einloggen über eine ReST-Schnittstelle beim Server sowie anschließendes transaktionsgesichertes Versenden von Nachrichten über eine Swing-Oberfläche, wahlweise über JMS oder Kafka
+	\item Durchführung von Lasttests über eine Benchmarking-Anwendung
+	\item Verwaltung der verteilt gespeicherten Nachrichten mit einem Admin-Client über eine GraphQL-Schnittstelle
+\end{itemize}
+
+
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
