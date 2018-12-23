@@ -793,7 +793,7 @@ Zur Bestimmung von Performanceergebnissen des entstehenden Systems wird ein Benc
 %################################################################################
 \section{Infrastruktur}
 \subsection{Github}
-Für ein gemeinsames Arbeiten am Quellcode wurde die Versionsverwaltungsplatform Github verwendet. Es wurden zwei Repositories für Server und Client angelegt. Für das Aufsetzten des Servers wurde ein neues Projekt ersetllt, wohingegen für die Arbeit auf Client-Seite das bereits bestehende Projekt chatApplication erweitert wurde.
+Für ein gemeinsames Arbeiten am Quellcode wurde die Versionsverwaltungsplatform Github verwendet. Es wurden zwei Repositories für Server und Client angelegt. Für das Aufsetzten des Servers wurde ein neues Projekt erstellt, wohingegen für die Arbeit auf Client-Seite das bereits bestehende Projekt chatApplication erweitert wurde.
 
 \subsection{Application Server Wildfly 13}
 
@@ -804,7 +804,7 @@ Als Application Server wurde Wilfdly 13.0.0.Final genutzt. Dieser stellt eine um
 Für die Erweiterung mit \textit{Kafka} wird jedoch zusätzlich ein \textit{Zookeeper}-Server benötigt, der zur Koordination der am Messaging beteiligten Clients und zur Verwaltung der Topics dient.
 
 \subsection{MariaDB und Docker}
-Um Nachrichten im Chatprozess zu speichern und zu protokollieren wird die Datenbank MariaDB verwendet. Um die Anforderungen eines verteilten Systems gerecht zu werden, werden die Datenbankinstanzen in einem Dockercontainer\footnote{\url{https://www.docker.com/}} betrieben. Da Docker im Gegensatz zu einer virtuellen Maschine das Host-Betriebssystem mitbenutzt, können ressourcensparend leichtgewichtige, isolierte Container zur Verfügung gestellt werden, die aber dennoch über ein eigenes Dateisystem und Netzwerk-Interface verfügen \cite{Docker:Functionality}.
+Um Nachrichten im Chatprozess zu speichern und zu protokollieren wird die Datenbank \textit{MariaDB} verwendet. Um die Anforderungen eines verteilten Systems gerecht zu werden, werden die Datenbankinstanzen in einem Dockercontainer\footnote{\url{https://www.docker.com/}} betrieben. Da Docker im Gegensatz zu einer virtuellen Maschine das Host-Betriebssystem mitbenutzt, können ressourcensparend leichtgewichtige, isolierte Container zur Verfügung gestellt werden, die aber dennoch über ein eigenes Dateisystem und Netzwerk-Interface verfügen \cite{Docker:Functionality}.
 
 
 
@@ -822,14 +822,14 @@ Dieses Artefakt beinhaltet Klassen zur Abwicklung der folgenden Prozesse:
 \end{itemize}
 
 \subsection{JMS Konfiguration}
-Wildfly enthält, sofern es über die \textit{standalone-full.xml}-Konfiguration gestartet wird, standardmäßig einen \textit{Apache ActiveMQ Artemis}-Server als Message-Broker zur Verfügung. Dieser arbeitet mit \textit{Queues} für Punkt-zu-Punkt-Kommunikation und \textit{Topics}, die nach dem publish- and subscripe Prinzip arbeiten. Diese JMS-Destinationen können entweder im Wildfly-Management-Interface oder über die XML-Konfigurationsdatei erstellt werden und mit JNDI-Bindings intern sowie extern (mit dem Zusatz\textit{exported} referenzierbar gemacht werden.
+Wildfly enthält, sofern es über die \textit{standalone-full.xml}-Konfiguration gestartet wird, standardmäßig einen \textit{Apache ActiveMQ Artemis}-Server als Message-Broker zur Verfügung. Dieser arbeitet mit \textit{Queues} für Punkt-zu-Punkt-Kommunikation und \textit{Topics}, die nach dem publish- and subscripe Prinzip arbeiten. Diese JMS-Destinationen können entweder im Wildfly-Management-Interface oder über die XML-Konfigurationsdatei erstellt werden und mit JNDI-Bindings intern sowie extern (mit dem Zusatz \textit{exported} referenzierbar gemacht werden.
 Für die Chat-Anfragen an den Server wird eine \textit{chatQueue}	verwendet, an die alle Clients ihre Chat-Anfragen richten. Die erfolgreiche Bearbeitung der Nachricht wird dem Client bestätigt, indem der Server eine Antwort in der \textit{response}-Queue für den anfragenden Client platziert. Des Weiteren wird die Nachricht im \textit{responseTopic} veröffentlicht, das jeder Client beim Log-in abonniert.
 
 
 \subsection{Kafka Konfiguration}
 \textit{Apache Kafka} stellt wie \textit{JMS} eine Message-Broker Funktionalität zur Verfügung, ist jedoch nicht in Wildfly enthalten sondern wird in einem eigenen Server abgebildet. Im Gegensatz zu JMS gibt es bei Kafka nur Topics. 
 Analog zu JMS wird die Nachricht vom Client an ein in diesem Fall \textit{Request-Topic} gesendet. Da der Kafka-Server außerhalb von Wildfly läuft, muss der Wildfly-Server den Request-Topic abonnieren um die eingehenden Nachrichten abzuholen. Nach der Abwicklung des Chat-Prozesses sendet Wildfly die Nachricht an das \textit{Response-Topic} von Kafka, das wiederum von allen Chat-Clients beim Login abonniert wird.
-Die Verbindung zum Kafka-Server wird über einen \textit{KafkaConsumer} hergestellt, in dessen Eigenschaften die IP-Adresse des Kafka-Servers, die Consumer-Group (in diesem Anwendungsfall stellt jeder einzelne Client sowie der Wildfly-Server eine eigene Consumer-Group dar) sowie Pfade zu (De-)Serializern für die Serializierung von Nachrichten-Objekten hinterlegt werden. Für das Versenden der Chat-Nachrichten reicht bei Kafka eine Implementierung von \textit{Serializable} nicht aus, es muss für die \textit{ChatMessage} eine eigene Serializer und Deserializerklasse implementiert werden, die mithilfe eines \textit{ObjectMappers} das Object in einen Bytestream und zurückwandelt.
+Die Verbindung zum Kafka-Server wird über einen \textit{KafkaConsumer} hergestellt, in dessen Eigenschaften die IP-Adresse des Kafka-Servers, die Consumer-Group (in diesem Anwendungsfall stellt jeder einzelne Client sowie der Wildfly-Server eine eigene Consumer-Group dar) sowie Pfade zu (De-)Serializern für die Serializierung von Nachrichten-Objekten hinterlegt werden. Für das Versenden der Chat-Nachrichten reicht bei Kafka eine Implementierung von \textit{Serializable} nicht aus, es muss für die \textit{ChatMessage} eine eigene Serializer- und Deserializerklasse implementiert werden, die mithilfe eines \textit{ObjectMappers} das Object in einen Bytestream und zurückwandelt.
 
 
 \subsection{Login über ReST}
@@ -916,17 +916,17 @@ Die Trace-Datenbankinstanz erzeugt zur Laufzeit eine Tabelle mit dem Namen \text
 
 
 Um im ersten Schritt einen Zugriff von Wildfly auf die in den beiden Docker-Containern ausgeführten Datenbanken zu erhalten muss die Konfigurationsdatei des Applikations-Servers \textit{standalone.xml} um die beiden Datenbankinstanzen erweitert werden. Hierbei werden zwei \textit{XA-Datasources} eingetragen. Diese Art von Datenbanken erlaubt es mehrere \textit{Datasources} gleichzeitig innerhalb einer Transaktion verwenden zu können. Folgende Informationen wurden hierbei hinterlegt: \textit{IP-Adresse, Port, User} und \textit{Passwort}. 
-Wichtig ist hierbei die Verwendung der richtigen Syntax der jeweiligen wildfly-Version, da andernfalls die Verbindung zwischen Applikationsserver und Datenbank nicht erfolgreich hergestllt werden kann. 
+Wichtig ist hierbei die Verwendung der richtigen Syntax der jeweiligen wildfly-Version, da andernfalls die Verbindung zwischen Applikationsserver und Datenbank nicht erfolgreich hergestellt werden kann. 
 
 Um nun im Folgenden die Daten in die jeweiligen Tabellen persisitieren zu können wurde die \textit{Java Persistence API} \textbf{(JPA)} verwendet. Dies vereinfacht den Prozess der Zuordnung und Auslieferung der Objekte zu den richtigen Einträgen in den Datenbankinstanzen.  Dabei bilden die zwei Persistence Entities der Klassen \textbf{Trace.java} und \textbf{Count.java} aus dem Package \textit{databases} die Tabellen \textit{countdata} und \textit{trace} ab. Die Objekte der Klassen werden automatisch erkannt und die Struktur der Tabellen festgelegt. 
 
-In dieser Studienarbeit wurde der Ansatz der \textit{Enterprise JavaBean} \textbf{(EJB)} mit einer container-verwalteten Transaktion verwendet. Dementsprechend wurden beide Datenbanken als \textit{persistence-unit} in dem \textit{persistence.xml}-file angegeben. Weiterhin wurden hier die IP-Adressen, welche \textit{Docker} vergeben hat, zusammen mit den jeweiligen Ports hinterlegt. Zusätzlich wurde der \textit{User} und das \textit{Passwort} angegeben, um einen Zugang zur Datenbank zu ermöglichen. Wichtig hierbei ist auch die Angabe der Klasse, welche die \textit{Entity} auf eine die jeweilige Datenbanktabelle wiederspiegeln soll. 
+In dieser Studienarbeit wurde der Ansatz der \textit{Enterprise JavaBean} \textbf{(EJB)} mit einer container-verwalteten Transaktion verwendet. Dementsprechend wurden beide Datenbanken als \textit{persistence-unit} in dem \textit{persistence.xml}-file angegeben. Weiterhin wurden hier die IP-Adressen, welche \textit{Docker} vergeben hat, zusammen mit den jeweiligen Ports hinterlegt. Zusätzlich wurde der \textit{User} und das \textit{Passwort} angegeben, um einen Zugang zur Datenbank zu ermöglichen. Wichtig hierbei ist auch die Angabe der Klasse, welche die \textit{Entity} auf eine die jeweilige Datenbanktabelle widerspiegeln soll. 
 
-Mit Hilfe von Hibernate, welches ebenfalls in der \textit{persisstence.xml} mit den entsprechenden Eigenschaften definiert wurde, wird die Schnittstelle für den Zugriff auf die Datenbanken festgelegt. Dadurch wird es möglich, Datenbankverbindungen aufzubauen und diese entsprechend zu verwalten. Dabei werden \textit{Structured Query Language} \textbf{(SQL)} Abfragen weitergeleitet und nach Ausführung dem Applikationsserver wieder zur Verfügung gestellt. 
+Mit Hilfe von Hibernate, welches ebenfalls in der \textit{persistence.xml} mit den entsprechenden Eigenschaften definiert wurde, wird die Schnittstelle für den Zugriff auf die Datenbanken festgelegt. Dadurch wird es möglich, Datenbankverbindungen aufzubauen und diese entsprechend zu verwalten. Dabei werden \textit{Structured Query Language} \textbf{(SQL)} Abfragen weitergeleitet und nach Ausführung dem Applikationsserver wieder zur Verfügung gestellt. 
 
 In dieser Studienarbeit wurden zwei \textbf{JPA}-Implementierungen eingebunden. Dementsprechend werden für beide zur Laufzeit jeweils automatisch ein \textit{Entity-Manager} erstellt. Dieser dient als Komponente zur erfolgreichen Persistierung von Daten in die Datenbank zur Verfügung. Daraus ergeben sich Methoden, wie z. B. das Speichern, das Finden oder Bearbeiten bereits gespeicherter Daten oder das Löschen eines Datensatzes. Dies wird automatisch unter Verwendung der richtigen Annotationen zur Laufzzeit durchgeführt. 
 
-Dementsprechend wird es ermöglicht eine einheitliche Schnittstelle für den \textit{ChatProcess} zur Verfügung zu stellen. Mit den Methoden \textit{updateCount(Count count)} und \textit{create(Trace trace)}, welche der \textit{ChatProcess} aufruft, werden Daten in die beiden Datenbankinstanzen gespeichert bzw. aktualisiert.
+Dementsprechend wird es ermöglicht, eine einheitliche Schnittstelle für den \textit{ChatProcess} zur Verfügung zu stellen. Mit den Methoden \textit{updateCount(Count count)} und \textit{create(Trace trace)}, welche der \textit{ChatProcess} aufruft, werden Daten in die beiden Datenbankinstanzen gespeichert bzw. aktualisiert.
 
 Auch werden hierbei die Methoden zum Abfragen und zum Zurücksetzen der Datenbanken für den Admin Client (vgl. Kapitel \ref{sub:admin})bereitgestellt. Die beiden Methoden \textit{List<Count> findAll()} und \textit{List<Trace> findAll()} geben jeweils den gesamten Inhalt der in den Datenbanken gespeicherten Informationen aus. Die Methode \textit{clear()} ermöglicht das separate Löschen aller Daten aus den beiden Datenbanken. 
 
@@ -935,7 +935,7 @@ Im Folgenden Kapitel \ref{sub:transactions} werden die Transaktionsverwaltung un
 
 \subsection{Transaktionsverwaltung}
 \label{sub:transactions}
-Um eine übergreifende XA-Transaktion unter Einbeziehung der Zugriffe auf die JMS-Queue, das Topic sowie auf die Datenbanken zu realisieren übernimmt das \textit{Transactions subsystem} des Wildfly Application Servers die komplette Transaktionsverwaltung. Die beiden MariaDB-Container, welche im Docker ausgeführt werden, unterstützen den Prozess der XA-Transaktionen. Auch wurden die beiden Datenbanken als \textit{XA-Datasources} in der Konfigurationsdatei \textit{standalone.xml} des Application Servers definiert. 
+Um eine übergreifende XA-Transaktion unter Einbeziehung der Zugriffe auf die JMS-Queue, das Topic sowie auf die Datenbanken zu realisieren übernimmt das \textit{Transactions subsystem} des Wildfly Application Servers die komplette Transaktionsverwaltung. Die beiden MariaDB-Container, welche in Docker ausgeführt werden, unterstützen den Prozess der XA-Transaktionen. Auch wurden die beiden Datenbanken als \textit{XA-Datasources} in der Konfigurationsdatei \textit{standalone.xml} des Application Servers definiert. 
 
 Dementsprechend wird ein Transaktionsmanager mit dem \textit{TransactionsManagementType.CONTAINER} vorgeschaltet. Das Starten, Zurückrollen oder Abschließen einer Transaktion wird direkt unter dessen Verwaltung gestellt. Hierfür sind die Annotationen \textit{@Transactional} vor die jeweiligen Methoden bzw. Klassen gesetzt. 
 
@@ -984,7 +984,7 @@ Der Benchmarking-Client dient zur Simulation eines Chat-Szenarios. Dabei kann hi
 	\label{fig:RTT}
 \end{figure}
 
-Grundlage für die Performance-Tests ist das bereits vorhandenen Java-basiertes Benchmarking-Framework. Dieses wurde um eine JMS sowie eine Apache Kafka Anbindung erweitert um Leistungstest für das Versenden von Nachrichten über die beiden Message Broker durchzuführen.
+Grundlage für die Performance-Tests ist das bereits vorhandene, Java-basierte Benchmarking-Framework. Dieses wurde um eine JMS sowie eine Apache Kafka Anbindung erweitert um Leistungstest für das Versenden von Nachrichten über die beiden Message Broker durchzuführen.
 
 Damit dies möglich ist, mussten mehrere Änderungen im Quellcode vorgenommen werden. Zunächst wurden zwei zusätzliche ImplementationTypes, \textit{JMSImplementation} und \textit{KafkaImplementation}, definiert. Desweiteren wurden die Klasse \textit{BenchmarkingClientFactory} um JMS sowie Kafka spezifische Parameter erweitert.
 
@@ -1033,7 +1033,7 @@ Beim zweiten Durchlauf des Benchmarks wurde die durchschnittliche RTT von Kafka 
 	\label{fig:RTT_Kafka}
 \end{figure}
 
-Vergleicht man beide Testdurchläufe wird deutlich, dass sich durch die Umstellung von JMS auf Kafka die RTT des Chat Prozesses erhöht. Wärhend bei JMS Nachrichten selbst bei einer Anzahl an 50 Clients Nachrichten noch unter einer Sekunde verschickt werden, sind die RTT Zeiten bei Kafka selbst bei einer geringen Anzahl an Clients bereits im höheren Sekunden Bereich.
+Vergleicht man beide Testdurchläufe wird deutlich, dass sich durch die Umstellung von JMS auf Kafka die RTT des Chat Prozesses erhöht. Wärhend bei JMS Nachrichten selbst bei einer Anzahl an 50 Clients Nachrichten noch unter einer Sekunde verschickt werden, sind die RTT Zeiten bei Kafka selbst bei einer geringen Anzahl an Clients bereits im höheren Sekundenbereich.
 \\
 Aus den Testergebnissen lässt sich Folgendes schließen: JMS verschickt Nachrichten um ein vielfaches schneller als Kafka. Desweiteren steigt mit der Anzahl der angemeldeten Chat Clients und zu versendenden Nachrichten bei beiden Message-Brokern die RTT einer einzelnen Chat Nachricht.
 
@@ -1043,7 +1043,7 @@ Aus den Testergebnissen lässt sich Folgendes schließen: JMS verschickt Nachric
 Im Folgenden Abschnitt wird die GraphQL-Schnittstelle  und die Vorgehensweise der Implementierung in dieser Studienarbeit dargestellt. Weiterhin werden mittels eines Vergleichs die Vor- und Nachteile von \textit{ReST} und \textit{GraphQL} diskutiert. Abschließend werden die aufgetretenen Herausforderungen in diesem Projekt angeführt.
 
 
-\subsubsection{Was ist GraphQL?}
+\subsubsection{Merkmale}
 \textit{GraphQL} bietet mit Hilfe eines neuen API Standards eine effiziente und leistungsfähige Alternative zu \textit{ReST} an. \textit{GraphQL} ist eine Abfragesprache \textit{(Query Language)}, welche über die API angesprochen werden kann. Dabei ermöglicht es das Ausführen von Abfragen mit Hilfe eines Typsystems, welches im Vorfeld definiert wurde, zur Laufzeit des Servers. Zusätzlich stellt \textit{GraphQL} Spezifikationen und Werkezeuge, welche lediglich über \textbf{einen} HTTP-Endpunkt angesprochen werden, zur Verfügung. \cite{GraphQL:Introduction}
 
 Die im Folgenden beschriebenen zwei Schritte dienen der Erklärung des Grundkonzepts, welches hinter \textit{GraphQL} steht, am Beispiel der Implementierung in diesem Projekt.
@@ -1136,7 +1136,7 @@ Der abgebildete \textit{JSON-Body} entleert die \textit{Count-Datenbank}. Als R�
 	\item Die bereits integrierten \textit{JPA-Klassen}, welche zur Persistierung der Daten in die Datenbanken benötigt werden, konnten durch den GraphQL-Endpunkt in unserem Fall nicht mit der Annotation \textit{@EJB} angesprochen werden. Daher mussten zusätzlich \textit{Mapper-Klassen} für \textit{Count} und\textit{Trace} implementiert werden. Die beiden Mapper stellten dementsprechend die Schnittstelle zu den Datenbanken und  \textit{GraphQL}, um einen Datenaustausch zu ermöglichen.
 \end{itemize}
 
-\subsubsection{GraphQL vs. ReST}
+\subsubsection{Unterschiede zu ReST}
 \textbf{ReST} ist ein Architekturkonzept für netzwerkbasierte Software und gilt als Bindeglied, um eine Kommunikation zwischen Client und Server zu ermöglichen. Der Fokus liegt dabei darauf, eine \textit{API} über längere Zeit "haltbar" zu machen, anstatt die Leistung hier zu optimieren. Ziel dieser Architektur ist es, eine vereinfachte Architektur der entkoppelten Schnittstelle zu ermöglichen und eine erhöhte Visibilität der Interaktionen zu erreichen. Darunter leidet selbstverständlich die Effizienz, da Informationen lediglich in einem standardisierten Format abgerufen werden können und nicht auf die speziellen Bedürfnisse angepasst werden können. \cite{GraphQL: ReST} \\
 %Auch werden bei einer \textbf{ReST}-\textit{API} 
 \textbf{GraphQL} ist im Gegensatz dazu eine Abfragesprache, eine Spezifikation und eine Sammlung von Tools, die über einen \textbf{einzigen} Endpunkt mittels \textit{HTTP} ausgeführt werden können. Der große Fokus liegt hierbei auf der Optimierung von Leistung und Flexibilität.\\
