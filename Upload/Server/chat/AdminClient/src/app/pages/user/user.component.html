@@ -1,0 +1,33 @@
+<div class="master">
+  <div class="jumbotron">
+    <div class="container">
+      <h1>
+        Chat-Nutzer
+      </h1>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Eingeloggte User</h2>
+  <div>
+    <table class="table" style="padding-top: 20px">
+      <thead>
+      <tr>
+        <th>Nutzername</th>
+      </tr>
+      </thead>
+      <tr *ngFor="let count of chatUserList">
+        <td>{{count}}</td>
+      </tr>
+      </tbody>
+      <tbody *ngIf="!chatUserList">
+      <p>Keine Einträge gefunden</p>
+      </tbody>
+
+    </table>
+    <div>
+      <button type="button" (click)="deleteAllChatUsers()" class="btn btn-outline-danger">Löschen</button>
+    </div>
+  </div>
+</div>

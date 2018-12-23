@@ -1,0 +1,52 @@
+<div class="master">
+  <div class="jumbotron">
+    <div class="container">
+      <h1>
+        Trace Datenbank
+      </h1>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-lg-9">
+      <h2>Trace Einträge</h2>
+      <div>
+
+        <table class="table" style="padding-top: 20px">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Nutzername</th>
+            <th>clientThread</th>
+            <th>serverThread</th>
+            <th>Nachricht</th>
+          </tr>
+          </thead>
+          <tbody *ngIf="traceList">
+          <tr *ngFor="let trace of traceList">
+            <td>{{trace.id}}</td>
+            <td>{{trace.username}}</td>
+            <td>{{trace.clientthread}}</td>
+            <td>{{trace.serverthread}}</td>
+            <td>{{trace.message}}</td>
+          </tr>
+          </tbody>
+          <tbody *ngIf="!traceList">
+          <p>Keine Einträge gefunden</p>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+    <div class="col-12 col-lg-3">
+      <h2>
+        Actions
+      </h2>
+      <div>
+        <button type="button" (click)="deleteAllTraces()" class="btn btn-outline-danger">Löschen</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+
+<div class="master">
+  <div class="jumbotron">
+    <div class="container">
+      <h1>
+        Count Datenbank
+      </h1>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-lg-9">
+      <h2>Count Einträge</h2>
+      <div>
+        <table class="table" style="padding-top: 20px">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Nutzername</th>
+            <th>Zähler</th>
+          </tr>
+          </thead>
+          <tbody *ngIf="countList">
+          <tr *ngFor="let count of countList">
+            <td>{{count.id}}</td>
+            <td>{{count.username}}</td>
+            <td>{{count.counting}}</td>
+          </tr>
+          </tbody>
+          <tbody *ngIf="!countList">
+          <p>Keine Einträge gefunden</p>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-12 col-lg-3">
+      <h2>
+        Actions
+      </h2>
+      <div>
+        <button type="button" (click)="deleteAllCounts()" class="btn btn-outline-danger">Löschen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
