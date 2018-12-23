@@ -4,8 +4,6 @@
 ## Ordnerstruktur:
 *  **chat** Projekt für die Anwendung. Enthält:
     * **AdminClient** Enthält den AdminClient in Form eines Angular-Projekts. Holt sich LiveDaten vom Server und stellt diese dar.
-    * **chatApplication** enthält die Vorlage inkl. unserer Erweiterungen. Wurde in ein Maven-Projekt umgewandelt.
-    * **client** Modul für die Implementierung des Chatclients
     * **common** Modul für gemeinsame Dateien wie z.B. die Chat-PDUs
     * **lib** Libraries 
     * **server** Modul für die Implementierung des Servers. Enthält: 
@@ -19,19 +17,6 @@
 
 _______________________________________________________________________________________________________
 
-## TO DO 17.12.2018:
-* Benchmariking Clients + Last Test     -> Anja    
-* Kafka                                 -> Flo
-* Serverthread            + Timestamp  
-* Docker Container
-* Update README.md für Configuration
-* Ordnerstruktur updaten
-* jeder seinen teil schreiben für Ausarbeitung:
-  * Anja: Grundalgen + Login REST
-  * Johannes: Angular
-  * Andi: Widlfly Config JMS
-  * Marvin: DB + GraphQL
-  * fehlt noch: Kafka, XA Transaktion, Benchmark
 
 _______________________________________________________________________________________________________
 
@@ -41,7 +26,10 @@ ________________________________________________________________________________
 
 ### 1.1 User anlegen 
 
-???
+Über das Script unter `wildfly-13.0.0.Final/bin/add-user.sh` müssen ein Management-User zum Konfigurieren von Wildfly und ein Application-User zur Authentifizierung der Clients angelegt werden.
+In diesem Projekt wurde verwendet:
+* Management-User: Benutzer:`admin1` Passwort:`admin1`
+* Application-User: Benutzer:`user`Passwort:`user`
 
 ### 1.2 config Dateien einfügen
 
@@ -56,7 +44,10 @@ standalone.xml, mgmt-groups.properties, mgmt-users.properties, application-roles
 
 ### 1.4 Queue und Topic anlegen
 
-??????? 
+Im Subsystem Messaging (ActiveMQ) unter dem Punkt `Destinations` müssen die benötigten Queues und Topics angelegt werden: 
+* Queue:`chatQueue" entries:java:/jms/queue/chatQueue java:jboss/exported/jms/queue/chatQueue`
+* Queue:`response" entries:java:/jms/queue/response java:jboss/exported/jms/queue/response`
+* Topic:`jchatTopic" entries:java:/jms/topic/chatTopic java:jboss/exported/jms/topic/chatTopic`
 
 ### 1.5 GraphQl Service
 
@@ -96,9 +87,7 @@ Die tracedb läuft auf dem Port 3306 und countdb auf dem Port 3310. Dies wurde j
 * Test der Datenbank Connection in Management-Console: `Configuration`>`Subsystems`>`Datasources & Drivers`>`Datasources`-> countDS und traceDS -> Test Connection
 ??
 
-## 3. JMS
-
-## 4. Kafka
+## 3. Kafka
 * Um Kafka nutzen zu können muss sowohl ein ZooKeeper- als auch ein Kafka-Server laufen, beides erhältlich unter: https://kafka.apache.org/downloads
 * Nach dem entpacken in der Konsole in den Kafka Ordner wechseln
 * Zookeeper und Kafka installieren (z.B. per Homebrew)
@@ -109,13 +98,13 @@ Die tracedb läuft auf dem Port 3306 und countdb auf dem Port 3310. Dies wurde j
  `bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic requestTopic`
  `bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic responseTopic`      
 
-## 5. Angular AdminClient
+## 4. Angular AdminClient
 * Für die Nutzung von Angular muss zunächst sichergestellt sein, dass Node.js und der AngularCLI auf dem Rechner global installiert sind. Node.js: https://nodejs.org/en/
 * Für den AngularCLI nun in der Windows-Console folgenden Befehl ausführen: `npm install -g @angular/cli`
 * In den Projektordner `../AdminClient/` wechseln und `npm install` ausführen, um die notwendigen node_modules (Dependencies) zu installieren
 * bei eventuellen `vulnerabilities` folgenden Befehl ausführen `npm audit fix -force`
 * `npm start` um den Client unter http://localhost:4200/ aufzurufen
 
-## 6. Nutzung mehrerer localhosts
+## 5. Nutzung mehrerer localhosts
 * Unter den Brwoserherstellern ist es üblich gleichzeitige Verbindungen von localhosts zu unterbinden, um Sicherheitslücken zu präventieren
 * Damit die Kommunikation zwischen dem Backend (ChatApplication) und dem Frontend (AdminClient) zu ermöglichen, muss unter Wondows eine ungesicherte Instanz des Browsers gestartet werden. Unter Windows und Chrome funktioniert dies so: `Windows+R` drücken und folgenden Befehl ausführen `chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security`
